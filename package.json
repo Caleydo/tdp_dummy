@@ -98,6 +98,16 @@
           "factory": "create",
           "idtype": "IDTypeA",
           "selection": "single"
+        },
+        {
+          "id": "dummy_a_onco_print",
+          "name": "Onco Print",
+          "type": "targidView",
+          "category": "static",
+          "file": "OncoPrint",
+          "factory": "create",
+          "idtype": "IDTypeA",
+          "selection": "multiple"
         }
       ],
       "python": [

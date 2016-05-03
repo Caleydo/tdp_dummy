@@ -91,6 +91,12 @@
       "idType": "IDTypeB",
       "query": "SELECT b_id as id, b_name, ab_real FROM b INNER JOIN ab ON b.id = ab.b_id WHERE a_id = :a_id AND ab_cat = :ab_cat",
       "arguments": ["a_id", "ab_cat"]
+    },
+    "onco_print": {
+      "idType": "IDTypeB",
+      "query": "SELECT b_id as id, b_name, a_name, ab_cat FROM ab INNER JOIN a ON a.id = ab.a_id INNER JOIN b ON b.id = ab.b_id WHERE a_id IN (%s) AND b_cat2 = :b_cat2",
+      "replacements": ["a_ids"],
+      "arguments": ["b_cat2"]
     }
   }
 }
