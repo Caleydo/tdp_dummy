@@ -56,7 +56,7 @@
       "queryStats": "select min(ab_real) as ab_real_min, max(ab_real) as ab_real_max from ab",
       "queryCategories": "select distinct %s as Category from b where Category is not null and Category <> ''",
 
-      "query": "select ${targid_dummy.index}, ${column_query} FROM b t INNER JOIN ab p on t.id = p.b_id WHERE t.b_name = :name AND p.ab_real %s :value",
+      "query": "select ${targid_dummy.index}, ${column_query} FROM b t INNER JOIN ab p on t.id = p.b_id WHERE p.a_id = :name AND p.ab_real %s :value",
 
       "replacements": ["op"],
       "arguments": ["name", "value"]

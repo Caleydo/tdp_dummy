@@ -10,6 +10,36 @@
   },
   "caleydo": {
     "plugins": {
+      "web": [
+        {
+          "id": "dummy_start_a",
+          "name": "Dummy A",
+          "type": "targidView",
+          "file": "StartList",
+          "factory": "createStartA",
+          "idtype": "IDTypeA",
+          "selection": "none"
+        },
+        {
+          "id": "dummy_start_B",
+          "name": "Dummy B",
+          "type": "targidView",
+          "file": "StartList",
+          "factory": "createStartB",
+          "idtype": "IDTypeB",
+          "selection": "none"
+        },
+        {
+          "id": "dummy_start_ab",
+          "name": "Dummy AB",
+          "type": "targidView",
+          "category": "dynamic",
+          "file": "DependentList",
+          "factory": "create",
+          "idtype": "IDTypeA",
+          "selection": "single"
+        }
+      ],
       "python": [
         {
           "type": "targid-sql-database-definition",
