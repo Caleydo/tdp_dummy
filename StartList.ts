@@ -19,7 +19,7 @@ export class AStart extends ALineUpView {
   private build() {
     //generate random data
     this.setBusy(true);
-    Promise.all([ajax.getAPIJSON('/targid/dummy/a/desc'), ajax.getAPIJSON('/targid/dummy/a')]).then((args) => {
+    Promise.all([ajax.getAPIJSON('/targid/db/dummy/a/desc'), ajax.getAPIJSON('/targid/db/dummy/a')]).then((args) => {
       const desc = args[0];
       const rows : any[] = args[1];
       const columns = [
@@ -47,7 +47,7 @@ export class BStart extends ALineUpView {
   private build() {
     //generate random data
     this.setBusy(true);
-    Promise.all([ajax.getAPIJSON('/targid/dummy/b/desc'), ajax.getAPIJSON('/targid/dummy/b')]).then((args) => {
+    Promise.all([ajax.getAPIJSON('/targid/db/dummy/b/desc'), ajax.getAPIJSON('/targid/db/dummy/b')]).then((args) => {
       const desc = args[0];
       const rows : any[] = args[1];
       const columns = [

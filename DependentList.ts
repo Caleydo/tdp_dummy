@@ -67,7 +67,7 @@ export class ABDependent extends ALineUpView {
     this.setBusy(true);
     return Promise.all([this.lineupPromise, this.resolveId(idtype, id, 'IDTypeA')]).then((args) => {
       const gene_name = args[1];
-      return ajax.getAPIJSON('/targid/dummy/ab', {
+      return ajax.getAPIJSON('/targid/db/dummy/ab', {
         name: gene_name,
         value: this.parameter.value,
         op: this.parameter.operator
@@ -81,7 +81,7 @@ export class ABDependent extends ALineUpView {
   private build() {
     //generate random data
     this.setBusy(true);
-    this.lineupPromise = ajax.getAPIJSON('/targid/dummy/ab/desc').then((desc) => {
+    this.lineupPromise = ajax.getAPIJSON('/targid/db/dummy/ab/desc').then((desc) => {
       const columns = [
         stringCol('b_name','Name'),
         categoricalCol('b_cat1', desc.columns.b_cat1.categories),

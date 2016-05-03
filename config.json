@@ -51,12 +51,12 @@
         "b_cat1": { "label": "b_cat1", "type": "categorical" },
         "ab_real": { "label": "ab_real", "type": "number" }
       },
-      "column_query": "t.id, t.b_name, t.b_cat1, p.ab_real",
+      "column_query": "t.id, t.b_name, t.b_cat1, avg(p.ab_real) as ab_real",
 
       "queryStats": "select min(ab_real) as ab_real_min, max(ab_real) as ab_real_max from ab",
       "queryCategories": "select distinct %s as Category from b where Category is not null and Category <> ''",
 
-      "query": "select ${targid_dummy.index}, ${column_query} FROM b t INNER JOIN ab p on t.id = p.b_id WHERE p.a_id = :name AND p.ab_real %s :value",
+      "query": "select ${targid_dummy.index}, ${column_query} FROM b t INNER JOIN ab p on t.id = p.b_id WHERE p.a_id = :name AND p.ab_real %s :value GROUP BY t.id",
 
       "replacements": ["op"],
       "arguments": ["name", "value"]
