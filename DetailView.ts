@@ -70,7 +70,7 @@ export class DummyHistogram extends AView {
       .attr('y', 6)
       .attr('text-anchor', 'middle');
 
-    bar.attr('transform', (d) => {
+    bar.transition().attr('transform', (d) => {
         return 'translate(' + this.x(d.x) + ',' + this.y(d.y) + ')';
       });
 
