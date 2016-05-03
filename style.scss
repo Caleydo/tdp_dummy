@@ -18,3 +18,16 @@ div.view .dummy-histogram {
     shape-rendering: crispEdges;
   }
 }
+
+div.view .survival-stats {
+  div {
+    display: inline-block;
+    span {
+      display: block;
+    }
+  }
+  path {
+    fill: none;
+    stroke: black;
+  }
+}

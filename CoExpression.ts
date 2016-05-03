@@ -6,7 +6,6 @@
 /// <amd-dependency path='css!./style' />
 import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
-import {alteration_types} from './Configs';
 
 export class SurvivalStats extends AView {
 
@@ -43,7 +42,7 @@ export class SurvivalStats extends AView {
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + height + ')');
     svg.append('g')
-      .attr('class', 'y axis')
+      .attr('class', 'y axis');
   }
 
 

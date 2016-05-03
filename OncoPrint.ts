@@ -65,7 +65,7 @@ export class OncoPrint extends AView {
     this.y.rangeRoundBands([height, 0]);
 
     svg.append('g')
-      .attr('class', 'y axis')
+      .attr('class', 'y axis');
   }
 
 
@@ -86,9 +86,9 @@ export class OncoPrint extends AView {
     cells.enter().append('rect').classed('cell', true);
     cells.attr({
       width: this.x.rangeBand(),
-      height: this.y.rangeBand(),
-      x: (d:any) => this.x(d.b_name),
-    }).style('fill',(d: any) => this.c(d.ab_cat));
+      height: this.y.rangeBand()
+    }).attr('x', (d:any) => this.x(d.b_name))
+      .style('fill',(d: any) => this.c(d.ab_cat));
     cells.exit().remove();
 
     marks.exit().remove();

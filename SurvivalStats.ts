@@ -10,9 +10,17 @@ import {alteration_types} from './Configs';
 
 export class SurvivalStats extends AView {
 
+  private x = d3.scale.linear();
+  private y = d3.scale.linear();
+  private xAxis = d3.svg.axis().orient('bottom').scale(this.x);
+
   private parameter = {
     alteration_type: alteration_types[0]
   };
+
+  private line = d3.svg.line().interpolate('step')
+      .x((d) => this.x(d[0]))
+      .y((d) => this.y(d[1]));
 
   constructor(context:IViewContext, private selection:ISelection, parent:Element, options?) {
     super(context, parent, options);
@@ -24,14 +32,73 @@ export class SurvivalStats extends AView {
 
   private build() {
     //TODO build kaplan maier plots
-    this.$node.append('div').classed('left', true).text('Having Alteration Type');
-    this.$node.append('div').classed('right', true).text('Not Having Alteration Type');
+    const left = this.$node.append('div').classed('left', true);
+    left.append('span').text('Having Alteration Type');
+    this.buildKM(left);
+    const right = this.$node.append('div').classed('right', true);
+    right.append('span').text('Not Having Alteration Type');
+    this.buildKM(right);
   }
 
+  private buildKM($parent: d3.Selection<any>) {
+
+    const margin = {top: 10, right: 10, bottom: 30, left: 10},
+      width = 400 - margin.left - margin.right,
+      height = 420 - margin.top - margin.bottom;
+
+    var svg = $parent.append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    this.x.range([0, width]);
+    this.y.range([0, height]);
+
+    svg.append('path').classed('km', true);
+
+    svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0,' + height + ')');
+  }
 
   private updateChart(rows_yes: number[], rows_no: number[]) {
-    this.$node.select('div.left').text('Having Alteration Type ' + rows_yes.length);
-    this.$node.select('div.right').text('Not Having Alteration Type '+rows_no.length);
+    this.x.domain([0, d3.max(rows_yes.concat(rows_no))]);
+
+    const left = this.$node.select('div.left');
+    left.select('span').text('Having Alteration Type ' + rows_yes.length);
+    this.updateKM(left, rows_yes);
+    const right = this.$node.select('div.right');
+    right.select('span').text('Not Having Alteration Type '+rows_no.length);
+    this.updateKM(right, rows_no);
+  }
+
+  private updateKM($parent: d3.Selection<any>, rows: number[]) {
+    const svg = $parent.select('svg g');
+
+    svg.select('g.x.axis').call(this.xAxis);
+
+    const died = rows.filter((a) => !isNaN(a)).map((a) => Math.abs(a));
+    died.sort(d3.ascending);
+    //const alive = arr.length - died.length;
+
+    this.y.domain([0, rows.length]);
+
+    //0 ... 100%
+    var points = [[0, 0]],
+      prev_i = 0;
+    for (let i = 1; i < died.length; ++i) {
+      while(died[i] === died[i-1] && i < died.length) {
+        ++i;
+      }
+      points.push([died[prev_i], prev_i + 1]);
+      prev_i = i;
+    }
+    if (died.length > 0) {
+      points.push([died[prev_i], prev_i + 1]);
+    }
+    points.push([this.x.domain()[1], died.length]);
+    svg.select('path.km').datum(points).attr('d', this.line);
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
@@ -72,7 +139,7 @@ export class SurvivalStats extends AView {
     }).then((rows) => {
       const yes = rows.filter((d) => d.ab_cat === this.parameter.alteration_type);
       const no = rows.filter((d) => d.ab_cat !== this.parameter.alteration_type);
-      this.updateChart(yes, no);
+      this.updateChart(yes.map((d) => d.b_int), no.map((d) => d.b_int));
       this.setBusy(false);
     });
   }

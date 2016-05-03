@@ -6,7 +6,7 @@
 /// <amd-dependency path='css!./style' />
 import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
-import {sample_tumor_type, alteration_types} from './Configs';
+import {sample_tumor_type} from './Configs';
 
 export class ExpressionVsCopyNumber extends AView {
 
@@ -68,7 +68,7 @@ export class ExpressionVsCopyNumber extends AView {
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + height + ')');
     svg.append('g')
-      .attr('class', 'y axis')
+      .attr('class', 'y axis');
   }
 
 

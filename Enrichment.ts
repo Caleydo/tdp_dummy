@@ -6,7 +6,7 @@
 import ajax = require('../caleydo_core/ajax');
 import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
-import {ALineUpView, stringCol, categoricalCol, numberCol2} from '../targid2/LineUpView';
+import {ALineUpView, stringCol, numberCol2} from '../targid2/LineUpView';
 import {alteration_types, sample_tumor_type} from './Configs';
 
 export class Enrichment extends ALineUpView {
