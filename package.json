@@ -38,6 +38,16 @@
           "factory": "create",
           "idtype": "IDTypeA",
           "selection": "single"
+        },
+        {
+          "id": "dummy_a_detail",
+          "name": "Dummy A Detail",
+          "type": "targidView",
+          "category": "static",
+          "file": "DetailView",
+          "factory": "create",
+          "idtype": "IDTypeA",
+          "selection": "single"
         }
       ],
       "python": [

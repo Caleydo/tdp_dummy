@@ -1,0 +1,20 @@
+/**
+ * Created by Samuel Gratzl on 16.12.2015
+ */
+
+div.view .dummy-histogram {
+  .bar rect {
+    fill: steelblue;
+    shape-rendering: crispEdges;
+  }
+
+  .bar text {
+    fill: #fff;
+  }
+
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+}
