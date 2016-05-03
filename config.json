@@ -63,7 +63,7 @@
     },
     "ab_values": {
       "idType": "IDTypeB",
-      "query": "select ${targid_dummy.index}, b_id as id, ab_int as value FROM ab t WHERE a_id = :a_id",
+      "query": "select ab_int as value FROM ab t WHERE a_id = :a_id",
       "arguments": ["a_id"]
     }
   }

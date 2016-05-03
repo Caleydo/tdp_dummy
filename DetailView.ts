@@ -53,7 +53,7 @@ export class DummyHistogram extends AView {
 
     this.y.domain([0, d3.max(data, (d) => d.y)]);
 
-    const svg = this.$node.select('svg');
+    const svg = this.$node.select('svg g');
 
     const bar = svg.selectAll('.bar')
       .data(data);
@@ -97,11 +97,11 @@ export class DummyHistogram extends AView {
     const idtype = selection.idtype;
     this.setBusy(true);
     return this.resolveId(idtype, id, 'IDTypeA').then((name) => {
-      return ajax.getAPIJSON('/targid/db/dummy/ab_values', {
+      return ajax.getAPIJSON('/targid/db/dummy/ab_values/raw/value', {
         a_id: name
       });
     }).then((rows) => {
-      this.updateChart(rows.map((d) => d.value));
+      this.updateChart(rows);
       this.setBusy(false);
     });
   }
