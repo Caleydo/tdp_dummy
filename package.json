@@ -58,6 +58,16 @@
           "factory": "create",
           "idtype": "IDTypeA",
           "selection": "single"
+        },
+        {
+          "id": "dummy_a_co_expression",
+          "name": "Co Expression",
+          "type": "targidView",
+          "category": "static",
+          "file": "CoExpression",
+          "factory": "create",
+          "idtype": "IDTypeA",
+          "selection": "multiple"
         }
       ],
       "python": [

@@ -73,7 +73,7 @@
     },
     "co_epxression": {
       "idType": "IDTypeB",
-      "query": "select b_id as id, ab_real, a_id FROM ab WHERE a_id = :a_id1 OR a_id = :a_id2",
+      "query": "select a1.b_id as id, a1.ab_real as value1, a2.ab_real as value2 FROM ab a1 INNER JOIN ab a2 on a1.b_id = a2.b_id WHERE a1.a_id = :a_id1 and a2.a_id = :a_id2",
       "arguments": ["a_id1", "a_id2"]
     }
   }
