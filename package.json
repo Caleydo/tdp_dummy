@@ -88,6 +88,16 @@
           "factory": "create",
           "idtype": "IDTypeA",
           "selection": "single"
+        },
+        {
+          "id": "dummy_a_model_systems",
+          "name": "Model Systems",
+          "type": "targidView",
+          "category": "dynamic",
+          "file": "ModelSystems",
+          "factory": "create",
+          "idtype": "IDTypeA",
+          "selection": "single"
         }
       ],
       "python": [

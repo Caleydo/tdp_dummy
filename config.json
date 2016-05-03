@@ -86,6 +86,11 @@
       "idType": "IDTypeB",
       "query": "SELECT b_id as id, ab_real as value1, ab_int as value2 FROM b INNER JOIN ab ON b.id = ab.b_id WHERE a_id = :a_id AND b_cat2 = :b_cat2",
       "arguments": ["a_id", "b_cat2"]
+    },
+    "model_systems": {
+      "idType": "IDTypeB",
+      "query": "SELECT b_id as id, b_name, ab_real FROM b INNER JOIN ab ON b.id = ab.b_id WHERE a_id = :a_id AND ab_cat = :ab_cat",
+      "arguments": ["a_id", "ab_cat"]
     }
   }
 }
