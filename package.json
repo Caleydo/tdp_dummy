@@ -68,6 +68,16 @@
           "factory": "create",
           "idtype": "IDTypeA",
           "selection": "multiple"
+        },
+        {
+          "id": "dummy_a_enrichment",
+          "name": "Enrichment",
+          "type": "targidView",
+          "category": "dynamic",
+          "file": "Enrichment",
+          "factory": "create",
+          "idtype": "IDTypeA",
+          "selection": "single"
         }
       ],
       "python": [

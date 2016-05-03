@@ -63,18 +63,24 @@
     },
     "ab_values": {
       "idType": "IDTypeB",
-      "query": "select ab_int as value FROM ab t WHERE a_id = :a_id",
+      "query": "SELECT ab_int as value FROM ab t WHERE a_id = :a_id",
       "arguments": ["a_id"]
     },
     "survival_stats": {
       "idType": "IDTypeB",
-      "query": "select b_id as id, b_int, ab_cat FROM b INNER JOIN ab ON b.id = ab.b_id WHERE a_id = :a_id",
+      "query": "SELECT b_id as id, b_int, ab_cat FROM b INNER JOIN ab ON b.id = ab.b_id WHERE a_id = :a_id",
       "arguments": ["a_id"]
     },
     "co_epxression": {
       "idType": "IDTypeB",
-      "query": "select a1.b_id as id, a1.ab_real as value1, a2.ab_real as value2 FROM ab a1 INNER JOIN ab a2 on a1.b_id = a2.b_id WHERE a1.a_id = :a_id1 and a2.a_id = :a_id2",
+      "query": "SELECT a1.b_id as id, a1.ab_real as value1, a2.ab_real as value2 FROM ab a1 INNER JOIN ab a2 ON a1.b_id = a2.b_id WHERE a1.a_id = :a_id1 and a2.a_id = :a_id2",
       "arguments": ["a_id1", "a_id2"]
+    },
+    "enrichment": {
+      "idType": "IDTypeA",
+      //
+      "query": "SELECT a.id as id, a_name, max(ab_int) as score FROM ab INNER JOIN a ON a.id = ab.a_id INNER JOIN  b ON b.id = ab.b_id WHERE ab.ab_cat = :ab_cat AND b.b_cat2 = :b_cat2 AND ab_int > (select max(ab_int) FROM ab INNER JOIN b ON b.id = ab.b_id WHERE ab.ab_cat = :ab_cat AND b.b_cat2 = :b_cat2 AND ab.a_id = :a_id) GROUP BY a.id",
+      "arguments": ["a_id", "ab_cat", "b_cat2"]
     }
   }
 }
