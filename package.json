@@ -78,6 +78,16 @@
           "factory": "create",
           "idtype": "IDTypeA",
           "selection": "single"
+        },
+        {
+          "id": "dummy_a_expression_vs_copynumber",
+          "name": "Expression Vs CN",
+          "type": "targidView",
+          "category": "dynamic",
+          "file": "ExpressionVsCopyNumber",
+          "factory": "create",
+          "idtype": "IDTypeA",
+          "selection": "single"
         }
       ],
       "python": [

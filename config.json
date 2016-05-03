@@ -81,6 +81,11 @@
       //
       "query": "SELECT a.id as id, a_name, max(ab_int) as score FROM ab INNER JOIN a ON a.id = ab.a_id INNER JOIN  b ON b.id = ab.b_id WHERE ab.ab_cat = :ab_cat AND b.b_cat2 = :b_cat2 AND ab_int > (select max(ab_int) FROM ab INNER JOIN b ON b.id = ab.b_id WHERE ab.ab_cat = :ab_cat AND b.b_cat2 = :b_cat2 AND ab.a_id = :a_id) GROUP BY a.id",
       "arguments": ["a_id", "ab_cat", "b_cat2"]
+    },
+    "expression_vs_copynumber": {
+      "idType": "IDTypeB",
+      "query": "SELECT b_id as id, ab_real as value1, ab_int as value2 FROM b INNER JOIN ab ON b.id = ab.b_id WHERE a_id = :a_id AND b_cat2 = :b_cat2",
+      "arguments": ["a_id", "b_cat2"]
     }
   }
 }
