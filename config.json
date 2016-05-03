@@ -65,6 +65,16 @@
       "idType": "IDTypeB",
       "query": "select ab_int as value FROM ab t WHERE a_id = :a_id",
       "arguments": ["a_id"]
+    },
+    "survival_stats": {
+      "idType": "IDTypeB",
+      "query": "select b_id as id, b_int, ab_cat FROM b INNER JOIN ab ON b.id = ab.b_id WHERE a_id = :a_id",
+      "arguments": ["a_id"]
+    },
+    "co_epxression": {
+      "idType": "IDTypeB",
+      "query": "select b_id as id, ab_real, a_id FROM ab WHERE a_id = :a_id1 OR a_id = :a_id2",
+      "arguments": ["a_id1", "a_id2"]
     }
   }
 }

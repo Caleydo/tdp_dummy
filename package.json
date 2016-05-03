@@ -48,6 +48,16 @@
           "factory": "create",
           "idtype": "IDTypeA",
           "selection": "single"
+        },
+        {
+          "id": "dummy_a_survival_plots",
+          "name": "Survival Plots",
+          "type": "targidView",
+          "category": "dynamic",
+          "file": "SurvivalStats",
+          "factory": "create",
+          "idtype": "IDTypeA",
+          "selection": "single"
         }
       ],
       "python": [
