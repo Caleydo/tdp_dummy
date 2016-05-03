@@ -1,0 +1,65 @@
+{
+  "dburl": "sqlite:///${caleydo_server.dir}/plugins/targid_dummy/ab.sqlite",
+  "index": "(t.rowid-1) as _index",
+  "views": {
+    "a": {
+      "table": "a",
+      "idType": "IDTypeA",
+      "columns": {
+        "a_name": { "label": "a_name", "type": "string" },
+        "a_cat1": { "label": "a_cat1", "type": "categorical" },
+        "a_cat2":{ "label": "a_cat2", "type": "categorical" },
+        "a_int": { "label": "a_int", "type": "number" },
+        "a_real": { "label": "a_real", "type": "number" }
+      },
+      "column_query": "id, a_name, a_cat1, a_cat2, a_int, a_real",
+
+      "queryStats": "select min(a_int) as a_int_min, max(a_int) as a_int_max, min(a_real) as a_real_min, max(a_real) as a_real_max from ${table}",
+      "queryCategories": "select distinct %s as Category from ${table} where Category is not null and Category <> ''",
+
+      "query": "select ${targid_dummy.index}, ${column_query} from ${table} t",
+      "querySlice": "select ${targid_dummy.index}, ${column_query} from ${table} t where _index in (:query)",
+      "querySample": "select ${targid_dummy.index} from ${table} t order by random() limit %s",
+      "querySort": "select ${targid_dummy.index}, %s as _score from ${table} t order by _score %s",
+      "querySearch": "select ${targid_dummy.index} from ${table} t where %s like :query"
+    },
+    "b": {
+      "table": "b",
+      "idType": "IDTypeB",
+       "columns": {
+        "b_name": { "label": "b_name", "type": "string" },
+        "b_cat1": { "label": "b_cat1", "type": "categorical" },
+        "b_cat2":{ "label": "b_cat2", "type": "categorical" },
+        "b_int": { "label": "b_int", "type": "number" },
+        "b_real": { "label": "b_real", "type": "number" }
+      },
+      "column_query": "id, b_name, b_cat1, b_cat2, b_int, b_real",
+
+      "queryStats": "select min(b_int) as b_int_min, max(b_int) as b_int_max, min(b_real) as b_real_min, max(b_real) as b_real_max from ${table}",
+      "queryCategories": "select distinct %s as Category from ${table} where Category is not null and Category <> ''",
+
+      "query": "select ${targid_dummy.index}, ${column_query} from ${table} t",
+      "querySlice": "select ${targid_dummy.index}, ${column_query} from ${table} t where _index in (:query)",
+      "querySample": "select ${targid_dummy.index} from ${table} t order by random() limit %s",
+      "querySort": "select ${targid_dummy.index}, %s as _score from ${table} t order by _score %s",
+      "querySearch": "select ${targid_dummy.index} from ${table} t where %s like :query"
+    },
+    "ab": {
+      "idType": "IDTypeB",
+      "columns": {
+        "b_name": { "label": "b_name", "type": "string" },
+        "b_cat1": { "label": "b_cat1", "type": "categorical" },
+        "ab_real": { "label": "ab_real", "type": "number" }
+      },
+      "column_query": "t.id, t.b_name, t.b_cat1, p.ab_real",
+
+      "queryStats": "select min(ab_real) as ab_real_min, max(ab_real) as ab_real_max from ab",
+      "queryCategories": "select distinct %s as Category from b where Category is not null and Category <> ''",
+
+      "query": "select ${targid_dummy.index}, ${column_query} FROM b t INNER JOIN ab p on t.id = p.b_id WHERE t.b_name = :name AND p.ab_real %s :value",
+
+      "replacements": ["op"],
+      "arguments": ["name", "value"]
+    }
+  }
+}

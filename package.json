@@ -1,0 +1,25 @@
+{
+  "name": "targid_dummy",
+  "version": "0.0.1",
+  "license" : "SEE LICENSE IN LICENSE",
+  "repository": "Caleydo/targid_dummy",
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "caleydo_data_sql": "*"
+  },
+  "caleydo": {
+    "plugins": {
+      "python": [
+        {
+          "type": "targid-sql-database-definition",
+          "id": "dummy",
+          "configKey": "targid_dummy"
+        }
+      ]
+    }
+  },
+  "publishConfig": {
+    "registry": "http://registry.caleydo.org/"
+  }
+}
