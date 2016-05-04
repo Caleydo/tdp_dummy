@@ -98,6 +98,13 @@
           "argument": "id",
           "idtype": "IDTypeA",
           "selection": "some"
+        },
+        {
+          "id": "dummy_avgscore",
+          "name": "Avg Score",
+          "type": "targidScore",
+          "file": "Scores",
+          "idtype": "IDTypeA"
         }
       ],
       "python": [
