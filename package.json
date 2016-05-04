@@ -30,26 +30,6 @@
           "selection": "none"
         },
         {
-          "id": "dummy_start_ab",
-          "name": "Dummy AB",
-          "type": "targidView",
-          "category": "dynamic",
-          "file": "DependentList",
-          "factory": "create",
-          "idtype": "IDTypeA",
-          "selection": "single"
-        },
-        {
-          "id": "dummy_a_detail",
-          "name": "Dummy A Detail",
-          "type": "targidView",
-          "category": "static",
-          "file": "DetailView",
-          "factory": "create",
-          "idtype": "IDTypeA",
-          "selection": "single"
-        },
-        {
           "id": "dummy_a_survival_plots",
           "name": "Survival Plots",
           "type": "targidView",
