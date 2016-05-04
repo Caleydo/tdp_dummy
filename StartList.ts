@@ -6,7 +6,7 @@
 import ajax = require('../caleydo_core/ajax');
 import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
-import {ALineUpView, stringCol, categoricalCol, numberCol2} from '../targid2/LineUpView';
+import {ALineUpView, stringCol, categoricalCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
 
 
 export class AStart extends ALineUpView {
@@ -30,8 +30,7 @@ export class AStart extends ALineUpView {
         numberCol2('a_real', desc.columns.a_real.min, desc.columns.a_real.max),
       ];
       var lineup = this.buildLineUp(rows, columns, idtypes.resolve(desc.idType),(d) => d._id);
-      lineup.data.deriveDefault();
-      lineup.update();
+      useDefaultLayout(lineup);
       this.setBusy(false);
     });
   }
@@ -58,8 +57,7 @@ export class BStart extends ALineUpView {
         numberCol2('b_real', desc.columns.a_real.min, desc.columns.a_real.max),
       ];
       var lineup = this.buildLineUp(rows, columns, idtypes.resolve(desc.idType),(d) => d._id);
-      lineup.data.deriveDefault();
-      lineup.update();
+      useDefaultLayout(lineup);
       this.setBusy(false);
     });
   }
