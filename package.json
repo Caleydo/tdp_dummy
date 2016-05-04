@@ -127,7 +127,19 @@
           "configKey": "targid_dummy"
         }
       ]
-    }
+    },
+    "products": [
+      {
+        "name": "TargidDummy",
+        "type": "python",
+        "app": "targid2",
+        "plugins": [
+          "targid2",
+          "targid_dummy",
+          "caleydo_server"
+        ]
+      }
+    ]
   },
   "publishConfig": {
     "registry": "http://registry.caleydo.org/"
