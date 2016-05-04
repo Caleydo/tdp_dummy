@@ -105,6 +105,14 @@
           "type": "targidScore",
           "file": "Scores",
           "idtype": "IDTypeA"
+        },
+        {
+          "id": "dummy_avgscore2",
+          "name": "Avg Score (P)",
+          "type": "targidScore",
+          "file": "Scores",
+          "factory": "createParameterized",
+          "idtype": "IDTypeA"
         }
       ],
       "python": [

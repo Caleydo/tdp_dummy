@@ -7,12 +7,16 @@ import ajax = require('../caleydo_core/ajax');
 import {IScore} from '../targid2/LineUpView';
 import idtypes = require('../caleydo_core/idtype');
 import ranges = require('../caleydo_core/range');
+import dialogs = require('../caleydo_bootstrap_fontawesome/dialogs');
 
 class AvgScore implements IScore<number> {
+  constructor(private name = 'AvgScore') {
+
+  }
   createDesc() {
     return {
       type: 'number',
-      label: 'AvgScore',
+      label: this.name,
       domain: [0, 100]
     };
   }
@@ -30,5 +34,10 @@ class AvgScore implements IScore<number> {
 export function create() {
   return new AvgScore();
 }
+
+export function createParameterized() {
+  return dialogs.prompt('New Avg Score').then((name) => new AvgScore(name));
+}
+
 
 
