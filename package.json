@@ -113,6 +113,13 @@
           "file": "Scores",
           "factory": "createParameterized",
           "idtype": "IDTypeA"
+        },
+        {
+          "id": "dummy_expressionscore",
+          "name": "Expression Score",
+          "type": "targidScore",
+          "file": "ExpressionScore",
+          "idtype": "IDTypeA"
         }
       ],
       "python": [

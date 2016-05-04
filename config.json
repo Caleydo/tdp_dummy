@@ -77,7 +77,13 @@
     },
     "avg_score": {
       "idType": "IDTypeA",
-      "query": "SELECT a.id as id, avg(ab_int) as score FROM ab INNER JOIN a ON a.id = ab.a_id GROUP BY ab.a_id"
+      "query": "SELECT a_id as id, avg(ab_int) as score FROM ab GROUP BY ab.a_id"
+    },
+    "expression_score": {
+      "idType": "IDTypeA",
+      "query": "SELECT a_id as id, %s(%s) as score FROM ab INNER JOIN b ON b.id = ab.b_id WHERE b.b_cat2 = :b_cat2 GROUP BY ab.a_id",
+      "replacements": ["agg", "score"],
+      "arguments": ["b_cat2"]
     }
   }
 }
