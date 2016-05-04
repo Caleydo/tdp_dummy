@@ -67,7 +67,7 @@
           "file": "CoExpression",
           "factory": "create",
           "idtype": "IDTypeA",
-          "selection": "multiple"
+          "selection": "2"
         },
         {
           "id": "dummy_a_enrichment",
@@ -107,7 +107,7 @@
           "file": "OncoPrint",
           "factory": "create",
           "idtype": "IDTypeA",
-          "selection": "multiple"
+          "selection": "some"
         }
       ],
       "python": [
