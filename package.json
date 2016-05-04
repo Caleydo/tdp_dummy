@@ -108,6 +108,16 @@
           "factory": "create",
           "idtype": "IDTypeA",
           "selection": "some"
+        },
+        {
+          "id": "dummy_external",
+          "name": "DuckDuckGo",
+          "type": "targidView",
+          "category": "static",
+          "site": "https://duckduckgo.com/?q={id}",
+          "argument": "id",
+          "idtype": "IDTypeA",
+          "selection": "some"
         }
       ],
       "python": [

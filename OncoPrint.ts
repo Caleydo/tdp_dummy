@@ -10,8 +10,8 @@ import {sample_tumor_type, alteration_types} from './Configs';
 
 export class OncoPrint extends AView {
 
-  private x = d3.scale.ordinal();
-  private y = d3.scale.ordinal();
+  private x = d3.scale.ordinal<number>();
+  private y = d3.scale.ordinal<number>();
   private c = d3.scale.category10().domain(alteration_types);
   private yAxis = d3.svg.axis().orient('left').scale(this.y);
 
