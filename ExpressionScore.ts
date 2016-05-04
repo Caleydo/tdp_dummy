@@ -56,7 +56,6 @@ export function create() {
            <option value="avg" selected="selected">AVG</option><option value="min">MIN</option><option value="max">MAX</option>  
         </select>
       </div></form>`;
-     const form = (<HTMLFormElement>dialog.body.querySelector('form'));
      (<HTMLFormElement>dialog.body.querySelector('form')).onsubmit = () => {
        dialog.hide();
        return false;
