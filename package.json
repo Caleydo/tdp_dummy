@@ -30,26 +30,6 @@
           "selection": "none"
         },
         {
-          "id": "dummy_start_ab",
-          "name": "Dummy AB",
-          "type": "targidView",
-          "category": "dynamic",
-          "file": "DependentList",
-          "factory": "create",
-          "idtype": "IDTypeA",
-          "selection": "single"
-        },
-        {
-          "id": "dummy_a_detail",
-          "name": "Dummy A Detail",
-          "type": "targidView",
-          "category": "static",
-          "file": "DetailView",
-          "factory": "create",
-          "idtype": "IDTypeA",
-          "selection": "single"
-        },
-        {
           "id": "dummy_a_survival_plots",
           "name": "Survival Plots",
           "type": "targidView",
@@ -118,6 +98,28 @@
           "argument": "id",
           "idtype": "IDTypeA",
           "selection": "some"
+        },
+        {
+          "id": "dummy_avgscore",
+          "name": "Avg Score",
+          "type": "targidScore",
+          "file": "Scores",
+          "idtype": "IDTypeA"
+        },
+        {
+          "id": "dummy_avgscore2",
+          "name": "Avg Score (P)",
+          "type": "targidScore",
+          "file": "Scores",
+          "factory": "createParameterized",
+          "idtype": "IDTypeA"
+        },
+        {
+          "id": "dummy_expressionscore",
+          "name": "Expression Score",
+          "type": "targidScore",
+          "file": "ExpressionScore",
+          "idtype": "IDTypeA"
         }
       ],
       "python": [
@@ -127,7 +129,19 @@
           "configKey": "targid_dummy"
         }
       ]
-    }
+    },
+    "products": [
+      {
+        "name": "TargidDummy",
+        "type": "python",
+        "app": "targid2",
+        "plugins": [
+          "targid2",
+          "targid_dummy",
+          "caleydo_server"
+        ]
+      }
+    ]
   },
   "publishConfig": {
     "registry": "http://registry.caleydo.org/"
