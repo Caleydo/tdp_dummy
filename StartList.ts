@@ -9,23 +9,27 @@ import idtypes = require('../caleydo_core/idtype');
 import ranges = require('../caleydo_core/range');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, categoricalCol, numberCol2, useDefaultLayout, booleanCol} from '../targid2/LineUpView';
+import {gene_species} from './Configs';
 
 
 export class AStart extends ALineUpView {
   private filter = ranges.Range1D.none();
   private filterName = 'F';
+  private cat : string = null;
 
   constructor(context:IViewContext, selection: ISelection, parent:Element, options?) {
     super(context, parent, options);
     this.filter = (options && options.filter ? ranges.parse(options.filter) : ranges.none()).dim(0);
     this.filterName = options && options.filterName ? options.filterName : 'F';
+    this.cat = options && options.cat ? options.cat : null;
     this.build();
   }
 
   private build() {
     //generate random data
     this.setBusy(true);
-    Promise.all([ajax.getAPIJSON('/targid/db/dummy/a/desc'), ajax.getAPIJSON('/targid/db/dummy/a')]).then((args) => {
+    const data = this.cat === null ? ajax.getAPIJSON('/targid/db/dummy/a'): ajax.getAPIJSON('/targid/db/dummy/a_filtered', {cat : this.cat});
+    Promise.all([ajax.getAPIJSON('/targid/db/dummy/a/desc'), data]).then((args) => {
       const desc = args[0];
       const rows : any[] = args[1];
       const columns = [
@@ -48,8 +52,15 @@ export class AStart extends ALineUpView {
 
 export function createStartAFactory(parent: HTMLElement) {
   const $parent = d3.select(parent);
+  const data = gene_species.slice();
+  data.unshift('All');
+  var current = null;
+  const $options = $parent.selectAll('div.radio').data(data);
+  $options.enter().append('div').classed('radio', true)
+    .html((d,i) => `<label><input type="radio" name="geneSpecies" value="${d}" ${i === 0 ? 'checked' : ''}>${d}</label>`)
+    .select('input').on('change', (d) => current = d === 'All' ? null : d);
   function buildOptions() {
-    return {};
+    return { cat: current};
   }
   return () => buildOptions();
 }

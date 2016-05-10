@@ -23,6 +23,11 @@
       "querySort": "select ${targid_dummy.index}, %s as _score from ${table} t order by _score %s",
       "querySearch": "select ${targid_dummy.index} from ${table} t where %s like :query"
     },
+    "a_filtered": {
+      "idType": "IDTypeA",
+      "query": "select ${targid_dummy.index}, ${targid_dummy.views.a.column_query} from a t WHERE a_cat1 = :cat",
+      "arguments": ["cat"]
+    },
     "b": {
       "table": "b",
       "idType": "IDTypeB",
