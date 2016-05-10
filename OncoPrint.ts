@@ -6,16 +6,16 @@
 /// <amd-dependency path='css!./style' />
 import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
-import {sample_tumor_type, alteration_types} from './Configs';
+import {sample_tumor_type} from './Configs';
 
 export class OncoPrint extends AView {
 
   private x = d3.scale.ordinal<number>();
   private y = d3.scale.ordinal<number>();
   //private c = d3.scale.category10().domain(alteration_types);
-  private c = d3.scale.ordinal<string>().domain(["ABCat 1", "ABCat 2", "ABCat 3"]).range(["#d3d3d3", "#0000ff","#ff0000"]);
-  private cMut = d3.scale.ordinal<string>().domain(["ABCat 1", "ABCat 2", "ABCat 3"]).range(["#008000", "#9f8170","#000000"]);
-  private cBor = d3.scale.ordinal<string>().domain(["ABCat 2", "ABCat 3"]).range(["#ff0000","#0000ff"]);
+  private c = d3.scale.ordinal<string>().domain(['ABCat 1', 'ABCat 2', 'ABCat 3']).range(['#d3d3d3', '#0000ff','#ff0000']);
+  private cMut = d3.scale.ordinal<string>().domain(['ABCat 1', 'ABCat 2', 'ABCat 3']).range(['#008000', '#9f8170','#000000']);
+  private cBor = d3.scale.ordinal<string>().domain(['ABCat 2', 'ABCat 3']).range(['#ff0000','#0000ff']);
   private yAxis = d3.svg.axis().orient('left').scale(this.y);
 
   private cellHeight = 25;
