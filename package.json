@@ -19,6 +19,14 @@
           "factory": "createStartA",
           "idtype": "IDTypeA",
           "selection": "none"
+        },{
+          "id": "dummy_start_a",
+          "name": "Dummy A",
+          "type": "targidStart",
+          "file": "StartList",
+          "factory": "createStartAFactory",
+          "viewId": "dummy_start_a",
+          "idtype": "IDTypeA"
         },
         {
           "id": "dummy_start_B",
