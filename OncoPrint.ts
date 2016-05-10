@@ -13,9 +13,9 @@ export class OncoPrint extends AView {
   private x = d3.scale.ordinal<number>();
   private y = d3.scale.ordinal<number>();
   //private c = d3.scale.category10().domain(alteration_types);
-  private c = d3.scale.ordinal().domain(["ABCat 1", "ABCat 2", "ABCat 3"]).range(["#d3d3d3", "#0000ff","#ff0000"]);
-  private cMut = d3.scale.ordinal().domain(["ABCat 1", "ABCat 2", "ABCat 3"]).range(["#008000", "#9f8170","#000000"]);
-  private cBor = d3.scale.ordinal().domain(["ABCat 2", "ABCat 3"]).range(["#ff0000","#0000ff"]);
+  private c = d3.scale.ordinal<string>().domain(["ABCat 1", "ABCat 2", "ABCat 3"]).range(["#d3d3d3", "#0000ff","#ff0000"]);
+  private cMut = d3.scale.ordinal<string>().domain(["ABCat 1", "ABCat 2", "ABCat 3"]).range(["#008000", "#9f8170","#000000"]);
+  private cBor = d3.scale.ordinal<string>().domain(["ABCat 2", "ABCat 3"]).range(["#ff0000","#0000ff"]);
   private yAxis = d3.svg.axis().orient('left').scale(this.y);
 
   private cellHeight = 25;
@@ -102,27 +102,28 @@ export class OncoPrint extends AView {
     marks.select('text').text((d:any) => d.key);
 
     const cells = marks.selectAll('.cell').data((d) => d.values);
-    const muts = marks.selectAll('.mut').data((d) => d.values);
-    cells.enter().append('rect').classed('cell', true);
-    cells.attr({
-      width: this.cellWidth,
-      height: this.cellHeight,
-    }).attr('x', (d:any, i:number) => (this.cellWidth+this.cellPadding)*i) //(d:any) => this.x(d.b_name)
-      .style('fill',(d: any) => this.c(d.ab_cat))
-      .style('stroke',(d: any) => this.cBor(d.ab_cat))
-      .style("stroke-width", 1);
-    ;
-
-
-        muts.enter().append('rect').classed('cell', true);
-    muts.attr({
-      width: this.cellWidth,
-      height: this.cellMutation,
-      y: 4,
-    }).attr('x', (d:any, i:number) => (this.cellWidth+this.cellPadding)*i)
-      .attr('y', (d:any) => 10) //colours have to be mapped to the correct categories
-      .style('fill',(d: any) => this.cMut(d.ab_cat));
+    cells.enter().append('rect')
+      .classed('cell', true)
+      .attr({
+        width: this.cellWidth,
+        height: this.cellHeight,
+      });
+    cells.attr('x', (d:any, i:number) => (this.cellWidth + this.cellPadding) * i) //(d:any) => this.x(d.b_name)
+      .style('fill', (d:any) => this.c(d.ab_cat))
+      .style('stroke', (d:any) => this.cBor(d.ab_cat));
     cells.exit().remove();
+
+
+    const muts = marks.selectAll('.mut').data((d) => d.values);
+    muts.enter().append('rect')
+      .classed('mut', true)
+      .attr({
+        width: this.cellWidth,
+        height: this.cellMutation,
+        y: 10,
+      });
+    muts.attr('x', (d:any, i) => (this.cellWidth + this.cellPadding) * i)
+      .style('fill', (d:any) => this.cMut(d.ab_cat));
     muts.exit().remove();
 
 
