@@ -10,6 +10,7 @@ import ranges = require('../caleydo_core/range');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, categoricalCol, numberCol2, useDefaultLayout, booleanCol} from '../targid2/LineUpView';
 import {gene_species} from './Configs';
+import {listNamedSets} from '../targid2/storage';
 
 
 export class AStart extends ALineUpView {
@@ -45,6 +46,13 @@ export class AStart extends ALineUpView {
       }
       var lineup = this.buildLineUp(rows, columns, idtypes.resolve(desc.idType),(d) => d._id);
       useDefaultLayout(lineup);
+      if (!this.filter.isNone && !this.filter.isAll) {
+        //activate the filter to be just the checked ones
+        const f = lineup.data.getRankings()[0].flatColumns.filter((col) => col.desc.type === 'boolean' && col.desc.column === '_checked')[0];
+        if (f) {
+          f.setFilter(true);
+        }
+      }
       this.setBusy(false);
     });
   }
@@ -52,15 +60,24 @@ export class AStart extends ALineUpView {
 
 export function createStartAFactory(parent: HTMLElement) {
   const $parent = d3.select(parent);
-  const data = gene_species.slice();
-  data.unshift('All');
+  const data = gene_species.map((d) => ({ type: 'cat', v: d}));
+  data.unshift({type: 'all', v: 'All'});
   var current = null;
-  const $options = $parent.selectAll('div.radio').data(data);
-  $options.enter().append('div').classed('radio', true)
-    .html((d,i) => `<label><input type="radio" name="geneSpecies" value="${d}" ${i === 0 ? 'checked' : ''}>${d}</label>`)
-    .select('input').on('change', (d) => current = d === 'All' ? null : d);
-  function buildOptions() {
-    return { cat: current};
+  listNamedSets('IDTypeA').then((l) => {
+    data.push.apply(data, l.map((d) => ({ type: 'set', v: d.name, ids: d.ids})));
+    const $options = $parent.selectAll('div.radio').data(data);
+    $options.enter().append('div').classed('radio', true)
+      .html((d,i) => `<label><input type="radio" name="geneSpecies" value="${d.v}" ${i === 0 ? 'checked' : ''}>${d.v}</label>`)
+      .select('input').on('change', (d) => current = d);
+  });
+  function buildOptions(): any {
+    if (current === null || current.type === 'all') {
+      return {};
+    }
+    if (current.type === 'cat') {
+      return { cat: current.v};
+    }
+    return { filterName: current.name, filter: current.ids};
   }
   return () => buildOptions();
 }
