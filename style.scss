@@ -29,6 +29,17 @@ div.view .survival-stats {
   path {
     fill: none;
     stroke: black;
+
+    &:hover {
+      stroke: orange;
+    }
+
+    &.having {
+      stroke: darkred;
+    }
+    &:not(.having) {
+
+    }
   }
 }
 

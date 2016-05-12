@@ -31,22 +31,11 @@ export class SurvivalStats extends AView {
   }
 
   private build() {
-    //TODO build kaplan maier plots
-    const left = this.$node.append('div').classed('left', true);
-    left.append('span').text('Having Alteration Type');
-    this.buildKM(left);
-    const right = this.$node.append('div').classed('right', true);
-    right.append('span').text('Not Having Alteration Type');
-    this.buildKM(right);
-  }
-
-  private buildKM($parent: d3.Selection<any>) {
-
     const margin = {top: 10, right: 10, bottom: 30, left: 10},
-      width = 400 - margin.left - margin.right,
-      height = 420 - margin.top - margin.bottom;
+      width = 300 - margin.left - margin.right,
+      height = 320 - margin.top - margin.bottom;
 
-    var svg = $parent.append('svg')
+    var svg = this.$node.append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
@@ -54,8 +43,6 @@ export class SurvivalStats extends AView {
 
     this.x.range([0, width]);
     this.y.range([0, height]);
-
-    svg.append('path').classed('km', true);
 
     svg.append('g')
       .attr('class', 'x axis')
@@ -65,40 +52,44 @@ export class SurvivalStats extends AView {
   private updateChart(rows_yes: number[], rows_no: number[]) {
     this.x.domain([0, d3.max(rows_yes.concat(rows_no))]);
 
-    const left = this.$node.select('div.left');
-    left.select('span').text('Having Alteration Type ' + rows_yes.length);
-    this.updateKM(left, rows_yes);
-    const right = this.$node.select('div.right');
-    right.select('span').text('Not Having Alteration Type '+rows_no.length);
-    this.updateKM(right, rows_no);
+    this.updateKM(this.$node, [rows_yes, rows_no]);
   }
 
-  private updateKM($parent: d3.Selection<any>, rows: number[]) {
+  private updateKM($parent: d3.Selection<any>, rows: number[][]) {
     const svg = $parent.select('svg g');
 
     svg.select('g.x.axis').call(this.xAxis);
 
-    const died = rows.filter((a) => !isNaN(a)).map((a) => Math.abs(a));
-    died.sort(d3.ascending);
-    //const alive = arr.length - died.length;
 
-    this.y.domain([0, rows.length]);
+    this.y.domain([0, 1]);
+    const toPoints = (row: number[]) => {
+      const died = row.filter((a) => !isNaN(a)).map((a) => Math.abs(a));
+      died.sort(d3.ascending);
+      const l = row.length;
+      //const alive = arr.length - died.length;
 
-    //0 ... 100%
-    var points = [[0, 0]],
-      prev_i = 0;
-    for (let i = 1; i < died.length; ++i) {
-      while(died[i] === died[i-1] && i < died.length) {
-        ++i;
+      //0 ... 100%
+      var points = [[0, 0]],
+        prev_i = 0;
+      for (let i = 1; i < died.length; ++i) {
+        while(died[i] === died[i-1] && i < died.length) {
+          ++i;
+        }
+        points.push([died[prev_i], (prev_i + 1)/l]);
+        prev_i = i;
       }
-      points.push([died[prev_i], prev_i + 1]);
-      prev_i = i;
-    }
-    if (died.length > 0) {
-      points.push([died[prev_i], prev_i + 1]);
-    }
-    points.push([this.x.domain()[1], died.length]);
-    svg.select('path.km').datum(points).attr('d', this.line);
+      if (died.length > 0) {
+        points.push([died[prev_i], (prev_i + 1)/l]);
+      }
+      points.push([this.x.domain()[1], died.length/l]);
+      return points;
+    };
+    const points = rows.map(toPoints);
+    const $points = svg.selectAll('path.km').data(points);
+    $points.enter().append('path').classed('km', true).append('title');
+    $points.attr('d', this.line).classed('having',(d,i)=>i === 0);
+    $points.select('title').text((d,i) => i === 0 ? 'Having Alteration Type': 'Not Having Alteration Type');
+    $points.exit().remove();
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {

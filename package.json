@@ -45,7 +45,7 @@
           "file": "SurvivalStats",
           "factory": "create",
           "idtype": "IDTypeA",
-          "selection": "single"
+          "selection": "small_multiple"
         },
         {
           "id": "dummy_a_co_expression",
@@ -105,7 +105,7 @@
           "site": "https://duckduckgo.com/?q={id}",
           "argument": "id",
           "idtype": "IDTypeA",
-          "selection": "some"
+          "selection": "single"
         },
         {
           "id": "dummy_avgscore",
