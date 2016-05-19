@@ -53,6 +53,7 @@ export class AStart extends ALineUpView {
           f.setFilter(true);
         }
       }
+      this.initializedLineUp();
       this.setBusy(false);
     });
   }
@@ -104,6 +105,7 @@ export class BStart extends ALineUpView {
       ];
       var lineup = this.buildLineUp(rows, columns, idtypes.resolve(desc.idType),(d) => d._id);
       useDefaultLayout(lineup);
+      this.initializedLineUp();
       this.setBusy(false);
     });
   }
