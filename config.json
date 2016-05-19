@@ -76,7 +76,7 @@
     },
     "onco_print": {
       "idType": "IDTypeB",
-      "query": "SELECT b_id as id, b_name, a_name, ab_cat FROM ab INNER JOIN a ON a.id = ab.a_id INNER JOIN b ON b.id = ab.b_id WHERE a_id IN (%s) AND b_cat2 = :b_cat2",
+      "query": "SELECT b_id as id, b_name, a_name, ab_cat FROM ab INNER JOIN a ON a.id = ab.a_id INNER JOIN b ON b.id = ab.b_id WHERE a_id IN (%(a_ids)s) AND b_cat2 = :b_cat2",
       "replacements": ["a_ids"],
       "arguments": ["b_cat2"]
     },
@@ -86,7 +86,7 @@
     },
     "expression_score": {
       "idType": "IDTypeA",
-      "query": "SELECT a_id as id, %s(%s) as score FROM ab INNER JOIN b ON b.id = ab.b_id WHERE b.b_cat2 = :b_cat2 GROUP BY ab.a_id",
+      "query": "SELECT a_id as id, %(agg)s(%(score)s) as score FROM ab INNER JOIN b ON b.id = ab.b_id WHERE b.b_cat2 = :b_cat2 GROUP BY ab.a_id",
       "replacements": ["agg", "score"],
       "arguments": ["b_cat2"]
     }
