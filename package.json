@@ -12,6 +12,15 @@
     "plugins": {
       "web": [
         {
+          "id": "welcome",
+          "name": "Welcome",
+          "type": "targidView",
+          "file": "WelcomeView",
+          "factory": "create",
+          "idtype": "none",
+          "selection": "none"
+        },
+        {
           "id": "dummy_start_a",
           "name": "Dummy A",
           "type": "targidView",
@@ -39,7 +48,7 @@
         },
         {
           "id": "dummy_a_survival_plots",
-          "name": "Survival Plots",
+          "name": "Survival",
           "type": "targidView",
           "category": "dynamic",
           "file": "SurvivalStats",
@@ -49,7 +58,7 @@
         },
         {
           "id": "dummy_a_co_expression",
-          "name": "Co Expression",
+          "name": "Co-Expression",
           "type": "targidView",
           "category": "static",
           "file": "CoExpression",
@@ -59,7 +68,7 @@
         },
         {
           "id": "dummy_a_enrichment",
-          "name": "Enrichment",
+          "name": "Enrichments",
           "type": "targidView",
           "category": "dynamic",
           "file": "Enrichment",
@@ -69,7 +78,7 @@
         },
         {
           "id": "dummy_a_expression_vs_copynumber",
-          "name": "Expression Vs CN",
+          "name": "Expression vs. CN",
           "type": "targidView",
           "category": "dynamic",
           "file": "ExpressionVsCopyNumber",
@@ -89,7 +98,7 @@
         },
         {
           "id": "dummy_a_onco_print",
-          "name": "Onco Print",
+          "name": "Oncoprint",
           "type": "targidView",
           "category": "static",
           "file": "OncoPrint",
