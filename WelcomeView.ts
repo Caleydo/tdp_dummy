@@ -68,18 +68,20 @@ export class WelcomeView extends AView {
   }
 
   private build() {
-    this.$node.append('h1').text('Welcome');
+    this.$node.append('h1').text('Welcome to the Target Discovery Platform');
 
     let $body = this.$node.append('div').html(this.template);
 
     const view = findStartViewCreators();
 
+    // create tabs
     const $views = $body.select('ul.nav').selectAll('li.view').data(view);
     $views.enter().insert('li','.before').attr({
       role: 'presentation',
       'class': (d, i) => (i === 0 ? ' active' : '') + ' view'
     }).html((d,i) => `<a href="#tab_view${i}" aria-controls="tab_old" role="tab" data-toggle="tab">${d.name}</a>`);
 
+    // create tab pane
     const $views2 = $body.select('div.tab-content').selectAll('div.tab-pane.view').data(view);
     const $views2_enter = $views2.enter().insert('div','.before').attr({
       role: 'tabpanel',
