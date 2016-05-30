@@ -4,11 +4,10 @@
 /// <reference path='../../tsd.d.ts' />
 
 /// <amd-dependency path='css!./style' />
-import ajax = require('../caleydo_core/ajax');
 import prov = require('../caleydo_clue/prov');
 
 import {AView, IViewContext, ISelection, findStartViewCreators} from '../targid2/View';
-import {Targid} from "../targid2/Targid";
+import {Targid} from '../targid2/Targid';
 
 export class WelcomeView extends AView {
 
@@ -56,7 +55,7 @@ export class WelcomeView extends AView {
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
-
+    // hook
   }
 
   getParameter(name: string): any {
@@ -104,7 +103,7 @@ export class WelcomeView extends AView {
   }
 
   private update() {
-
+    // implement
   }
 }
 
