@@ -24,10 +24,10 @@ export class WelcomeView extends AView {
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane before" id="tab_upload">
-      TODO integrate importer
+      <p><span class="label label-default">TODO</span>Integrate importer</p>
     </div>
     <div role="tabpanel" class="tab-pane" id="tab_continue">
-      <table>
+      <table class="table">
         <thead>
           <tr>
             <th>Entity Type</th>
