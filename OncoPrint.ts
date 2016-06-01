@@ -7,6 +7,7 @@
 import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
 import {sample_tumor_type} from './Configs';
+import {random_id} from '../caleydo_core/main';
 
 export class OncoPrint extends AView {
 
@@ -35,8 +36,10 @@ export class OncoPrint extends AView {
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
-    $parent.append('span').text('tumor type ');
-    const $selectType = $parent.append('select').attr({
+    const id = random_id();
+    const $group = $parent.append('div').classed('form-group', true);
+    $group.append('label').attr('for', 'tumorType_' + id).text('Tumor Type ');
+    const $selectType = $group.append('select').attr('id', 'tumorType_' + id).attr({
       'class': 'form-control',
       required: 'required'
     }).on('change', function() {

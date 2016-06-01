@@ -8,6 +8,7 @@ import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
 import {alteration_types, sample_tumor_type} from './Configs';
+import {random_id} from '../caleydo_core/main';
 
 export class Enrichment extends ALineUpView {
 
@@ -26,8 +27,10 @@ export class Enrichment extends ALineUpView {
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
-    $parent.append('span').text('alteration type ');
-    const $select = $parent.append('select').attr({
+    const id = random_id();
+    const $group1 = $parent.append('div').classed('form-group', true);
+    $group1.append('label').attr('for', 'alternationType_' + id).text('Alteration Type ');
+    const $select = $group1.append('select').attr('id', 'alternationType_' + id).attr({
       'class': 'form-control',
       required: 'required'
     }).on('change', function() {
@@ -37,8 +40,9 @@ export class Enrichment extends ALineUpView {
       .enter().append('option').text(String).attr('value', String);
     $select.property('selectedIndex', alteration_types.indexOf(this.parameter.alteration_type));
 
-    $parent.append('span').text('tumor type ');
-    const $selectType = $parent.append('select').attr({
+    const $group2 = $parent.append('div').classed('form-group', true);
+    $group2.append('label').attr('for', 'tumorType_' + id).text('Tumor Type ');
+    const $selectType = $group2.append('select').attr('id', 'tumorType_' + id).attr({
       'class': 'form-control',
       required: 'required'
     }).on('change', function() {
