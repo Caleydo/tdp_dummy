@@ -7,6 +7,7 @@
 import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
 import {alteration_types} from './Configs';
+import {random_id} from '../caleydo_core/main';
 
 export class SurvivalStats extends AView {
 
@@ -93,8 +94,10 @@ export class SurvivalStats extends AView {
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
-    $parent.append('span').text('alteration type ');
-    const $select = $parent.append('select').attr({
+    const id = random_id();
+    const $group1 = $parent.append('div').classed('form-group', true);
+    $group1.append('label').attr('for', 'alternationType_' + id).text('Alteration Type ');
+    const $select = $group1.append('select').attr('id', 'alternationType_' + id).attr({
       'class': 'form-control',
       required: 'required'
     }).on('change', function() {
