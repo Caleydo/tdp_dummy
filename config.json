@@ -15,7 +15,7 @@
       "column_query": "id, a_name, a_cat1, a_cat2, a_int, a_real",
 
       "queryStats": "select min(a_int) as a_int_min, max(a_int) as a_int_max, min(a_real) as a_real_min, max(a_real) as a_real_max from ${table}",
-      "queryCategories": "select distinct %s as Category from ${table} where Category is not null and Category <> ''",
+      "queryCategories": "select distinct %(col)s as Category from ${table} where %(col)s is not null and %(col)s <> ''",
 
       "query": "select ${targid_dummy.index}, ${column_query} from ${table} t",
       "querySlice": "select ${targid_dummy.index}, ${column_query} from ${table} t where _index in (:query)",
@@ -41,7 +41,7 @@
       "column_query": "id, b_name, b_cat1, b_cat2, b_int, b_real",
 
       "queryStats": "select min(b_int) as b_int_min, max(b_int) as b_int_max, min(b_real) as b_real_min, max(b_real) as b_real_max from ${table}",
-      "queryCategories": "select distinct %s as Category from ${table} where Category is not null and Category <> ''",
+      "queryCategories": "select distinct %(col)s as Category from ${table} where %(col)s is not null and %(col)s <> ''",
 
       "query": "select ${targid_dummy.index}, ${column_query} from ${table} t",
       "querySlice": "select ${targid_dummy.index}, ${column_query} from ${table} t where _index in (:query)",
