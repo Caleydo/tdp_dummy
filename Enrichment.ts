@@ -81,6 +81,7 @@ export class Enrichment extends ALineUpView {
       });
     }).then((rows) => {
       this.replaceLineUpData(rows);
+      this.updateMapping('score', rows);
       this.setBusy(false);
     });
   }
