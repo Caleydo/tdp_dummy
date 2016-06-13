@@ -58,33 +58,33 @@ export class SurvivalStats extends AView {
       .attr('class', 'y axis')
       .attr('transform', 'translate(0,0)');
 
-    svg.append("text")
-      .attr("class", "x label")
-      .attr("text-anchor", "start")
-      .attr("x", 20)
-      .attr("y", height - 6)
-      .text("Time in months");
+    svg.append('text')
+      .attr('class', 'x label')
+      .attr('text-anchor', 'start')
+      .attr('x', 20)
+      .attr('y', height - 6)
+      .text('Time in months');
 
-    svg.append("text")
-      .attr("class", "y label")
-      .attr("text-anchor", "start")
-      .attr("x", -width+35)
-      .attr("y", 6)
-      .attr("dy", ".75em")
-      .attr("transform", "rotate(-90)")
-      .text("Survival in %");
+    svg.append('text')
+      .attr('class', 'y label')
+      .attr('text-anchor', 'start')
+      .attr('x', -width+35)
+      .attr('y', 6)
+      .attr('dy', '.75em')
+      .attr('transform', 'rotate(-90)')
+      .text('Survival in %');
 
-    svg.append("text")
-      .attr("class", "path label having")
-      .attr("text-anchor", "end")
-      .attr("x", width)
+    svg.append('text')
+      .attr('class', 'path label having')
+      .attr('text-anchor', 'end')
+      .attr('x', width)
       .text(this.labelHaving);
 
-    svg.append("text")
-      .attr("class", "path label")
-      .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("dy", "1.25em")
+    svg.append('text')
+      .attr('class', 'path label')
+      .attr('text-anchor', 'end')
+      .attr('x', width)
+      .attr('dy', '1.25em')
       .text(this.labelNotHaving);
   }
 
