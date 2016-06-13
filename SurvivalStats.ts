@@ -11,9 +11,14 @@ import {random_id} from '../caleydo_core/main';
 
 export class SurvivalStats extends AView {
 
+  private labelHaving = 'Having Alteration Type';
+  private labelNotHaving = 'Not Having Alteration Type';
+
   private x = d3.scale.linear();
   private y = d3.scale.linear();
+
   private xAxis = d3.svg.axis().orient('bottom').scale(this.x);
+  private yAxis = d3.svg.axis().orient('left').scale(this.y).tickFormat((d) => (100-d*100).toString()).ticks(10);
 
   private parameter = {
     alteration_type: alteration_types[0]
@@ -32,8 +37,8 @@ export class SurvivalStats extends AView {
   }
 
   private build() {
-    const margin = {top: 10, right: 10, bottom: 30, left: 10},
-      width = 300 - margin.left - margin.right,
+    const margin = {top: 10, right: 10, bottom: 30, left: 30},
+      width = 330 - margin.left - margin.right,
       height = 320 - margin.top - margin.bottom;
 
     var svg = this.$node.append('svg')
@@ -48,6 +53,39 @@ export class SurvivalStats extends AView {
     svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + height + ')');
+
+    svg.append('g')
+      .attr('class', 'y axis')
+      .attr('transform', 'translate(0,0)');
+
+    svg.append("text")
+      .attr("class", "x label")
+      .attr("text-anchor", "start")
+      .attr("x", 20)
+      .attr("y", height - 6)
+      .text("Time in months");
+
+    svg.append("text")
+      .attr("class", "y label")
+      .attr("text-anchor", "start")
+      .attr("x", -width+35)
+      .attr("y", 6)
+      .attr("dy", ".75em")
+      .attr("transform", "rotate(-90)")
+      .text("Survival in %");
+
+    svg.append("text")
+      .attr("class", "path label having")
+      .attr("text-anchor", "end")
+      .attr("x", width)
+      .text(this.labelHaving);
+
+    svg.append("text")
+      .attr("class", "path label")
+      .attr("text-anchor", "end")
+      .attr("x", width)
+      .attr("dy", "1.25em")
+      .text(this.labelNotHaving);
   }
 
   private updateChart(rows_yes: number[], rows_no: number[]) {
@@ -60,7 +98,7 @@ export class SurvivalStats extends AView {
     const svg = $parent.select('svg g');
 
     svg.select('g.x.axis').call(this.xAxis);
-
+    svg.select('g.y.axis').call(this.yAxis);
 
     this.y.domain([0, 1]);
     const toPoints = (row: number[]) => {
@@ -89,7 +127,7 @@ export class SurvivalStats extends AView {
     const $points = svg.selectAll('path.km').data(points);
     $points.enter().append('path').classed('km', true).append('title');
     $points.attr('d', this.line).classed('having',(d,i)=>i === 0);
-    $points.select('title').text((d,i) => i === 0 ? 'Having Alteration Type': 'Not Having Alteration Type');
+    $points.select('title').text((d,i) => i === 0 ? this.labelHaving : this.labelNotHaving);
     $points.exit().remove();
   }
 

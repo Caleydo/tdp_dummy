@@ -2,6 +2,8 @@
  * Created by Samuel Gratzl on 16.12.2015
  */
 
+@import '../targid2/styles/vars';
+
 div.view .dummy-histogram {
   .bar rect {
     fill: steelblue;
@@ -37,10 +39,30 @@ div.view .survival-stats {
     &.having {
       stroke: darkred;
     }
+
     &:not(.having) {
 
     }
   }
+
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+
+    &:hover {
+      stroke: #000;
+    }
+  }
+
+  .label {
+    fill: $core_colour_text;
+
+    &.having {
+      fill: darkred;
+    }
+  }
+
 }
 
 div.view .onco-print {
