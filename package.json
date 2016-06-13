@@ -12,15 +12,6 @@
     "plugins": {
       "web": [
         {
-          "id": "welcome",
-          "name": "Welcome",
-          "type": "targidView",
-          "file": "WelcomeView",
-          "factory": "create",
-          "idtype": "none",
-          "selection": "none"
-        },
-        {
           "id": "dummy_start_a",
           "name": "Dummy A",
           "type": "targidView",
