@@ -13,12 +13,6 @@ div.view .dummy-histogram {
   .bar text {
     fill: #fff;
   }
-
-  .axis path, .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-  }
 }
 
 div.view .survival-stats {
@@ -46,10 +40,6 @@ div.view .survival-stats {
   }
 
   .axis path, .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-
     &:hover {
       stroke: #000;
     }
