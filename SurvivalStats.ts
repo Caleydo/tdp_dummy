@@ -11,9 +11,6 @@ import {random_id} from '../caleydo_core/main';
 
 export class SurvivalStats extends AView {
 
-  private labelHaving = 'Having Alteration Type';
-  private labelNotHaving = 'Not Having Alteration Type';
-
   private x = d3.scale.linear();
   private y = d3.scale.linear();
 
@@ -77,15 +74,13 @@ export class SurvivalStats extends AView {
     svg.append('text')
       .attr('class', 'path label having')
       .attr('text-anchor', 'end')
-      .attr('x', width)
-      .text(this.labelHaving);
+      .attr('x', width);
 
     svg.append('text')
-      .attr('class', 'path label')
+      .attr('class', 'path label nothaving')
       .attr('text-anchor', 'end')
       .attr('x', width)
-      .attr('dy', '1.25em')
-      .text(this.labelNotHaving);
+      .attr('dy', '1.25em');
   }
 
   private updateChart(rows_yes: number[], rows_no: number[]) {
@@ -96,6 +91,9 @@ export class SurvivalStats extends AView {
 
   private updateKM($parent: d3.Selection<any>, rows: number[][]) {
     const svg = $parent.select('svg g');
+
+    svg.select('text.having').text(this.parameter.alteration_type);
+    svg.select('text.nothaving').text('NOT ' + this.parameter.alteration_type);
 
     svg.select('g.x.axis').call(this.xAxis);
     svg.select('g.y.axis').call(this.yAxis);
@@ -127,7 +125,7 @@ export class SurvivalStats extends AView {
     const $points = svg.selectAll('path.km').data(points);
     $points.enter().append('path').classed('km', true).append('title');
     $points.attr('d', this.line).classed('having',(d,i)=>i === 0);
-    $points.select('title').text((d,i) => i === 0 ? this.labelHaving : this.labelNotHaving);
+    $points.select('title').text((d,i) => i === 0 ? this.parameter.alteration_type : 'NOT ' + this.parameter.alteration_type);
     $points.exit().remove();
   }
 
