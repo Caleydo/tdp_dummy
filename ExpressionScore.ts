@@ -57,16 +57,16 @@ export function create() {
         </select>
       </div></form>`;
      (<HTMLFormElement>dialog.body.querySelector('form')).onsubmit = () => {
-       dialog.hide();
-       return false;
-     };
-     dialog.onHide(() => {
        const tumorSample = (<HTMLSelectElement>dialog.body.querySelector('#tumorSample')).value;
        const score = (<HTMLSelectElement>dialog.body.querySelector('#score')).value;
        const agg = (<HTMLSelectElement>dialog.body.querySelector('#agg')).value;
        const s = new ExpressionScore(score, tumorSample, agg);
-       dialog.destroy();
+       dialog.hide();
        resolve(s);
+       return false;
+     };
+     dialog.onHide(() => {
+       dialog.destroy();
      });
      dialog.show();
    });
