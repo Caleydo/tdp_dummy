@@ -10,6 +10,7 @@ import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, categoricalCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
 import {gene_species} from './Configs';
 import {listNamedSets} from '../targid2/storage';
+import {IPluginDesc} from "../caleydo_core/plugin";
 
 
 export class AStart extends ALineUpView {
@@ -43,28 +44,57 @@ export class AStart extends ALineUpView {
   }
 }
 
-export function createStartAFactory(parent: HTMLElement) {
+
+
+/**
+ * Create a list for main navigation from all species and LineUp named sets (aka stored LineUp sessions)
+ * @param parent
+ * @param desc
+ * @param options
+ * @returns {function(): any}
+ */
+export function createStartAFactory(parent: HTMLElement, desc: IPluginDesc, options:any) {
   const $parent = d3.select(parent);
+
+  // read species
   const data = gene_species.map((d) => ({ type: 'cat', v: d}));
   data.unshift({type: 'all', v: 'All'});
-  var current = null;
+
+  // load named sets (stored LineUp sessions)
   listNamedSets('IDTypeA').then((l) => {
+    // convert to data format
     data.push.apply(data, l.map((d) => ({ type: 'set', v: d.name, ids: d.ids})));
-    const $options = $parent.selectAll('div.radio').data(data);
-    $options.enter().append('div').classed('radio', true)
-      .html((d,i) => `<label><input type="radio" name="geneSpecies" value="${d.v}" ${i === 0 ? 'checked' : ''}>${d.v}</label>`)
-      .select('input').on('change', (d) => current = d);
+
+    // append the list items
+    const $ul = $parent.append('ul');
+    const $options = $ul.selectAll('li').data(data);
+    $options.enter()
+      .append('li')
+      //.classed('selected', (d,i) => (i === 0))
+      .append('a')
+      .attr('href', '#')
+      .text((d:any) => d.v.charAt(0).toUpperCase() + d.v.slice(1))
+      .on('click', (d:any) => {
+        // prevent changing the hash (href)
+        (<Event>d3.event).preventDefault();
+
+        // if targid object is available
+        if(options.targid) {
+          // create options for new view
+          let o = {};
+          if(d.type === 'cat') {
+            o = { cat: d.v};
+          } else if(d.type === 'set') {
+            o = { filterName: d.name, filter: d.ids};
+          }
+          // push new view with options to targid
+          options.targid.push((<any>desc).viewId, null, null, o);
+        } else {
+          console.error('no targid object given to push new view');
+        }
+      });
   });
-  function buildOptions(): any {
-    if (current === null || current.type === 'all') {
-      return {};
-    }
-    if (current.type === 'cat') {
-      return { cat: current.v};
-    }
-    return { filterName: current.name, filter: current.ids};
-  }
-  return () => buildOptions();
+  return ():any => {};
 }
 
 export class BStart extends ALineUpView {
