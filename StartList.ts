@@ -10,7 +10,7 @@ import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, categoricalCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
 import {gene_species} from './Configs';
 import {listNamedSets} from '../targid2/storage';
-import {IPluginDesc} from "../caleydo_core/plugin";
+import {IPluginDesc} from '../caleydo_core/plugin';
 
 
 export class AStart extends ALineUpView {
@@ -94,7 +94,6 @@ export function createStartAFactory(parent: HTMLElement, desc: IPluginDesc, opti
         }
       });
   });
-  return ():any => {};
 }
 
 export class BStart extends ALineUpView {
