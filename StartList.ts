@@ -6,11 +6,13 @@
 import ajax = require('../caleydo_core/ajax');
 import d3 = require('d3');
 import idtypes = require('../caleydo_core/idtype');
+import session = require('../targid2/TargidSession');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, categoricalCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
 import {gene_species} from './Configs';
 import {listNamedSets} from '../targid2/storage';
 import {IPluginDesc} from '../caleydo_core/plugin';
+import {TargidConstants} from '../targid2/Targid';
 
 
 export class AStart extends ALineUpView {
@@ -87,8 +89,14 @@ export function createStartAFactory(parent: HTMLElement, desc: IPluginDesc, opti
           } else if(d.type === 'set') {
             o = { filterName: d.name, filter: d.ids};
           }
-          // push new view with options to targid
-          options.targid.push((<any>desc).viewId, null, null, o);
+          // store state to session before creating a new graph
+          session.store(TargidConstants.NEW_ENTRY_POINT, {
+            view: (<any>desc).viewId,
+            options: o
+          });
+
+          // create new graph and apply new view after window.reload (@see targid.checkForNewEntryPoint())
+          options.targid.graphManager.newGraph();
         } else {
           console.error('no targid object given to push new view');
         }
