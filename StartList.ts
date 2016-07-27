@@ -64,6 +64,8 @@ export function createStartAFactory(parent: HTMLElement, desc: IPluginDesc, opti
 
   // load named sets (stored LineUp sessions)
   listNamedSets('IDTypeA').then((l) => {
+    $parent.html(''); // remove loading element
+
     // convert to data format
     data.push.apply(data, l.map((d) => ({ type: 'set', v: d.name, ids: d.ids})));
 
