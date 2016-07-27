@@ -22,7 +22,7 @@
         },{
           "id": "dummy_start_a",
           "name": "Dummy A",
-          "type": "targidStart",
+          "type": "targidStartEntryPoint",
           "file": "StartList",
           "factory": "createStartAFactory",
           "viewId": "dummy_start_a",
