@@ -36,6 +36,7 @@ export class OncoPrint extends AView {
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
+    $parent.classed('hidden', false);
     const id = random_id();
     const $group = $parent.append('div').classed('form-group', true);
     $group.append('label').attr('for', 'tumorType_' + id).text('Tumor Type ');

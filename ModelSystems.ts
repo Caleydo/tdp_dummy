@@ -25,6 +25,7 @@ export class Enrichment extends ALineUpView {
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
+    $parent.classed('hidden', false);
     $parent.append('span').text('Alteration Type ');
     const $select = $parent.append('select').attr({
       'class': 'form-control',

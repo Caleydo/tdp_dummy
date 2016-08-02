@@ -27,6 +27,7 @@ export class Enrichment extends ALineUpView {
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
+    $parent.classed('hidden', false);
     const id = random_id();
     const $group1 = $parent.append('div').classed('form-group', true);
     $group1.append('label').attr('for', 'alternationType_' + id).text('Alteration Type ');
