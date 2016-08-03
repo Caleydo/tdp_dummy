@@ -4,15 +4,12 @@
 /// <reference path="../../tsd.d.ts" />
 
 import ajax = require('../caleydo_core/ajax');
-import d3 = require('d3');
 import idtypes = require('../caleydo_core/idtype');
-import session = require('../targid2/TargidSession');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, categoricalCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
 import {gene_species} from './Configs';
-import {listNamedSets} from '../targid2/storage';
 import {IPluginDesc} from '../caleydo_core/plugin';
-import {TargidConstants} from '../targid2/Targid';
+import {IEntryPointList, AEntryPointList} from '../targid2/StartMenu';
 
 
 export class AStart extends ALineUpView {
@@ -47,6 +44,29 @@ export class AStart extends ALineUpView {
 }
 
 
+/**
+ * Entry point list from all species and LineUp named sets (aka stored LineUp sessions)
+ */
+class DummyEntryPointList extends AEntryPointList {
+
+  /**
+   * Set the idType and the default data and build the list
+   * @param parent
+   * @param desc
+   * @param options
+   */
+  constructor(protected parent: HTMLElement, protected desc: IPluginDesc, protected options:any) {
+    super(parent, desc, options);
+
+    this.idType = 'IDTypeA';
+
+    // read species
+    this.data = gene_species.map((d) => ({ type: 'cat', v: d}));
+    this.data.unshift({type: 'all', v: 'All'});
+
+    this.build();
+  }
+}
 
 /**
  * Create a list for main navigation from all species and LineUp named sets (aka stored LineUp sessions)
@@ -55,55 +75,8 @@ export class AStart extends ALineUpView {
  * @param options
  * @returns {function(): any}
  */
-export function createStartAFactory(parent: HTMLElement, desc: IPluginDesc, options:any) {
-  const $parent = d3.select(parent);
-
-  // read species
-  const data = gene_species.map((d) => ({ type: 'cat', v: d}));
-  data.unshift({type: 'all', v: 'All'});
-
-  // load named sets (stored LineUp sessions)
-  listNamedSets('IDTypeA').then((l) => {
-    $parent.html(''); // remove loading element
-
-    // convert to data format
-    data.push.apply(data, l.map((d) => ({ type: 'set', v: d.name, ids: d.ids})));
-
-    // append the list items
-    const $ul = $parent.append('ul');
-    const $options = $ul.selectAll('li').data(data);
-    $options.enter()
-      .append('li')
-      //.classed('selected', (d,i) => (i === 0))
-      .append('a')
-      .attr('href', '#')
-      .text((d:any) => d.v.charAt(0).toUpperCase() + d.v.slice(1))
-      .on('click', (d:any) => {
-        // prevent changing the hash (href)
-        (<Event>d3.event).preventDefault();
-
-        // if targid object is available
-        if(options.targid) {
-          // create options for new view
-          let o = {};
-          if(d.type === 'cat') {
-            o = { cat: d.v};
-          } else if(d.type === 'set') {
-            o = { filterName: d.name, filter: d.ids};
-          }
-          // store state to session before creating a new graph
-          session.store(TargidConstants.NEW_ENTRY_POINT, {
-            view: (<any>desc).viewId,
-            options: o
-          });
-
-          // create new graph and apply new view after window.reload (@see targid.checkForNewEntryPoint())
-          options.targid.graphManager.newGraph();
-        } else {
-          console.error('no targid object given to push new view');
-        }
-      });
-  });
+export function createStartAFactory(parent: HTMLElement, desc: IPluginDesc, options:any):IEntryPointList {
+  return new DummyEntryPointList(parent, desc, options);
 }
 
 export class BStart extends ALineUpView {
