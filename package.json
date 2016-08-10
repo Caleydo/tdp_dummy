@@ -15,7 +15,7 @@
           "id": "dummy_start_a",
           "name": "Dummy A",
           "type": "targidView",
-          "file": "StartList",
+          "file": "DummyList",
           "factory": "createStartA",
           "idtype": "IDTypeA",
           "selection": "none"
@@ -23,8 +23,8 @@
           "id": "dummy_start_a",
           "name": "Dummy A",
           "type": "targidStartEntryPoint",
-          "file": "StartList",
-          "factory": "createStartAFactory",
+          "file": "DummyEntryPoint",
+          "factory": "createStartFactory",
           "viewId": "dummy_start_a",
           "idtype": "IDTypeA"
         },
@@ -32,7 +32,7 @@
           "id": "dummy_start_B",
           "name": "Dummy B",
           "type": "targidView",
-          "file": "StartList",
+          "file": "DummyList",
           "factory": "createStartB",
           "idtype": "IDTypeB",
           "selection": "none"

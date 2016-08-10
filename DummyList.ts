@@ -1,18 +1,14 @@
 /**
  * Created by Samuel Gratzl on 29.01.2016.
  */
-/// <reference path="../../tsd.d.ts" />
 
 import ajax = require('../caleydo_core/ajax');
 import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, categoricalCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
-import {gene_species} from './Configs';
-import {IPluginDesc} from '../caleydo_core/plugin';
-import {IEntryPointList, AEntryPointList} from '../targid2/StartMenu';
 
 
-export class AStart extends ALineUpView {
+class AStart extends ALineUpView {
   private cat : string = null;
 
   constructor(context:IViewContext, selection: ISelection, parent:Element, options?) {
@@ -43,43 +39,12 @@ export class AStart extends ALineUpView {
   }
 }
 
-
-/**
- * Entry point list from all species and LineUp named sets (aka stored LineUp sessions)
- */
-class DummyEntryPointList extends AEntryPointList {
-
-  /**
-   * Set the idType and the default data and build the list
-   * @param parent
-   * @param desc
-   * @param options
-   */
-  constructor(protected parent: HTMLElement, protected desc: IPluginDesc, protected options:any) {
-    super(parent, desc, options);
-
-    this.idType = 'IDTypeA';
-
-    // read species
-    this.data = gene_species.map((d) => ({ type: 'cat', v: d}));
-    this.data.unshift({type: 'all', v: 'All'});
-
-    this.build();
-  }
+export function createStartA(context:IViewContext, selection: ISelection, parent:Element, options?) {
+  return new AStart(context, selection, parent, options);
 }
 
-/**
- * Create a list for main navigation from all species and LineUp named sets (aka stored LineUp sessions)
- * @param parent
- * @param desc
- * @param options
- * @returns {function(): any}
- */
-export function createStartAFactory(parent: HTMLElement, desc: IPluginDesc, options:any):IEntryPointList {
-  return new DummyEntryPointList(parent, desc, options);
-}
 
-export class BStart extends ALineUpView {
+class BStart extends ALineUpView {
   constructor(context:IViewContext, selection: ISelection, parent:Element, options?) {
     super(context, parent, options);
     //TODO
@@ -105,10 +70,6 @@ export class BStart extends ALineUpView {
       this.setBusy(false);
     });
   }
-}
-
-export function createStartA(context:IViewContext, selection: ISelection, parent:Element, options?) {
-  return new AStart(context, selection, parent, options);
 }
 
 export function createStartB(context:IViewContext, selection: ISelection, parent:Element, options?) {
