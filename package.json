@@ -91,7 +91,7 @@
           "id": "dummy_a_onco_print",
           "name": "Oncoprint",
           "type": "targidView",
-          "category": "static",
+          "category": "dynamic",
           "file": "OncoPrint",
           "factory": "create",
           "idtype": "IDTypeA",
