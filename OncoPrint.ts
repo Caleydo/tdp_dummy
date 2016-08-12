@@ -6,9 +6,8 @@
 /// <amd-dependency path='css!./style' />
 import ajax = require('../caleydo_core/ajax');
 import {IViewContext, ISelection, ASmallMultipleView} from '../targid2/View';
-import {sample_tumor_type} from './Configs';
+import {sample_tumor_type, ParameterFormIds} from './Configs';
 import {FormBuilder, FormElement, IFormSelectDesc} from '../targid2/FormBuilder';
-import {ParameterFormIds} from '../targid_celllinedb/Common';
 
 export class OncoPrint extends ASmallMultipleView {
 

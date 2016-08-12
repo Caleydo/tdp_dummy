@@ -7,7 +7,7 @@
 import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
 
-export class SurvivalStats extends AView {
+class CoExpression extends AView {
 
   private x = d3.scale.linear();
   private y = d3.scale.linear();
@@ -91,7 +91,7 @@ export class SurvivalStats extends AView {
 
 
 export function create(context:IViewContext, selection:ISelection, parent:Element, options?) {
-  return new SurvivalStats(context, selection, parent, options);
+  return new CoExpression(context, selection, parent, options);
 }
 
 

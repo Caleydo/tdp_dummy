@@ -7,9 +7,8 @@ import ajax = require('../caleydo_core/ajax');
 import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
-import {alteration_types} from './Configs';
+import {alteration_types, ParameterFormIds} from './Configs';
 import {FormBuilder, FormElement, IFormSelectDesc} from '../targid2/FormBuilder';
-import {ParameterFormIds} from '../targid_celllinedb/Common';
 
 class ModelSystems extends ALineUpView {
 

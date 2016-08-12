@@ -10,3 +10,13 @@ export const gene_chromosome = ['ACatB 1', 'ACatB 2', 'ACatB 3', 'ACatB 4', 'ACa
 
 export const sample_gender = ['BCat 1', 'BCat 2', 'BCatB 3'];
 export const sample_tumor_type = ['BCatB 1', 'BCatB 2', 'BCatB 3', 'BCatB 4', 'BCatB 5'];
+
+
+/**
+ * List of ids for parameter form elements
+ * Reuse this ids and activate the `useSession` option for form elements to have the same selectedIndex between different views
+ */
+export class ParameterFormIds {
+  static TUMOR_TYPE = 'tumor_type';
+  static ALTERATION_TYPE = 'alteration_type';
+}
