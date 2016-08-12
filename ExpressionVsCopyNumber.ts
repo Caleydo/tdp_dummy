@@ -7,49 +7,63 @@
 import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
 import {sample_tumor_type} from './Configs';
-import {random_id} from '../caleydo_core/main';
+import {FormBuilder, FormElement, IFormSelectDesc} from '../targid2/FormBuilder';
+import {ParameterFormIds} from '../targid_celllinedb/Common';
 
-export class ExpressionVsCopyNumber extends AView {
+class ExpressionVsCopyNumber extends AView {
 
   private x = d3.scale.linear();
   private y = d3.scale.linear();
   private xAxis = d3.svg.axis().orient('bottom').scale(this.x);
   private yAxis = d3.svg.axis().orient('left').scale(this.y);
 
-  private parameter = {
-    tumor_type: sample_tumor_type[0]
-  };
+  private paramForm:FormBuilder;
+  private paramDesc:IFormSelectDesc[] = [
+    {
+      type: FormElement.SELECT,
+      label: 'Tumor Type',
+      id: ParameterFormIds.TUMOR_TYPE,
+      options: {
+        options: sample_tumor_type,
+        useSession: true
+      }
+    }
+  ];
 
   constructor(context:IViewContext, private selection: ISelection, parent:Element, options?) {
     super(context, parent, options);
+  }
 
+  init() {
     this.build();
     this.update();
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
-    $parent.classed('hidden', false);
-    const id = random_id();
-    const $group = $parent.append('div').classed('form-group', true);
-    $group.append('label').attr('for', 'tumorType_' + id).text('Tumor Type ');
-    const $selectType = $group.append('select').attr('id', 'tumorType_' + id).attr({
-      'class': 'form-control',
-      required: 'required'
-    }).on('change', function() {
-      onChange('tumor_type', sample_tumor_type[this.selectedIndex]);
-    });
-    $selectType.selectAll('option').data(sample_tumor_type)
-      .enter().append('option').text(String).attr('value', String);
-    $selectType.property('selectedIndex', sample_tumor_type.indexOf(this.parameter.tumor_type));
+    this.paramForm = new FormBuilder($parent);
 
+    // map FormElement change function to provenance graph onChange function
+    this.paramDesc.forEach((p) => {
+      p.options.onChange = (selection, formElement) => onChange(formElement.id, selection.value);
+    });
+
+    this.paramForm.build(this.paramDesc);
+
+    // add other fields
+    super.buildParameterUI($parent.select('form'), onChange);
   }
 
   getParameter(name: string): any {
-    return this.parameter[name];
+    return this.paramForm.getElementById(name).value.data;
   }
 
   setParameter(name: string, value: any) {
-    this.parameter[name] = value;
+    this.paramForm.getElementById(name).value = value;
+    return this.update();
+  }
+
+  changeSelection(selection: ISelection) {
+    this.selection = selection;
     return this.update();
   }
 
@@ -97,18 +111,13 @@ export class ExpressionVsCopyNumber extends AView {
 
   }
 
-  changeSelection(selection:ISelection) {
-    this.selection = selection;
-    return this.update();
-  }
-
   private update() {
     const idtype = this.selection.idtype;
     this.setBusy(true);
     return this.resolveId(idtype, this.selection.range.first, 'IDTypeA').then((name) => {
       return ajax.getAPIJSON('/targid/db/dummy/expression_vs_copynumber', {
         a_id: name,
-        b_cat2 : this.parameter.tumor_type
+        b_cat2 : this.getParameter(ParameterFormIds.TUMOR_TYPE)
       });
     }).then((rows) => {
       this.updateChart(rows);

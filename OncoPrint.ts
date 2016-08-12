@@ -5,11 +5,12 @@
 
 /// <amd-dependency path='css!./style' />
 import ajax = require('../caleydo_core/ajax');
-import {AView, IViewContext, ISelection} from '../targid2/View';
+import {IViewContext, ISelection, ASmallMultipleView} from '../targid2/View';
 import {sample_tumor_type} from './Configs';
-import {random_id} from '../caleydo_core/main';
+import {FormBuilder, FormElement, IFormSelectDesc} from '../targid2/FormBuilder';
+import {ParameterFormIds} from '../targid_celllinedb/Common';
 
-export class OncoPrint extends AView {
+export class OncoPrint extends ASmallMultipleView {
 
   private x = d3.scale.ordinal<number>();
   private y = d3.scale.ordinal<number>();
@@ -24,50 +25,113 @@ export class OncoPrint extends AView {
   private cellPadding = 3;
   private cellMutation = 5;
 
-  private parameter = {
-    tumor_type: sample_tumor_type[0]
-  };
+  private paramForm:FormBuilder;
+  private paramDesc:IFormSelectDesc[] = [
+    {
+      type: FormElement.SELECT,
+      label: 'Tumor Type',
+      id: ParameterFormIds.TUMOR_TYPE,
+      options: {
+        options: sample_tumor_type,
+        useSession: true
+      }
+    }
+  ];
 
-  constructor(context:IViewContext, private selection: ISelection, parent:Element, options?) {
-    super(context, parent, options);
+  constructor(context:IViewContext, private selection:ISelection, parent:Element, options?) {
+    super(context, selection, parent, options);
+  }
 
-    this.build();
+  init() {
+    super.init();
+    this.$node.classed('survival-stats', true);
     this.update();
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
-    $parent.classed('hidden', false);
-    const id = random_id();
-    const $group = $parent.append('div').classed('form-group', true);
-    $group.append('label').attr('for', 'tumorType_' + id).text('Tumor Type ');
-    const $selectType = $group.append('select').attr('id', 'tumorType_' + id).attr({
-      'class': 'form-control',
-      required: 'required'
-    }).on('change', function() {
-      onChange('tumor_type', sample_tumor_type[this.selectedIndex]);
-    });
-    $selectType.selectAll('option').data(sample_tumor_type)
-      .enter().append('option').text(String).attr('value', String);
-    $selectType.property('selectedIndex', sample_tumor_type.indexOf(this.parameter.tumor_type));
+    this.paramForm = new FormBuilder($parent);
 
+    // map FormElement change function to provenance graph onChange function
+    this.paramDesc.forEach((p) => {
+      p.options.onChange = (selection, formElement) => onChange(formElement.id, selection.value);
+    });
+
+    this.paramForm.build(this.paramDesc);
+
+    // add other fields
+    super.buildParameterUI($parent.select('form'), onChange);
   }
 
   getParameter(name: string): any {
-    return this.parameter[name];
+    return this.paramForm.getElementById(name).value.data;
   }
 
   setParameter(name: string, value: any) {
-    this.parameter[name] = value;
-    return this.update();
+    this.paramForm.getElementById(name).value = value;
+    this.update(true);
   }
 
-  private build() {
+  changeSelection(selection:ISelection) {
+    this.selection = selection;
+    this.update();
+  }
+
+
+  private update(updateAll = false) {
+    this.setBusy(true);
+
+    const that = this;
+    const ids = this.selection.range.dim(0).asList();
+    const idtype = this.selection.idtype;
+
+    const data:IDataFormat[] = ids.map((id) => {
+      return {id: id, rows: []};
+    });
+
+    const $ids = this.$node.selectAll('div.ids').data<IDataFormat>(<any>data, (d) => d.id.toString());
+    const $ids_enter = $ids.enter().append('div').classed('ids', true);
+
+    // decide whether to load data for newly added items
+    // or to reload the data for all items (e.g. due to parameter change)
+    const enterOrUpdateAll = (updateAll) ? $ids : $ids_enter;
+
+    enterOrUpdateAll.each(function(d) {
+      const $id = d3.select(this);
+
+      return that.resolveId(idtype,  d.id, 'IDTypeA')
+        .then((name) => {
+          return ajax.getAPIJSON('/targid/db/dummy/onco_print', {
+            a_ids: name,
+            b_cat2 : that.getParameter(ParameterFormIds.TUMOR_TYPE)
+          });
+        })
+        .then((rows) => {
+          d.rows = rows;
+
+          that.initChart($id);
+          that.updateChartData($id);
+
+          that.setBusy(false);
+        });
+    });
+
+    $ids.exit().remove()
+      .each(function(d) {
+        that.setBusy(false);
+      });
+  }
+
+  private initChart($parent) {
+    // already initialized svg node -> skip this part
+    if($parent.select('svg').size() > 0) {
+      return;
+    }
 
     const margin = {top: 10, right: 30, bottom: 10, left: 50},
       width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+      height = 60 - margin.top - margin.bottom;
 
-    var svg = this.$node.append('svg')
+    var svg = $parent.append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
@@ -81,20 +145,22 @@ export class OncoPrint extends AView {
   }
 
 
-  private updateChart(rows: {a_name: string, b_name: string, ab_cat: string}[]) {
+  private updateChartData($parent) {
+
+    const data:IDataFormat = $parent.datum();
+    const rows = data.rows;
+
     this.x.domain(rows.map((d) => d.b_name));
     this.y.domain(rows.map((d) => d.a_name));
 
-    const data = d3.nest().key((d:any) => d.a_name).entries(rows);
+    const data2 = d3.nest().key((d:any) => d.a_name).entries(rows);
 
-    console.log(data);
-
-    const svg = this.$node.select('svg g');
+    const svg = $parent.select('svg g');
 
     svg.select('g.y.axis').call(this.yAxis);
 
     // data binding
-    const marks = svg.selectAll('.row').data(data);
+    const marks = svg.selectAll('.row').data(data2);
 
     // enter
     marks.enter()
@@ -134,27 +200,12 @@ export class OncoPrint extends AView {
     // exit
     marks.exit().remove();
   }
-
-  changeSelection(selection:ISelection) {
-    this.selection = selection;
-    return this.update();
-  }
-
-  private update() {
-    const idtype = this.selection.idtype;
-    this.setBusy(true);
-    return this.resolveIds(idtype, this.selection.range, 'IDTypeA').then((names) => {
-      return ajax.getAPIJSON('/targid/db/dummy/onco_print', {
-        a_ids: names.join(','),
-        b_cat2 : this.parameter.tumor_type
-      });
-    }).then((rows) => {
-      this.updateChart(rows);
-      this.setBusy(false);
-    });
-  }
 }
 
+interface IDataFormat {
+  id: number;
+  rows: {a_name: string, b_name: string, ab_cat: string}[];
+}
 
 export function create(context:IViewContext, selection:ISelection, parent:Element, options?) {
   return new OncoPrint(context, selection, parent, options);

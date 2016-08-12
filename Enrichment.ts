@@ -8,59 +8,64 @@ import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
 import {alteration_types, sample_tumor_type} from './Configs';
-import {random_id} from '../caleydo_core/main';
+import {FormBuilder, FormElement, IFormSelectDesc} from '../targid2/FormBuilder';
+import {ParameterFormIds} from '../targid_celllinedb/Common';
 
-export class Enrichment extends ALineUpView {
+class Enrichment extends ALineUpView {
 
   private lineupPromise : Promise<any>;
 
-  private parameter = {
-    alteration_type: alteration_types[0],
-    tumor_type: sample_tumor_type[0]
-  };
+  private paramForm:FormBuilder;
+  private paramDesc:IFormSelectDesc[] = [
+    {
+      type: FormElement.SELECT,
+      label: 'Alteration Type',
+      id: ParameterFormIds.ALTERATION_TYPE,
+      options: {
+        options: alteration_types,
+        useSession: true
+      }
+    },
+    {
+      type: FormElement.SELECT,
+      label: 'Tumor Type',
+      id: ParameterFormIds.TUMOR_TYPE,
+      options: {
+        options: sample_tumor_type,
+        useSession: true
+      }
+    }
+  ];
 
   constructor(context:IViewContext, private selection: ISelection, parent:Element, options?) {
     super(context, parent, options);
+  }
 
+  init() {
     this.build();
     this.update();
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
-    $parent.classed('hidden', false);
-    const id = random_id();
-    const $group1 = $parent.append('div').classed('form-group', true);
-    $group1.append('label').attr('for', 'alternationType_' + id).text('Alteration Type ');
-    const $select = $group1.append('select').attr('id', 'alternationType_' + id).attr({
-      'class': 'form-control',
-      required: 'required'
-    }).on('change', function() {
-      onChange('alteration_type', alteration_types[this.selectedIndex]);
-    });
-    $select.selectAll('option').data(alteration_types)
-      .enter().append('option').text(String).attr('value', String);
-    $select.property('selectedIndex', alteration_types.indexOf(this.parameter.alteration_type));
+    this.paramForm = new FormBuilder($parent);
 
-    const $group2 = $parent.append('div').classed('form-group', true);
-    $group2.append('label').attr('for', 'tumorType_' + id).text('Tumor Type ');
-    const $selectType = $group2.append('select').attr('id', 'tumorType_' + id).attr({
-      'class': 'form-control',
-      required: 'required'
-    }).on('change', function() {
-      onChange('tumor_type', sample_tumor_type[this.selectedIndex]);
+    // map FormElement change function to provenance graph onChange function
+    this.paramDesc.forEach((p) => {
+      p.options.onChange = (selection, formElement) => onChange(formElement.id, selection.value);
     });
-    $selectType.selectAll('option').data(sample_tumor_type)
-      .enter().append('option').text(String).attr('value', String);
-    $selectType.property('selectedIndex', sample_tumor_type.indexOf(this.parameter.tumor_type));
 
+    this.paramForm.build(this.paramDesc);
+
+    // add other fields
+    super.buildParameterUI($parent.select('form'), onChange);
   }
 
   getParameter(name: string): any {
-    return this.parameter[name];
+    return this.paramForm.getElementById(name).value.data;
   }
 
   setParameter(name: string, value: any) {
-    this.parameter[name] = value;
+    this.paramForm.getElementById(name).value = value;
     return this.update();
   }
 
@@ -77,8 +82,8 @@ export class Enrichment extends ALineUpView {
       const gene_name = args[1];
       return ajax.getAPIJSON('/targid/db/dummy/enrichment', {
         a_id: gene_name,
-        ab_cat: this.parameter.alteration_type,
-        b_cat2: this.parameter.tumor_type
+        ab_cat: this.getParameter(ParameterFormIds.ALTERATION_TYPE),
+        b_cat2: this.getParameter(ParameterFormIds.TUMOR_TYPE)
       });
     }).then((rows) => {
       this.replaceLineUpData(rows);
