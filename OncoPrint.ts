@@ -32,8 +32,8 @@ export class OncoPrint extends ASmallMultipleView {
       id: ParameterFormIds.TUMOR_TYPE,
       options: {
         optionsData: sample_tumor_type,
-        useSession: true
-      }
+      },
+      useSession: true
     }
   ];
 

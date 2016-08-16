@@ -24,9 +24,9 @@ class SurvivalStats extends ASmallMultipleView {
       label: 'Alteration Type',
       id: ParameterFormIds.ALTERATION_TYPE,
       options: {
-        optionsData: alteration_types,
-        useSession: true
-      }
+        optionsData: alteration_types
+      },
+      useSession: true
     }
   ];
 

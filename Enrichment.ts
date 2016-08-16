@@ -21,18 +21,18 @@ class Enrichment extends ALineUpView {
       label: 'Alteration Type',
       id: ParameterFormIds.ALTERATION_TYPE,
       options: {
-        optionsData: alteration_types,
-        useSession: true
-      }
+        optionsData: alteration_types
+      },
+      useSession: true
     },
     {
       type: FormElementType.SELECT,
       label: 'Tumor Type',
       id: ParameterFormIds.TUMOR_TYPE,
       options: {
-        optionsData: sample_tumor_type,
-        useSession: true
-      }
+        optionsData: sample_tumor_type
+      },
+      useSession: true
     }
   ];
 

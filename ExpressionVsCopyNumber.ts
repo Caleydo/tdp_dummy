@@ -23,9 +23,9 @@ class ExpressionVsCopyNumber extends AView {
       label: 'Tumor Type',
       id: ParameterFormIds.TUMOR_TYPE,
       options: {
-        optionsData: sample_tumor_type,
-        useSession: true
-      }
+        optionsData: sample_tumor_type
+      },
+      useSession: true
     }
   ];
 

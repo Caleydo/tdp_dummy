@@ -22,8 +22,8 @@ class ModelSystems extends ALineUpView {
       id: ParameterFormIds.ALTERATION_TYPE,
       options: {
         optionsData: alteration_types,
-        useSession: true
-      }
+      },
+      useSession: true
     }
   ];
 
