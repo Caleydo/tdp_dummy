@@ -7,7 +7,7 @@
 import ajax = require('../caleydo_core/ajax');
 import {IViewContext, ISelection, ASmallMultipleView} from '../targid2/View';
 import {alteration_types, ParameterFormIds} from './Configs';
-import {FormBuilder, FormElement, IFormSelectDesc} from '../targid2/FormBuilder';
+import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
 
 class SurvivalStats extends ASmallMultipleView {
 
@@ -20,11 +20,11 @@ class SurvivalStats extends ASmallMultipleView {
   private paramForm:FormBuilder;
   private paramDesc:IFormSelectDesc[] = [
     {
-      type: FormElement.SELECT,
+      type: FormElementType.SELECT,
       label: 'Alteration Type',
       id: ParameterFormIds.ALTERATION_TYPE,
       options: {
-        options: alteration_types,
+        optionsData: alteration_types,
         useSession: true
       }
     }

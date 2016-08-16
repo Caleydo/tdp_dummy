@@ -8,7 +8,7 @@ import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
 import {alteration_types, sample_tumor_type, ParameterFormIds} from './Configs';
-import {FormBuilder, FormElement, IFormSelectDesc} from '../targid2/FormBuilder';
+import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
 
 class Enrichment extends ALineUpView {
 
@@ -17,20 +17,20 @@ class Enrichment extends ALineUpView {
   private paramForm:FormBuilder;
   private paramDesc:IFormSelectDesc[] = [
     {
-      type: FormElement.SELECT,
+      type: FormElementType.SELECT,
       label: 'Alteration Type',
       id: ParameterFormIds.ALTERATION_TYPE,
       options: {
-        options: alteration_types,
+        optionsData: alteration_types,
         useSession: true
       }
     },
     {
-      type: FormElement.SELECT,
+      type: FormElementType.SELECT,
       label: 'Tumor Type',
       id: ParameterFormIds.TUMOR_TYPE,
       options: {
-        options: sample_tumor_type,
+        optionsData: sample_tumor_type,
         useSession: true
       }
     }

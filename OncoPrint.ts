@@ -7,7 +7,7 @@
 import ajax = require('../caleydo_core/ajax');
 import {IViewContext, ISelection, ASmallMultipleView} from '../targid2/View';
 import {sample_tumor_type, ParameterFormIds} from './Configs';
-import {FormBuilder, FormElement, IFormSelectDesc} from '../targid2/FormBuilder';
+import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
 
 export class OncoPrint extends ASmallMultipleView {
 
@@ -27,11 +27,11 @@ export class OncoPrint extends ASmallMultipleView {
   private paramForm:FormBuilder;
   private paramDesc:IFormSelectDesc[] = [
     {
-      type: FormElement.SELECT,
+      type: FormElementType.SELECT,
       label: 'Tumor Type',
       id: ParameterFormIds.TUMOR_TYPE,
       options: {
-        options: sample_tumor_type,
+        optionsData: sample_tumor_type,
         useSession: true
       }
     }

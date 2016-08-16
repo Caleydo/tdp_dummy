@@ -7,7 +7,7 @@
 import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
 import {sample_tumor_type, ParameterFormIds} from './Configs';
-import {FormBuilder, FormElement, IFormSelectDesc} from '../targid2/FormBuilder';
+import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
 
 class ExpressionVsCopyNumber extends AView {
 
@@ -19,11 +19,11 @@ class ExpressionVsCopyNumber extends AView {
   private paramForm:FormBuilder;
   private paramDesc:IFormSelectDesc[] = [
     {
-      type: FormElement.SELECT,
+      type: FormElementType.SELECT,
       label: 'Tumor Type',
       id: ParameterFormIds.TUMOR_TYPE,
       options: {
-        options: sample_tumor_type,
+        optionsData: sample_tumor_type,
         useSession: true
       }
     }
