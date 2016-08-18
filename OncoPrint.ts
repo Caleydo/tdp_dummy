@@ -8,6 +8,7 @@ import ajax = require('../caleydo_core/ajax');
 import {IViewContext, ISelection, ASmallMultipleView} from '../targid2/View';
 import {sample_tumor_type, ParameterFormIds} from './Configs';
 import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
+import {showErrorModalDialog} from '../targid2/Dialogs';
 
 export class OncoPrint extends ASmallMultipleView {
 
@@ -97,21 +98,30 @@ export class OncoPrint extends ASmallMultipleView {
     enterOrUpdateAll.each(function(d) {
       const $id = d3.select(this);
 
-      return that.resolveId(idtype,  d.id, 'IDTypeA')
+      const promise = that.resolveId(idtype,  d.id, 'IDTypeA')
         .then((name) => {
           return ajax.getAPIJSON('/targid/db/dummy/onco_print', {
             a_ids: name,
             b_cat2 : that.getParameter(ParameterFormIds.TUMOR_TYPE)
           });
-        })
-        .then((rows) => {
-          d.rows = rows;
-
-          that.initChart($id);
-          that.updateChartData($id);
-
-          that.setBusy(false);
         });
+
+      // on error
+      promise.catch(showErrorModalDialog)
+        .then((error) => {
+          console.error(error);
+          this.setBusy(false);
+        });
+
+      // on success
+      promise.then((rows) => {
+        d.rows = rows;
+
+        that.initChart($id);
+        that.updateChartData($id);
+
+        that.setBusy(false);
+      });
     });
 
     $ids.exit().remove()

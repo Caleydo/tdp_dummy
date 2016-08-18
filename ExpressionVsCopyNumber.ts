@@ -8,6 +8,7 @@ import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
 import {sample_tumor_type, ParameterFormIds} from './Configs';
 import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
+import {showErrorModalDialog} from '../targid2/Dialogs';
 
 class ExpressionVsCopyNumber extends AView {
 
@@ -112,16 +113,31 @@ class ExpressionVsCopyNumber extends AView {
 
   private update() {
     const idtype = this.selection.idtype;
+
     this.setBusy(true);
-    return this.resolveId(idtype, this.selection.range.first, 'IDTypeA').then((name) => {
-      return ajax.getAPIJSON('/targid/db/dummy/expression_vs_copynumber', {
-        a_id: name,
-        b_cat2 : this.getParameter(ParameterFormIds.TUMOR_TYPE)
+
+    const promise = this.resolveId(idtype, this.selection.range.first, 'IDTypeA')
+      .then((name) => {
+        return ajax.getAPIJSON('/targid/db/dummy/expression_vs_copynumber', {
+          a_id: name,
+          b_cat2 : this.getParameter(ParameterFormIds.TUMOR_TYPE)
+        });
       });
-    }).then((rows) => {
+
+    // on success
+    promise.then((rows) => {
       this.updateChart(rows);
       this.setBusy(false);
     });
+
+    // on error
+    promise.catch(showErrorModalDialog)
+      .then((error) => {
+        console.error(error);
+        this.setBusy(false);
+      });
+
+    return promise;
   }
 }
 

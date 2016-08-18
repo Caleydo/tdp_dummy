@@ -6,6 +6,7 @@
 /// <amd-dependency path='css!./style' />
 import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
+import {showErrorModalDialog} from '../targid2/Dialogs';
 
 class CoExpression extends AView {
 
@@ -76,16 +77,29 @@ class CoExpression extends AView {
     const idtype = this.selection.idtype;
     this.setBusy(true);
     var names: string[] = null;
-    return this.resolveIds(idtype, this.selection.range, 'IDTypeA').then((names_) => {
-      names = names_;
-      return ajax.getAPIJSON('/targid/db/dummy/co_epxression', {
-        a_id1: names_[0],
-        a_id2: names_[1]
+    const promise = this.resolveIds(idtype, this.selection.range, 'IDTypeA')
+      .then((names_) => {
+        names = names_;
+        return ajax.getAPIJSON('/targid/db/dummy/co_epxression', {
+          a_id1: names_[0],
+          a_id2: names_[1]
+        });
       });
-    }).then((rows) => {
+
+    // on success
+    promise.then((rows) => {
       this.updateChart(names[0], names[1], rows);
       this.setBusy(false);
     });
+
+    // on error
+    promise.catch(showErrorModalDialog)
+      .then((error) => {
+        console.error(error);
+        this.setBusy(false);
+      });
+
+    return promise;
   }
 }
 

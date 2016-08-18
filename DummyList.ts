@@ -6,6 +6,7 @@ import ajax = require('../caleydo_core/ajax');
 import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, categoricalCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
+import {showErrorModalDialog} from '../targid2/Dialogs';
 
 
 class AStart extends ALineUpView {
@@ -20,8 +21,15 @@ class AStart extends ALineUpView {
   private build() {
     //generate random data
     this.setBusy(true);
+
     const data = this.cat === null ? ajax.getAPIJSON('/targid/db/dummy/a'): ajax.getAPIJSON('/targid/db/dummy/a_filtered', {cat : this.cat});
-    Promise.all([ajax.getAPIJSON('/targid/db/dummy/a/desc'), data]).then((args) => {
+    const promise = Promise.all([
+        ajax.getAPIJSON('/targid/db/dummy/a/desc'),
+        data
+      ]);
+
+    // on success
+    promise.then((args) => {
       const desc = args[0];
       const rows : any[] = args[1];
       const columns = [
@@ -36,6 +44,13 @@ class AStart extends ALineUpView {
       this.initializedLineUp();
       this.setBusy(false);
     });
+
+    // on error
+    promise.catch(showErrorModalDialog)
+      .then((error) => {
+        console.error(error);
+        this.setBusy(false);
+      });
   }
 }
 
@@ -54,7 +69,14 @@ class BStart extends ALineUpView {
   private build() {
     //generate random data
     this.setBusy(true);
-    Promise.all([ajax.getAPIJSON('/targid/db/dummy/b/desc'), ajax.getAPIJSON('/targid/db/dummy/b')]).then((args) => {
+
+    const promise = Promise.all([
+        ajax.getAPIJSON('/targid/db/dummy/b/desc'),
+        ajax.getAPIJSON('/targid/db/dummy/b')
+      ]);
+
+    // on success
+    promise.then((args) => {
       const desc = args[0];
       const rows : any[] = args[1];
       const columns = [
@@ -69,6 +91,13 @@ class BStart extends ALineUpView {
       this.initializedLineUp();
       this.setBusy(false);
     });
+
+    // on error
+    promise.catch(showErrorModalDialog)
+      .then((error) => {
+        console.error(error);
+        this.setBusy(false);
+      });
   }
 }
 

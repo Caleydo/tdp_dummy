@@ -9,6 +9,7 @@ import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
 import {alteration_types, sample_tumor_type, ParameterFormIds} from './Configs';
 import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
+import {showErrorModalDialog} from '../targid2/Dialogs';
 
 class Enrichment extends ALineUpView {
 
@@ -76,19 +77,37 @@ class Enrichment extends ALineUpView {
   private update() {
     const id = this.selection.range.first;
     const idtype = this.selection.idtype;
+
     this.setBusy(true);
-    return Promise.all([this.lineupPromise, this.resolveId(idtype, id, 'IDTypeA')]).then((args) => {
-      const gene_name = args[1];
-      return ajax.getAPIJSON('/targid/db/dummy/enrichment', {
-        a_id: gene_name,
-        ab_cat: this.getParameter(ParameterFormIds.ALTERATION_TYPE),
-        b_cat2: this.getParameter(ParameterFormIds.TUMOR_TYPE)
+
+    const promise = Promise.all([
+        this.lineupPromise,
+        this.resolveId(idtype, id, 'IDTypeA')
+      ])
+      .then((args) => {
+        const gene_name = args[1];
+        return ajax.getAPIJSON('/targid/db/dummy/enrichment', {
+          a_id: gene_name,
+          ab_cat: this.getParameter(ParameterFormIds.ALTERATION_TYPE),
+          b_cat2: this.getParameter(ParameterFormIds.TUMOR_TYPE)
+        });
       });
-    }).then((rows) => {
+
+    // on success
+    promise.then((rows) => {
       this.replaceLineUpData(rows);
       this.updateMapping('score', rows);
       this.setBusy(false);
     });
+
+    // on error
+    promise.catch(showErrorModalDialog)
+      .then((error) => {
+        console.error(error);
+        this.setBusy(false);
+      });
+
+    return promise;
   }
 
   private build() {
