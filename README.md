@@ -1,7 +1,7 @@
-Targid Dummy Data ![Caleydo Web Server Plugin](https://img.shields.io/badge/Caleydo%20Web-Server-10ACDF.svg) ![Caleydo Web Client Plugin](https://img.shields.io/badge/Caleydo%20Web-Client%20Plugin-F47D20.svg)
+TargID Dummy Data ![Caleydo Web Server Plugin](https://img.shields.io/badge/Caleydo%20Web-Server-10ACDF.svg) ![Caleydo Web Client Plugin](https://img.shields.io/badge/Caleydo%20Web-Client%20Plugin-F47D20.svg)
 ===================
 
-This repository provides a SQLite database with dummy data and additional views for this specific dataset for Targid.
+This repository provides a SQLite database with dummy data and additional views for this specific dataset for TargID.
 
 Installation
 ------------
