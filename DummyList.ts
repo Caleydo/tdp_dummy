@@ -69,8 +69,8 @@ class AStart extends ALineUpView {
 
       var lineup = this.buildLineUp(rows, columns, idtypes.resolve(desc.idType),(d) => d._id);
       useDefaultLayout(lineup);
+      lineup.update();
       this.initializedLineUp();
-      this.setBusy(false);
     });
 
     // on error
@@ -116,8 +116,8 @@ class BStart extends ALineUpView {
       ];
       var lineup = this.buildLineUp(rows, columns, idtypes.resolve(desc.idType),(d) => d._id);
       useDefaultLayout(lineup);
+      lineup.update();
       this.initializedLineUp();
-      this.setBusy(false);
     });
 
     // on error

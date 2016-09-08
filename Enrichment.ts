@@ -119,8 +119,8 @@ class Enrichment extends ALineUpView {
     ];
     var lineup = this.buildLineUp([], columns, idtypes.resolve('IDTypeA'),(d) => d._id);
     useDefaultLayout(lineup);
+    lineup.update();
     this.initializedLineUp();
-    this.setBusy(false);
 
     this.lineupPromise = Promise.resolve(lineup);
   }
