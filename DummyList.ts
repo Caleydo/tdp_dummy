@@ -35,14 +35,15 @@ class AStart extends ALineUpView {
     this.setBusy(true);
 
     var dataPromise;
+    var namedSetIdUrlPrefix = (this.namedSet.id) ? `/namedset/${this.namedSet.id}` : '';
 
-    if(this.namedSet.subTypeKey && this.namedSet.subTypeKey !== '') {
+    if(this.namedSet.subTypeKey && this.namedSet.subTypeKey !== '' && this.namedSet.subTypeValue !== 'all') {
       const param = {};
       param[this.namedSet.subTypeKey] = this.namedSet.subTypeValue;
-      dataPromise = ajax.getAPIJSON(`/targid/db/dummy/a_filtered`, param);
+      dataPromise = ajax.getAPIJSON(`/targid/db/dummy/a_filtered${namedSetIdUrlPrefix}`, param);
 
     } else {
-      dataPromise = ajax.getAPIJSON(`/targid/db/dummy/a`);
+      dataPromise = ajax.getAPIJSON(`/targid/db/dummy/a${namedSetIdUrlPrefix}`);
     }
 
     const promise = Promise.all([
@@ -61,11 +62,6 @@ class AStart extends ALineUpView {
         numberCol2('a_int', desc.columns.a_int.min, desc.columns.a_int.max),
         numberCol2('a_real', desc.columns.a_real.min, desc.columns.a_real.max),
       ];
-
-      // if ids filter is set, filter the rows
-      if(this.namedSet.ids && this.namedSet.ids.length > 0) {
-        rows = this.filterRowsByIds(rows, this.namedSet.ids);
-      }
 
       var lineup = this.buildLineUp(rows, columns, idtypes.resolve(desc.idType),(d) => d._id);
       useDefaultLayout(lineup);
