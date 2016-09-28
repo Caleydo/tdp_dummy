@@ -95,6 +95,7 @@ class Enrichment extends ALineUpView {
 
     // on success
     promise.then((rows) => {
+      this.fillIDTypeMapCache(idtype, rows);
       this.replaceLineUpData(rows);
       this.updateMapping('score', rows);
       this.setBusy(false);

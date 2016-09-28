@@ -55,6 +55,9 @@ class AStart extends ALineUpView {
     promise.then((args) => {
       const desc = args[0];
       var rows : any[] = args[1];
+
+      this.fillIDTypeMapCache(idtypes.resolve(desc.idType), rows);
+
       const columns = [
         stringCol('a_name','Name'),
         categoricalCol('a_cat1', desc.columns.a_cat1.categories),
