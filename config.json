@@ -90,5 +90,8 @@
       "replacements": ["agg", "score"],
       "arguments": ["b_cat2"]
     }
+  },
+  "mappings": {
+
   }
 }
