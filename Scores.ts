@@ -20,14 +20,8 @@ class AvgScore implements IScore<number> {
       domain: [0, 100]
     };
   }
-  compute(ids: ranges.Range, idtype: idtypes.IDType, idMapper:(id:string) => number): Promise<{ [id:string]: number }> {
-    return ajax.getAPIJSON('/targid/db/dummy/avg_score').then((rows: any[]) => {
-      const r : { [id:string]: number } = {};
-      rows.forEach((row) => {
-        r[idMapper(row.id)] = row.score;
-      });
-      return r;
-    });
+  compute(ids: ranges.Range, idtype: idtypes.IDType): Promise<any[]> {
+    return ajax.getAPIJSON('/targid/db/dummy/avg_score');
   }
 }
 

@@ -20,17 +20,11 @@ class ExpressionScore implements IScore<number> {
       domain: this.score === 'ab_int' ? [0, 100] : [-1, 1]
     };
   }
-  compute(ids: ranges.Range, idtype: idtypes.IDType, idMapper:(id:string) => number): Promise<{ [id:string]: number }> {
+  compute(ids: ranges.Range, idtype: idtypes.IDType): Promise<any[]> {
     return ajax.getAPIJSON('/targid/db/dummy/expression_score', {
       score: this.score,
       b_cat2 : this.tumor_sample,
       agg: this.aggregation
-    }).then((rows: any[]) => {
-      const r : { [id:string]: number } = {};
-      rows.forEach((row) => {
-        r[idMapper(row.id)] = row.score;
-      });
-      return r;
     });
   }
 }
