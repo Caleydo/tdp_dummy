@@ -61,11 +61,13 @@
           "id": "dummy_external",
           "name": "DuckDuckGo",
           "type": "targidView",
+          "folder": "targid2",
+          "file": "ProxyView",
           "category": "static",
           "site": "https://duckduckgo.com/?q={id}",
           "argument": "id",
           "idtype": "IDTypeA",
-          "selection": "single"
+          "selection": "multiple"
         },
         {
           "id": "dummy_score",
