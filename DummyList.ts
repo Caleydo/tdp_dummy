@@ -3,7 +3,6 @@
  */
 
 import ajax = require('../caleydo_core/ajax');
-import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView2, stringCol, categoricalCol, numberCol2} from '../targid2/LineUpView';
 import {INamedSet} from '../targid2/storage';

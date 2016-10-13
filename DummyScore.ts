@@ -54,8 +54,8 @@ export function create() {
         id: ParameterFormIds.SCORE_ATTRIBUTE,
         options: {
           optionsData: [
-            { value:"ab_real", name:"Real", data:"ab_real" },
-            { value:"ab_int", name:"Int", data:"ab_int" }
+            { value:'ab_real', name:'Real', data:'ab_real' },
+            { value:'ab_int', name:'Int', data:'ab_int' }
           ]
         },
         useSession: true
@@ -66,9 +66,9 @@ export function create() {
         id: ParameterFormIds.SCORE_AGGREGATION,
         options: {
           optionsData: [
-            { value:"avg", name:"AVG", data:"avg" },
-            { value:"min", name:"MIN", data:"min" },
-            { value:"max", name:"MAX", data:"max" }
+            { value:'avg', name:'AVG', data:'avg' },
+            { value:'min', name:'MIN', data:'min' },
+            { value:'max', name:'MAX', data:'max' }
           ]
         },
         useSession: true
