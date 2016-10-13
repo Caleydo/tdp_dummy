@@ -6,65 +6,22 @@
 /// <amd-dependency path='css!./style' />
 import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
-import {sample_tumor_type, ParameterFormIds} from './Configs';
-import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
 import {showErrorModalDialog} from '../targid2/Dialogs';
 
-class ExpressionVsCopyNumber extends AView {
+class CoExpression extends AView {
 
   private x = d3.scale.linear();
   private y = d3.scale.linear();
   private xAxis = d3.svg.axis().orient('bottom').scale(this.x);
   private yAxis = d3.svg.axis().orient('left').scale(this.y);
 
-  private paramForm:FormBuilder;
-  private paramDesc:IFormSelectDesc[] = [
-    {
-      type: FormElementType.SELECT,
-      label: 'Tumor Type',
-      id: ParameterFormIds.TUMOR_TYPE,
-      options: {
-        optionsData: sample_tumor_type
-      },
-      useSession: true
-    }
-  ];
 
-  constructor(context:IViewContext, private selection: ISelection, parent:Element, options?) {
+  constructor(context:IViewContext, private selection:ISelection, parent:Element, options?) {
     super(context, parent, options);
-  }
+    this.$node.classed('dummy-detail', true);
 
-  init() {
     this.build();
     this.update();
-  }
-
-  buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
-    this.paramForm = new FormBuilder($parent);
-
-    // map FormElement change function to provenance graph onChange function
-    this.paramDesc.forEach((p) => {
-      p.options.onChange = (selection, formElement) => onChange(formElement.id, selection.value);
-    });
-
-    this.paramForm.build(this.paramDesc);
-
-    // add other fields
-    super.buildParameterUI($parent.select('form'), onChange);
-  }
-
-  getParameter(name: string): any {
-    return this.paramForm.getElementById(name).value.data;
-  }
-
-  setParameter(name: string, value: any) {
-    this.paramForm.getElementById(name).value = value;
-    return this.update();
-  }
-
-  changeSelection(selection: ISelection) {
-    this.selection = selection;
-    return this.update();
   }
 
   private build() {
@@ -90,7 +47,7 @@ class ExpressionVsCopyNumber extends AView {
   }
 
 
-  private updateChart(rows: {value1: number, value2: number}[]) {
+  private updateChart(gene1: string, gene2: string, rows: {value1: number, value2: number}[]) {
     this.x.domain(d3.extent(rows, (d) => d.value1));
     this.y.domain(d3.extent(rows, (d) => d.value2));
 
@@ -111,22 +68,27 @@ class ExpressionVsCopyNumber extends AView {
 
   }
 
+  changeSelection(selection:ISelection) {
+    this.selection = selection;
+    return this.update();
+  }
+
   private update() {
     const idtype = this.selection.idtype;
-
     this.setBusy(true);
-
-    const promise = this.resolveId(idtype, this.selection.range.first, 'IDTypeA')
-      .then((name) => {
-        return ajax.getAPIJSON('/targid/db/dummy/expression_vs_copynumber', {
-          a_id: name,
-          b_cat2 : this.getParameter(ParameterFormIds.TUMOR_TYPE)
+    var names: string[] = null;
+    const promise = this.resolveIds(idtype, this.selection.range, 'IDTypeA')
+      .then((names_) => {
+        names = names_;
+        return ajax.getAPIJSON('/targid/db/dummy/dummy_detail', {
+          a_id1: names_[0],
+          a_id2: names_[1]
         });
       });
 
     // on success
     promise.then((rows) => {
-      this.updateChart(rows);
+      this.updateChart(names[0], names[1], rows);
       this.setBusy(false);
     });
 
@@ -143,7 +105,7 @@ class ExpressionVsCopyNumber extends AView {
 
 
 export function create(context:IViewContext, selection:ISelection, parent:Element, options?) {
-  return new ExpressionVsCopyNumber(context, selection, parent, options);
+  return new CoExpression(context, selection, parent, options);
 }
 
 

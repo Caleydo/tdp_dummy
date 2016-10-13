@@ -5,19 +5,82 @@
 import ajax = require('../caleydo_core/ajax');
 import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
-import {ALineUpView, stringCol, categoricalCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
-import {showErrorModalDialog} from '../targid2/Dialogs';
+import {ALineUpView2, stringCol, categoricalCol, numberCol2} from '../targid2/LineUpView';
 import {INamedSet} from '../targid2/storage';
+import {FormBuilder} from '../targid2/FormBuilder';
+
+interface IDummyDataSource {
+  name: string;
+  table: string;
+  columns(desc: any) :any[];
+}
+
+const dataSourceA : IDummyDataSource = {
+  name: 'a',
+  table: 'a',
+  columns: (desc) => [
+    stringCol('a_name', 'Name'),
+    categoricalCol('a_cat1', desc.columns.a_cat1.categories),
+    categoricalCol('a_cat2', desc.columns.a_cat2.categories),
+    numberCol2('a_int', desc.columns.a_int.min, desc.columns.a_int.max),
+    numberCol2('a_real', desc.columns.a_real.min, desc.columns.a_real.max)
+  ]
+};
+
+const dataSourceB : IDummyDataSource = {
+  name: 'b',
+  table: 'b',
+  columns: (desc) => [
+    stringCol('b_name', 'Name'),
+    categoricalCol('b_cat1', desc.columns.b_cat1.categories),
+    categoricalCol('b_cat2', desc.columns.b_cat2.categories),
+    numberCol2('b_int', desc.columns.b_int.min, desc.columns.b_int.max),
+    numberCol2('b_real', desc.columns.b_real.min, desc.columns.b_real.max),
+  ]
+};
 
 
-class AStart extends ALineUpView {
-  private namedSet : INamedSet;
+class DummyStartList extends ALineUpView2 {
+  /**
+   * Initialize LineUp view with named set
+   * Override in constructor of extended class
+   */
+  private namedSet: INamedSet;
 
-  constructor(context:IViewContext, selection: ISelection, parent:Element, options?) {
-    super(context, parent, options);
+  /**
+   * Parameter UI form
+   */
+  private paramForm: FormBuilder;
+
+  constructor(context: IViewContext, private dataSource: IDummyDataSource, selection: ISelection, parent: Element, options?) {
+    super(context, selection, parent, options);
     this.namedSet = options.namedSet;
     this.build();
   }
+
+  buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
+    this.paramForm = new FormBuilder($parent);
+
+    const paramConfig = [];
+
+    //add configuration options
+
+    this.paramForm.build(paramConfig);
+
+    // add other fields
+    super.buildParameterUI($parent.select('form'), onChange);
+  }
+
+  getParameter(name: string): any {
+    return this.paramForm.getElementById(name).value.data;
+  }
+
+  setParameter(name: string, value: any) {
+    this.paramForm.getElementById(name).value = value;
+    this.clear();
+    return this.update();
+  }
+
 
   /**
    * Get sub type for named sets
@@ -30,105 +93,43 @@ class AStart extends ALineUpView {
     };
   }
 
-  private build() {
-    //generate random data
-    this.setBusy(true);
+  protected loadColumnDesc() {
+    return ajax.getAPIJSON(`/targid/db/dummy/${this.dataSource.table}/desc`);
+  }
 
-    var dataPromise;
-    var namedSetIdUrlPrefix = (this.namedSet.id) ? `/namedset/${this.namedSet.id}` : '';
+  protected initColumns(desc) {
+    super.initColumns(desc);
 
-    if(this.namedSet.subTypeKey && this.namedSet.subTypeKey !== '' && this.namedSet.subTypeValue !== 'all') {
-      const param = {};
+    const columns = this.dataSource.columns(desc);
+
+    this.build([], columns);
+    return columns;
+  }
+
+  protected loadRows() {
+    const namedSetIdUrl = (this.namedSet.id) ? `/namedset/${this.namedSet.id}` : '';
+    const param = {};
+    var filteredUrl = '';
+
+    if (this.namedSet.subTypeKey && this.namedSet.subTypeKey !== '' && this.namedSet.subTypeValue !== 'all') {
       param[this.namedSet.subTypeKey] = this.namedSet.subTypeValue;
-      dataPromise = ajax.getAPIJSON(`/targid/db/dummy/a_filtered${namedSetIdUrlPrefix}`, param);
-
-    } else {
-      dataPromise = ajax.getAPIJSON(`/targid/db/dummy/a${namedSetIdUrlPrefix}`);
+      filteredUrl = '_filtered';
     }
 
-    const promise = Promise.all([
-        ajax.getAPIJSON(`/targid/db/dummy/a/desc`),
-        dataPromise
-      ]);
+    const baseURL = `/targid/db/dummy/${this.dataSource.table}_${filteredUrl}${namedSetIdUrl}`;
+    return ajax.getAPIJSON(baseURL, param);
+  }
 
-    // on success
-    promise.then((args) => {
-      const desc = args[0];
-      var rows : any[] = args[1];
-
-      this.fillIDTypeMapCache(idtypes.resolve(desc.idType), rows);
-
-      const columns = [
-        stringCol('a_name','Name'),
-        categoricalCol('a_cat1', desc.columns.a_cat1.categories),
-        categoricalCol('a_cat2', desc.columns.a_cat2.categories),
-        numberCol2('a_int', desc.columns.a_int.min, desc.columns.a_int.max),
-        numberCol2('a_real', desc.columns.a_real.min, desc.columns.a_real.max),
-      ];
-
-      var lineup = this.buildLineUp(rows, columns, idtypes.resolve(desc.idType),(d) => d._id);
-      useDefaultLayout(lineup);
-      lineup.update();
-      this.initializedLineUp();
-    });
-
-    // on error
-    promise.catch(showErrorModalDialog)
-      .catch((error) => {
-        console.error(error);
-        this.setBusy(false);
-      });
+  getItemName(count) {
+    return (count === 1) ? this.dataSource.name: this.dataSource.name + 's';
   }
 }
 
-export function createStartA(context:IViewContext, selection: ISelection, parent:Element, options?) {
-  return new AStart(context, selection, parent, options);
+export function createStartA(context: IViewContext, selection: ISelection, parent: Element, options?) {
+  return new DummyStartList(context, dataSourceA, selection, parent, options);
 }
 
-
-class BStart extends ALineUpView {
-  constructor(context:IViewContext, selection: ISelection, parent:Element, options?) {
-    super(context, parent, options);
-    //TODO
-    this.build();
-  }
-
-  private build() {
-    //generate random data
-    this.setBusy(true);
-
-    const promise = Promise.all([
-        ajax.getAPIJSON('/targid/db/dummy/b/desc'),
-        ajax.getAPIJSON('/targid/db/dummy/b')
-      ]);
-
-    // on success
-    promise.then((args) => {
-      const desc = args[0];
-      const rows : any[] = args[1];
-      const columns = [
-        stringCol('b_name','Name'),
-        categoricalCol('b_cat1', desc.columns.b_cat1.categories),
-        categoricalCol('b_cat2', desc.columns.b_cat2.categories),
-        numberCol2('b_int', desc.columns.b_int.min, desc.columns.b_int.max),
-        numberCol2('b_real', desc.columns.b_real.min, desc.columns.b_real.max),
-      ];
-      var lineup = this.buildLineUp(rows, columns, idtypes.resolve(desc.idType),(d) => d._id);
-      useDefaultLayout(lineup);
-      lineup.update();
-      this.initializedLineUp();
-    });
-
-    // on error
-    promise.catch(showErrorModalDialog)
-      .catch((error) => {
-        console.error(error);
-        this.setBusy(false);
-      });
-  }
-}
-
-export function createStartB(context:IViewContext, selection: ISelection, parent:Element, options?) {
-  return new BStart(context, selection, parent, options);
+export function createStartB(context: IViewContext, selection: ISelection, parent: Element, options?) {
+  return new DummyStartList(context, dataSourceB, selection, parent, options);
 }
 

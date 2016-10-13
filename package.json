@@ -39,64 +39,23 @@
           "selection": "none"
         },
         {
-          "id": "dummy_a_survival_plots",
-          "name": "Survival",
-          "type": "targidView",
-          "category": "dynamic",
-          "file": "SurvivalStats",
-          "factory": "create",
-          "idtype": "IDTypeA",
-          "selection": "small_multiple"
-        },
-        {
-          "id": "dummy_a_co_expression",
-          "name": "Co-Expression",
+          "id": "dummy_detail",
+          "name": "Dummy Detail View",
           "type": "targidView",
           "category": "static",
-          "file": "CoExpression",
-          "factory": "create",
+          "file": "DummyDetailView",
           "idtype": "IDTypeA",
-          "selection": "2"
+          "selection": "multiple"
         },
         {
-          "id": "dummy_a_enrichment",
-          "name": "Enrichments",
+          "id": "dummy_score",
+          "name": "Dummy Score",
           "type": "targidView",
           "category": "dynamic",
-          "file": "Enrichment",
+          "file": "DummyDependentList",
           "factory": "create",
           "idtype": "IDTypeA",
           "selection": "single"
-        },
-        {
-          "id": "dummy_a_expression_vs_copynumber",
-          "name": "Expression vs. CN",
-          "type": "targidView",
-          "category": "dynamic",
-          "file": "ExpressionVsCopyNumber",
-          "factory": "create",
-          "idtype": "IDTypeA",
-          "selection": "single"
-        },
-        {
-          "id": "dummy_a_model_systems",
-          "name": "Model Systems",
-          "type": "targidView",
-          "category": "dynamic",
-          "file": "ModelSystems",
-          "factory": "create",
-          "idtype": "IDTypeA",
-          "selection": "single"
-        },
-        {
-          "id": "dummy_a_onco_print",
-          "name": "Oncoprint",
-          "type": "targidView",
-          "category": "dynamic",
-          "file": "OncoPrint",
-          "factory": "create",
-          "idtype": "IDTypeA",
-          "selection": "some"
         },
         {
           "id": "dummy_external",
@@ -107,28 +66,6 @@
           "argument": "id",
           "idtype": "IDTypeA",
           "selection": "single"
-        },
-        {
-          "id": "dummy_avgscore",
-          "name": "Avg Score",
-          "type": "targidScore",
-          "file": "Scores",
-          "idtype": "IDTypeA"
-        },
-        {
-          "id": "dummy_avgscore2",
-          "name": "Avg Score (P)",
-          "type": "targidScore",
-          "file": "Scores",
-          "factory": "createParameterized",
-          "idtype": "IDTypeA"
-        },
-        {
-          "id": "dummy_expressionscore",
-          "name": "Expression Score",
-          "type": "targidScore",
-          "file": "ExpressionScore",
-          "idtype": "IDTypeA"
         }
       ],
       "python": [

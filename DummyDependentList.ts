@@ -7,11 +7,11 @@ import ajax = require('../caleydo_core/ajax');
 import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
-import {alteration_types, ParameterFormIds} from './Configs';
+import {alteration_types, sample_tumor_type, ParameterFormIds} from './Configs';
 import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
 import {showErrorModalDialog} from '../targid2/Dialogs';
 
-class ModelSystems extends ALineUpView {
+class DummyDependentList extends ALineUpView {
 
   private lineupPromise : Promise<any>;
 
@@ -22,7 +22,16 @@ class ModelSystems extends ALineUpView {
       label: 'Alteration Type',
       id: ParameterFormIds.ALTERATION_TYPE,
       options: {
-        optionsData: alteration_types,
+        optionsData: alteration_types
+      },
+      useSession: true
+    },
+    {
+      type: FormElementType.SELECT,
+      label: 'Tumor Type',
+      id: ParameterFormIds.TUMOR_TYPE,
+      options: {
+        optionsData: sample_tumor_type
       },
       useSession: true
     }
@@ -77,15 +86,18 @@ class ModelSystems extends ALineUpView {
       ])
       .then((args) => {
         const gene_name = args[1];
-        return ajax.getAPIJSON('/targid/db/dummy/model_systems', {
+        return ajax.getAPIJSON('/targid/db/dummy/enrichment', {
           a_id: gene_name,
-          ab_cat: this.getParameter(ParameterFormIds.ALTERATION_TYPE)
+          ab_cat: this.getParameter(ParameterFormIds.ALTERATION_TYPE),
+          b_cat2: this.getParameter(ParameterFormIds.TUMOR_TYPE)
         });
       });
 
     // on success
     promise.then((rows) => {
+      this.fillIDTypeMapCache(idtype, rows);
       this.replaceLineUpData(rows);
+      this.updateMapping('score', rows);
       this.setBusy(false);
     });
 
@@ -103,18 +115,19 @@ class ModelSystems extends ALineUpView {
     //generate random data
     this.setBusy(true);
     const columns = [
-      stringCol('b_name','Name'),
-      numberCol2('ab_real', -1, 1),
+      stringCol('a_name','Name'),
+      numberCol2('score', 0, 100),
     ];
-    var lineup = this.buildLineUp([], columns, idtypes.resolve('IDTypeB'),(d) => d._id);
+    var lineup = this.buildLineUp([], columns, idtypes.resolve('IDTypeA'),(d) => d._id);
     useDefaultLayout(lineup);
-    this.setBusy(false);
+    lineup.update();
+    this.initializedLineUp();
 
     this.lineupPromise = Promise.resolve(lineup);
   }
 }
 export function create(context:IViewContext, selection: ISelection, parent:Element, options?) {
-  return new ModelSystems(context, selection, parent, options);
+  return new DummyDependentList(context, selection, parent, options);
 }
 
 

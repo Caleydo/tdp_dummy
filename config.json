@@ -49,42 +49,17 @@
       "querySort": "select ${targid_dummy.index}, %s as _score from ${table} t order by _score %s",
       "querySearch": "select ${targid_dummy.index} from ${table} t where %s like :query"
     },
-    "survival_stats": {
-      "idType": "IDTypeB",
-      "query": "SELECT b_id as id, b_int, ab_cat FROM b INNER JOIN ab ON b.id = ab.b_id WHERE a_id = :a_id",
-      "arguments": ["a_id"]
-    },
-    "co_epxression": {
+    "dummy_detail": {
       "idType": "IDTypeB",
       "query": "SELECT a1.b_id as id, a1.ab_real as value1, a2.ab_real as value2 FROM ab a1 INNER JOIN ab a2 ON a1.b_id = a2.b_id WHERE a1.a_id = :a_id1 and a2.a_id = :a_id2",
       "arguments": ["a_id1", "a_id2"]
     },
-    "enrichment": {
+    "dummy_dependent": {
       "idType": "IDTypeA",
       "query": "SELECT a.id as id, a_name, max(ab_int) as score FROM ab INNER JOIN a ON a.id = ab.a_id INNER JOIN  b ON b.id = ab.b_id WHERE ab.ab_cat = :ab_cat AND b.b_cat2 = :b_cat2 AND ab_int > (select max(ab_int) FROM ab INNER JOIN b ON b.id = ab.b_id WHERE ab.ab_cat = :ab_cat AND b.b_cat2 = :b_cat2 AND ab.a_id = :a_id) GROUP BY a.id",
       "arguments": ["a_id", "ab_cat", "b_cat2"]
     },
-    "expression_vs_copynumber": {
-      "idType": "IDTypeB",
-      "query": "SELECT b_id as id, ab_real as value1, ab_int as value2 FROM b INNER JOIN ab ON b.id = ab.b_id WHERE a_id = :a_id AND b_cat2 = :b_cat2",
-      "arguments": ["a_id", "b_cat2"]
-    },
-    "model_systems": {
-      "idType": "IDTypeB",
-      "query": "SELECT b_id as id, b_name, ab_real FROM b INNER JOIN ab ON b.id = ab.b_id WHERE a_id = :a_id AND ab_cat = :ab_cat",
-      "arguments": ["a_id", "ab_cat"]
-    },
-    "onco_print": {
-      "idType": "IDTypeB",
-      "query": "SELECT b_id as id, b_name, a_name, ab_cat FROM ab INNER JOIN a ON a.id = ab.a_id INNER JOIN b ON b.id = ab.b_id WHERE a_id IN (%(a_ids)s) AND b_cat2 = :b_cat2",
-      "replacements": ["a_ids"],
-      "arguments": ["b_cat2"]
-    },
-    "avg_score": {
-      "idType": "IDTypeA",
-      "query": "SELECT a_id as id, avg(ab_int) as score FROM ab GROUP BY ab.a_id"
-    },
-    "expression_score": {
+    "score": {
       "idType": "IDTypeA",
       "query": "SELECT a_id as id, %(agg)s(%(score)s) as score FROM ab INNER JOIN b ON b.id = ab.b_id WHERE b.b_cat2 = :b_cat2 GROUP BY ab.a_id",
       "replacements": ["agg", "score"],
