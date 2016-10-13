@@ -4,7 +4,7 @@
 
 import {IPluginDesc} from '../caleydo_core/plugin';
 import {IEntryPointList, AEntryPointList} from '../targid2/StartMenu';
-import {gene_species} from './Configs';
+import {categories} from './Configs';
 import {INamedSet} from '../targid2/storage';
 
 /**
@@ -24,7 +24,7 @@ class DummyEntryPointList extends AEntryPointList {
     this.idType = 'IDTypeA';
 
     // read species
-    var species:string[] = gene_species.slice(0);
+    var species:string[] = categories.slice(0);
     species.unshift('all');
 
     // convert species to namedset

@@ -55,7 +55,6 @@ class DummyStartList extends ALineUpView2 {
   constructor(context: IViewContext, private dataSource: IDummyDataSource, selection: ISelection, parent: Element, options?) {
     super(context, selection, parent, options);
     this.namedSet = options.namedSet;
-    this.build();
   }
 
   buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
@@ -108,7 +107,9 @@ class DummyStartList extends ALineUpView2 {
 
   protected loadRows() {
     const namedSetIdUrl = (this.namedSet.id) ? `/namedset/${this.namedSet.id}` : '';
-    const param = {};
+    const param = {
+      _assignids : true //assign globally ids on the server side
+    };
     var filteredUrl = '';
 
     if (this.namedSet.subTypeKey && this.namedSet.subTypeKey !== '' && this.namedSet.subTypeValue !== 'all') {
@@ -116,7 +117,7 @@ class DummyStartList extends ALineUpView2 {
       filteredUrl = '_filtered';
     }
 
-    const baseURL = `/targid/db/dummy/${this.dataSource.table}_${filteredUrl}${namedSetIdUrl}`;
+    const baseURL = `/targid/db/dummy/${this.dataSource.table}${filteredUrl}${namedSetIdUrl}`;
     return ajax.getAPIJSON(baseURL, param);
   }
 

@@ -7,7 +7,7 @@ import ajax = require('../caleydo_core/ajax');
 import idtypes = require('../caleydo_core/idtype');
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView, stringCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
-import {alteration_types, sample_tumor_type, ParameterFormIds} from './Configs';
+import {types, samples, ParameterFormIds} from './Configs';
 import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
 import {showErrorModalDialog} from '../targid2/Dialogs';
 
@@ -19,19 +19,19 @@ class DummyDependentList extends ALineUpView {
   private paramDesc:IFormSelectDesc[] = [
     {
       type: FormElementType.SELECT,
-      label: 'Alteration Type',
-      id: ParameterFormIds.ALTERATION_TYPE,
+      label: 'Type',
+      id: ParameterFormIds.TYPE,
       options: {
-        optionsData: alteration_types
+        optionsData: types
       },
       useSession: true
     },
     {
       type: FormElementType.SELECT,
-      label: 'Tumor Type',
-      id: ParameterFormIds.TUMOR_TYPE,
+      label: 'Sample Type',
+      id: ParameterFormIds.SAMPLE,
       options: {
-        optionsData: sample_tumor_type
+        optionsData: samples
       },
       useSession: true
     }
@@ -86,10 +86,11 @@ class DummyDependentList extends ALineUpView {
       ])
       .then((args) => {
         const gene_name = args[1];
-        return ajax.getAPIJSON('/targid/db/dummy/enrichment', {
+        return ajax.getAPIJSON('/targid/db/dummy/dummy_dependent', {
+          _assignids : true, //assign globally ids on the server side
           a_id: gene_name,
-          ab_cat: this.getParameter(ParameterFormIds.ALTERATION_TYPE),
-          b_cat2: this.getParameter(ParameterFormIds.TUMOR_TYPE)
+          ab_cat: this.getParameter(ParameterFormIds.TYPE),
+          b_cat2: this.getParameter(ParameterFormIds.SAMPLE)
         });
       });
 

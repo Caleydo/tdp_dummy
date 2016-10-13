@@ -8,6 +8,7 @@ import {IScore} from '../targid2/LineUpView';
 import idtypes = require('../caleydo_core/idtype');
 import ranges = require('../caleydo_core/range');
 import dialogs = require('../caleydo_bootstrap_fontawesome/dialogs');
+import {samples, ParameterFormIds} from './Configs';
 import {FormBuilder, IFormElementDesc, FormElementType} from '../targid2/FormBuilder';
 
 class DummyScore implements IScore<number> {
@@ -24,6 +25,7 @@ class DummyScore implements IScore<number> {
   }
   compute(ids: ranges.Range, idtype: idtypes.IDType): Promise<any[]> {
     return ajax.getAPIJSON('/targid/db/dummy/score', {
+      _assignids : true, //assign globally ids on the server side
       score: this.score,
       b_cat2 : this.tumor_sample,
       agg: this.aggregation
@@ -40,22 +42,16 @@ export function create() {
       {
         type: FormElementType.SELECT,
         label: 'Sample',
-        id: 'dummySample',
+        id: ParameterFormIds.SAMPLE,
         options: {
-          optionsData: [
-            { value:"BCatB 1", name:"BCatB 1", data:"BCatB 1" },
-            { value:"BCatB 2", name:"BCatB 2", data:"BCatB 2" },
-            { value:"BCatB 3", name:"BCatB 3", data:"BCatB 3" },
-            { value:"BCatB 4", name:"BCatB 4", data:"BCatB 4" },
-            { value:"BCatB 5", name:"BCatB 5", data:"BCatB 5" }
-          ]
+          optionsData: samples
         },
         useSession: true
       },
       {
         type: FormElementType.SELECT,
         label: 'Score',
-        id: 'dummyScore',
+        id: ParameterFormIds.SCORE_ATTRIBUTE,
         options: {
           optionsData: [
             { value:"ab_real", name:"Real", data:"ab_real" },
@@ -67,7 +63,7 @@ export function create() {
       {
         type: FormElementType.SELECT,
         label: 'Aggregation',
-        id: 'dummyAggregation',
+        id: ParameterFormIds.SCORE_AGGREGATION,
         options: {
           optionsData: [
             { value:"avg", name:"AVG", data:"avg" },
@@ -84,7 +80,7 @@ export function create() {
     dialog.onSubmit(() => {
       const data = form.getElementData();
 
-      const score = new DummyScore(data.dummyScore, data.dummySample, data.dummyAggregation);
+      const score = new DummyScore(data[ParameterFormIds.SCORE_ATTRIBUTE], data[ParameterFormIds.SAMPLE], data[ParameterFormIds.SCORE_AGGREGATION]);
 
       dialog.hide();
       resolve(score);

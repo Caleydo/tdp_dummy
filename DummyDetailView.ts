@@ -8,7 +8,7 @@ import ajax = require('../caleydo_core/ajax');
 import {AView, IViewContext, ISelection} from '../targid2/View';
 import {showErrorModalDialog} from '../targid2/Dialogs';
 
-class CoExpression extends AView {
+class DummyDetailView extends AView {
 
   private x = d3.scale.linear();
   private y = d3.scale.linear();
@@ -105,7 +105,7 @@ class CoExpression extends AView {
 
 
 export function create(context:IViewContext, selection:ISelection, parent:Element, options?) {
-  return new CoExpression(context, selection, parent, options);
+  return new DummyDetailView(context, selection, parent, options);
 }
 
 

@@ -45,11 +45,11 @@
           "category": "static",
           "file": "DummyDetailView",
           "idtype": "IDTypeA",
-          "selection": "multiple"
+          "selection": "2"
         },
         {
-          "id": "dummy_score",
-          "name": "Dummy Score",
+          "id": "dummy_dependent",
+          "name": "Dummy Dependent List",
           "type": "targidView",
           "category": "dynamic",
           "file": "DummyDependentList",
@@ -66,6 +66,13 @@
           "argument": "id",
           "idtype": "IDTypeA",
           "selection": "single"
+        },
+        {
+          "id": "dummy_score",
+          "name": "Dummy Score",
+          "type": "targidScore",
+          "file": "DummyScore",
+          "idtype": "IDTypeA"
         }
       ],
       "python": [
