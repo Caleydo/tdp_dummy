@@ -6,7 +6,6 @@
   "dependencies": {
   },
   "peerDependencies": {
-    "caleydo_data_sql": "*",
     "targid2": "*"
   },
   "caleydo": {
