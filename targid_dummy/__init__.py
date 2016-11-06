@@ -12,7 +12,7 @@ def phovea(registry):
   """
   # generator-phovea:begin
   registry.append('targid-sql-database-definition', 'dummy', 'targid_dummy.', {
-   'configKey': 'targid_dummy'
+     'configKey': 'targid_dummy'
   })
   # generator-phovea:end
   pass

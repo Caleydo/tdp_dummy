@@ -1,5 +1,5 @@
 {
-  "dburl": "sqlite:///${caleydo_server.dir}/plugins/targid_dummy/ab.sqlite",
+  "dburl": "sqlite:///${phovea_server.dir}/targid_dummy/ab.sqlite",
   "index": "(t.rowid-1) as _index",
   "views": {
     "a": {

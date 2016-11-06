@@ -3,10 +3,10 @@
  */
 
 import * as ajax from 'phovea_core/src/ajax';
-import {IViewContext, ISelection} from '../targid2/View';
-import {ALineUpView2, stringCol, categoricalCol, numberCol2} from '../targid2/LineUpView';
-import {INamedSet} from '../targid2/storage';
-import {FormBuilder} from '../targid2/FormBuilder';
+import {IViewContext, ISelection} from 'targid2/src/View';
+import {ALineUpView2, stringCol, categoricalCol, numberCol2} from 'targid2/src/LineUpView';
+import {INamedSet} from 'targid2/src/storage';
+import {FormBuilder} from 'targid2/src/FormBuilder';
 
 interface IDummyDataSource {
   name: string;

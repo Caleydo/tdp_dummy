@@ -44,7 +44,7 @@ module.exports = function(registry) {
   'selection': 'single'
  });
 
-  registry.push('targidView', 'dummy_external', function() { return System.import('./src/ProxyView'); }, {
+  registry.push('targidView', 'dummy_external', function() { return System.import('targid2/src/ProxyView'); }, {
   'name': 'DuckDuckGo',
   'folder': 'targid2',
   'category': 'static',

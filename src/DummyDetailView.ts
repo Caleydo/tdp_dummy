@@ -1,12 +1,11 @@
 /**
  * Created by Samuel Gratzl on 27.04.2016.
  */
-/// <reference path='../../tsd.d.ts' />
-
 import './style.scss';
 import * as ajax from 'phovea_core/src/ajax';
-import {AView, IViewContext, ISelection} from '../targid2/View';
-import {showErrorModalDialog} from '../targid2/Dialogs';
+import {AView, IViewContext, ISelection} from 'targid2/src/View';
+import {showErrorModalDialog} from 'targid2/src/Dialogs';
+import * as d3 from 'd3';
 
 class DummyDetailView extends AView {
 
