@@ -2,7 +2,7 @@
  * Created by Samuel Gratzl on 29.01.2016.
  */
 
-import ajax = require('../caleydo_core/ajax');
+import * as ajax from 'phovea_core/src/ajax';
 import {IViewContext, ISelection} from '../targid2/View';
 import {ALineUpView2, stringCol, categoricalCol, numberCol2} from '../targid2/LineUpView';
 import {INamedSet} from '../targid2/storage';

@@ -3,8 +3,8 @@
  */
 /// <reference path='../../tsd.d.ts' />
 
-/// <amd-dependency path='css!./style' />
-import ajax = require('../caleydo_core/ajax');
+import './style.scss';
+import * as ajax from 'phovea_core/src/ajax';
 import {AView, IViewContext, ISelection} from '../targid2/View';
 import {showErrorModalDialog} from '../targid2/Dialogs';
 

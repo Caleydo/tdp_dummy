@@ -3,11 +3,11 @@
  */
 /// <reference path='../../tsd.d.ts' />
 
-import ajax = require('../caleydo_core/ajax');
+import * as ajax from 'phovea_core/src/ajax';
 import {IScore} from '../targid2/LineUpView';
-import idtypes = require('../caleydo_core/idtype');
-import ranges = require('../caleydo_core/range');
-import dialogs = require('../caleydo_bootstrap_fontawesome/dialogs');
+import * as idtypes from 'phovea_core/src/idtype';
+import * as ranges from 'phovea_core/src/range';
+import * as dialogs from 'phovea_bootstrap_fontawesome/src/dialogs';
 import {samples, ParameterFormIds} from './Configs';
 import {FormBuilder, IFormElementDesc, FormElementType} from '../targid2/FormBuilder';
 
