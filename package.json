@@ -48,11 +48,32 @@
     "node": ">= 6",
     "iojs": ">= 3"
   },
+  "dependencies": {
+    "phovea_clue": "github:phovea/targid2"
+  },
+  "name": "targid_dummy",
+  "description": "",
+  "homepage": "https://phovea.caleydo.org",
+  "version": "0.0.1",
+  "author": {
+    "name": "The Caleydo Team",
+    "email": "contact@caleydo.org",
+    "url": "https://caleydo.org"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/caleydo/targid_dummy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/caleydo/targid_dummy.git"
+  },
   "devDependencies": {
     "@types/jasmine": "^2.5.35",
     "awesome-typescript-loader": "^2.2.4",
     "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "extract-loader": "0.0.2",
     "file-loader": "^0.9.0",
     "html-loader": "^0.4.4",
     "imports-loader": "^0.6.5",
@@ -77,25 +98,5 @@
     "url-loader": "^0.5.7",
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.10"
-  },
-  "dependencies": {
-    "phovea_clue": "github:phovea/targid2"
-  },
-  "name": "targid_dummy",
-  "description": "",
-  "homepage": "https://phovea.caleydo.org",
-  "version": "0.0.1",
-  "author": {
-    "name": "The Caleydo Team",
-    "email": "contact@caleydo.org",
-    "url": "https://caleydo.org"
-  },
-  "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/phovea/targid_dummy/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/phovea/targid_dummy.git"
   }
 }

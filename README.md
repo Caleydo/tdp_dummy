@@ -7,7 +7,7 @@ Installation
 ------------
 
 ```
-git clone https://github.com/phovea/targid_dummy.git
+git clone https://github.com/caleydo/targid_dummy.git
 cd targid_dummy
 npm install
 ```
@@ -38,7 +38,7 @@ This repository is part of **[Phovea](http://phovea.caleydo.org/)**, a platform 
 [phovea-url]: https://phovea.caleydo.org
 [npm-image]: https://badge.fury.io/js/targid_dummy.svg
 [npm-url]: https://npmjs.org/package/targid_dummy
-[travis-image]: https://travis-ci.org/phovea/targid_dummy.svg?branch=master
-[travis-url]: https://travis-ci.org/phovea/targid_dummy
-[daviddm-image]: https://david-dm.org/phovea/targid_dummy.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/phovea/targid_dummy
+[travis-image]: https://travis-ci.org/caleydo/targid_dummy.svg?branch=master
+[travis-url]: https://travis-ci.org/caleydo/targid_dummy
+[daviddm-image]: https://david-dm.org/caleydo/targid_dummy.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/caleydo/targid_dummy

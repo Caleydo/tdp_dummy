@@ -1,9 +1,9 @@
 {
   "generator-phovea": {
-    "type": "lib-server",
+    "type": "lib-slib",
     "name": "targid_dummy",
     "author": "The Caleydo Team",
-    "githubAccount": "phovea",
+    "githubAccount": "caleydo",
     "modules": [
       "targid2"
     ],
