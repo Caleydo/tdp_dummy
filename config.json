@@ -1,6 +1,10 @@
 {
   "dburl": "sqlite:///${caleydo_server.dir}/plugins/targid_dummy/ab.sqlite",
   "index": "(t.rowid-1) as _index",
+  "agg_score": {
+    "query": "%(agg)s(%(score)s)",
+    "replacements": ["agg", "score"]
+  },
   "views": {
     "a": {
       "table": "a",
@@ -69,8 +73,8 @@
     },
     "score": {
       "idType": "IDTypeA",
-      "query": "SELECT cast(a_id as text) as id, %(agg)s(%(score)s) as score FROM ab INNER JOIN b ON b.id = ab.b_id WHERE b.b_cat2 = :b_cat2 GROUP BY ab.a_id",
-      "replacements": ["agg", "score"],
+      "query": "SELECT cast(a_id as text) as id, %(agg_score)s as score FROM ab INNER JOIN b ON b.id = ab.b_id WHERE b.b_cat2 = :b_cat2 GROUP BY ab.a_id",
+      "replacements": ["agg", "score", "agg_score"],
       "arguments": ["b_cat2"]
     }
   },
