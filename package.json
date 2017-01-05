@@ -70,6 +70,7 @@
     "build:web": "webpack --env prod"
   },
   "dependencies": {
+    "targid2": "github:Caleydo/targid2#master"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.35",
