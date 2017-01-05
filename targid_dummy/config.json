@@ -1,6 +1,10 @@
 {
   "dburl": "sqlite:///${phovea_server.dir}/targid_dummy/ab.sqlite",
   "index": "(t.rowid-1) as _index",
+  "agg_score": {
+    "query": "%(agg)s(%(score)s)",
+    "replacements": ["agg", "score"]
+  },
   "views": {
     "a": {
       "table": "a",
@@ -28,17 +32,25 @@
         }
       },
       "column_query": "cast(id as text) as id, a_name, a_cat1, a_cat2, a_int, a_real",
-      "queryStats": "select min(a_int) as a_int_min, max(a_int) as a_int_max, min(a_real) as a_real_min, max(a_real) as a_real_max from ${table}",
-      "queryCategories": "select distinct %(col)s as cat from ${table} where %(col)s is not null and %(col)s <> ''",
-      "query": "select ${targid_dummy.index}, ${column_query} from ${table} t",
-      "querySlice": "select ${targid_dummy.index}, ${column_query} from ${table} t where _index in (:query)",
-      "querySample": "select ${targid_dummy.index} from ${table} t order by random() limit %s",
-      "querySort": "select ${targid_dummy.index}, %s as _score from ${table} t order by _score %s",
-      "querySearch": "select ${targid_dummy.index} from ${table} t where %s like :query"
+      "queryStats": "SELECT min(a_int) as a_int_min, max(a_int) as a_int_max, min(a_real) as a_real_min, max(a_real) as a_real_max FROM ${table}",
+      "queryCategories": "SELECT distinct %(col)s as cat FROM ${table} WHERE %(col)s is not null AND %(col)s <> ''",
+      "query": "SELECT ${targid_dummy.index}, ${column_query} FROM ${table} t",
+      "querySlice": "SELECT ${targid_dummy.index}, ${column_query} FROM ${table} t WHERE _index IN (:query)",
+      "querySample": "SELECT ${targid_dummy.index} FROM ${table} t ORDER BY random() LIMIT %s",
+      "querySort": "SELECT ${targid_dummy.index}, %s as _score FROM ${table} t ORDER BY _score %s",
+      "querySearch": "SELECT ${targid_dummy.index} FROM ${table} t WHERE %s LIKE :query"
+    },
+    "a_namedset": {
+      "idType": "IDTypeA",
+      "query": [
+        "SELECT ${targid_dummy.index}, ${targid_dummy.views.a.column_query} ",
+        "FROM ${targid_dummy.views.a.table} t WHERE id IN (%(ids)s)"
+      ],
+      "replacements": ["ids"]
     },
     "a_filtered": {
       "idType": "IDTypeA",
-      "query": "select ${targid_dummy.index}, ${targid_dummy.views.a.column_query} from a t WHERE a_cat1 = :cat",
+      "query": "SELECT ${targid_dummy.index}, ${targid_dummy.views.a.column_query} FROM ${targid_dummy.views.a.table} t WHERE a_cat1 = :cat",
       "arguments": [
         "cat"
       ]
@@ -96,14 +108,9 @@
     },
     "score": {
       "idType": "IDTypeA",
-      "query": "SELECT cast(a_id as text) as id, %(agg)s(%(score)s) as score FROM ab INNER JOIN b ON b.id = ab.b_id WHERE b.b_cat2 = :b_cat2 GROUP BY ab.a_id",
-      "replacements": [
-        "agg",
-        "score"
-      ],
-      "arguments": [
-        "b_cat2"
-      ]
+      "query": "SELECT cast(a_id as text) as id, %(agg_score)s as score FROM ab INNER JOIN b ON b.id = ab.b_id WHERE b.b_cat2 = :b_cat2 GROUP BY ab.a_id",
+      "replacements": ["agg", "score", "agg_score"],
+      "arguments": ["b_cat2"]
     }
   },
   "mappings": {}
