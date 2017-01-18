@@ -29,7 +29,7 @@ class DummyDetailView extends AView {
       width = 960 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
-    var svg = this.$node.append('svg')
+    const svg = this.$node.append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
@@ -75,13 +75,13 @@ class DummyDetailView extends AView {
   private update() {
     const idtype = this.selection.idtype;
     this.setBusy(true);
-    var names: string[] = null;
+    let names: string[] = null;
     const promise = this.resolveIds(idtype, this.selection.range, 'IDTypeA')
-      .then((names_) => {
-        names = names_;
-        return ajax.getAPIJSON('/targid/db/dummy/dummy_detail', {
-          a_id1: names_[0],
-          a_id2: names_[1]
+      .then((_names) => {
+        names = _names;
+        return <Promise<{value1: number, value2: number}[]>>ajax.getAPIJSON('/targid/db/dummy/dummy_detail', {
+          a_id1: _names[0],
+          a_id2: _names[1]
         });
       });
 

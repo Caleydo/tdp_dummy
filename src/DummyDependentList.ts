@@ -85,10 +85,10 @@ class DummyDependentList extends ALineUpView {
         this.resolveId(idtype, id, 'IDTypeA')
       ])
       .then((args) => {
-        const gene_name = args[1];
+        const ensg = args[1];
         return ajax.getAPIJSON('/targid/db/dummy/dummy_dependent', {
           _assignids : true, //assign globally ids on the server side
-          a_id: gene_name,
+          a_id: ensg,
           ab_cat: this.getParameter(ParameterFormIds.TYPE),
           b_cat2: this.getParameter(ParameterFormIds.SAMPLE)
         });
@@ -119,7 +119,7 @@ class DummyDependentList extends ALineUpView {
       stringCol('a_name','Name'),
       numberCol2('score', 0, 100),
     ];
-    var lineup = this.buildLineUp([], columns, idtypes.resolve('IDTypeA'),(d) => d._id);
+    const lineup = this.buildLineUp([], columns, idtypes.resolve('IDTypeA'),(d) => d._id);
     useDefaultLayout(lineup);
     lineup.update();
     this.initializedLineUp();
