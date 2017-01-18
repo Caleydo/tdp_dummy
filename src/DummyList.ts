@@ -109,7 +109,7 @@ class DummyStartList extends ALineUpView2 {
     const param = {
       _assignids : true //assign globally ids on the server side
     };
-    var filteredUrl = '';
+    let filteredUrl = '';
 
     if (this.namedSet.subTypeKey && this.namedSet.subTypeKey !== '' && this.namedSet.subTypeValue !== 'all') {
       param[this.namedSet.subTypeKey] = this.namedSet.subTypeValue;
@@ -120,7 +120,7 @@ class DummyStartList extends ALineUpView2 {
     return ajax.getAPIJSON(baseURL, param);
   }
 
-  getItemName(count) {
+  getItemName(count: number) {
     return (count === 1) ? this.dataSource.name: this.dataSource.name + 's';
   }
 }

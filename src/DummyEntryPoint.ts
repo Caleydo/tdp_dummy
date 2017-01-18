@@ -24,7 +24,7 @@ class DummyEntryPointList extends AEntryPointList {
     this.idType = 'IDTypeA';
 
     // read species
-    var species:string[] = categories.slice(0);
+    const species:string[] = categories.slice(0);
     species.unshift('all');
 
     // convert species to namedset

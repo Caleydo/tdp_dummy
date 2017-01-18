@@ -12,14 +12,14 @@ import {FormBuilder, IFormElementDesc, FormElementType} from 'targid2/src/FormBu
 import {select} from 'd3';
 
 class DummyScore implements IScore<number> {
-  constructor(private score: string, private tumor_sample: string, private aggregation) {
+  constructor(private score: string, private tumorSample: string, private aggregation) {
 
   }
 
   createDesc() {
     return {
       type: 'number',
-      label: `${this.aggregation} ${this.score} @ ${this.tumor_sample}`,
+      label: `${this.aggregation} ${this.score} @ ${this.tumorSample}`,
       domain: this.score === 'ab_int' ? [0, 100] : [-1, 1]
     };
   }
@@ -27,7 +27,7 @@ class DummyScore implements IScore<number> {
     return ajax.getAPIJSON('/targid/db/dummy/score', {
       _assignids : true, //assign globally ids on the server side
       score: this.score,
-      b_cat2 : this.tumor_sample,
+      b_cat2 : this.tumorSample,
       agg: this.aggregation
     });
   }
