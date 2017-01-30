@@ -3,22 +3,18 @@
  */
 
 import {IPluginDesc} from 'phovea_core/src/plugin';
-import {IEntryPointList, AEntryPointList} from 'targid2/src/StartMenu';
+import {IEntryPointList, AEntryPointList, IStartMenuSectionEntry, IStartMenuOptions} from 'targid2/src/StartMenu';
 import {categories} from './Configs';
 import {INamedSet} from 'targid2/src/storage';
 
-/**
- * Entry point list from all species and LineUp named sets (aka stored LineUp sessions)
- */
-class DummyEntryPointList extends AEntryPointList {
-
+class DummySelector extends AEntryPointList implements IStartMenuSectionEntry {
   /**
    * Set the idType and the default data and build the list
    * @param parent
    * @param desc
    * @param options
    */
-  constructor(protected parent: HTMLElement, public desc: IPluginDesc, protected options:any) {
+  constructor(parent: HTMLElement, desc: IPluginDesc, options:IStartMenuOptions) {
     super(parent, desc, options);
 
     this.idType = 'IDTypeA';
@@ -42,7 +38,12 @@ class DummyEntryPointList extends AEntryPointList {
 
     this.build();
   }
+
+  getEntryPointLists() {
+    return [this];
+  }
 }
+
 
 /**
  * Create a list for main navigation from all species and LineUp named sets (aka stored LineUp sessions)
@@ -52,5 +53,5 @@ class DummyEntryPointList extends AEntryPointList {
  * @returns {function(): any}
  */
 export function createStartFactory(parent: HTMLElement, desc: IPluginDesc, options:any):IEntryPointList {
-  return new DummyEntryPointList(parent, desc, options);
+  return new DummySelector(parent, desc, options);
 }

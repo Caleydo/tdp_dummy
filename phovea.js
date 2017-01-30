@@ -15,9 +15,11 @@ module.exports = function(registry) {
   'selection': 'none'
  });
 
-  registry.push('targidStartEntryPoint', 'dummy_start_a', function() { return System.import('./src/DummyEntryPoint'); }, {
-  'name': 'Dummy A',
+  registry.push('targidStartMenuSection', 'dummy_start_a', function() { return System.import('./src/DummyEntryPoint'); }, {
+  'name': 'Dummy Data',
+  'cssClass': 'targidDummyData',
   'factory': 'createStartFactory',
+  'priority': 20,
   'viewId': 'dummy_start_a',
   'idtype': 'IDTypeA'
  });
