@@ -1,3 +1,3 @@
 {
-  "dburl": "sqlite:///${phovea_server.dir}/targid_dummy/ab.sqlite"
+  "dburl": "sqlite:///${phovea_server.dir}/ordino_dummy/ab.sqlite"
 }
