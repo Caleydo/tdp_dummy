@@ -1,5 +1,5 @@
 from phovea_server.config import view
-from targid2.dbview import DBViewBuilder
+from targid2.dbview import DBViewBuilder, DBConnector
 
 
 __author__ = 'Samuel Gratzl'
@@ -89,4 +89,4 @@ GROUP BY a.id""")
 
 
 def create():
-  return dict(agg_score=agg_score, views=views, mapping={})
+  return DBConnector(agg_score, views)

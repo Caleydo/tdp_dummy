@@ -11,7 +11,7 @@ def phovea(registry):
   :param registry:
   """
   # generator-phovea:begin
-  registry.append('targid-sql-database-definition', 'dummy', 'targid_dummy.sql')
+  registry.append('targid-sql-database-definition', 'dummy', 'targid_dummy.sql', dict(configKey='targid_dummy'))
   # generator-phovea:end
   pass
 
