@@ -12,4 +12,4 @@ import {register} from 'phovea_core/src/plugin';
 //other modules
 import 'targid2/phovea_registry.js';
 //self
-register('targid_dummy',require('./phovea.js'));
+register('ordino_dummy',require('./phovea.js'));
