@@ -1,25 +1,25 @@
 /**
  * Created by Samuel Gratzl on 27.04.2016.
  */
-/// <reference path='../../tsd.d.ts' />
 
-import ajax = require('../caleydo_core/ajax');
-import {IScore} from '../targid2/LineUpView';
-import idtypes = require('../caleydo_core/idtype');
-import ranges = require('../caleydo_core/range');
-import dialogs = require('../caleydo_bootstrap_fontawesome/dialogs');
+import * as ajax from 'phovea_core/src/ajax';
+import {IScore} from 'targid2/src/LineUpView';
+import * as idtypes from 'phovea_core/src/idtype';
+import * as ranges from 'phovea_core/src/range';
+import * as dialogs from 'phovea_ui/src/dialogs';
 import {samples, ParameterFormIds} from './Configs';
-import {FormBuilder, IFormElementDesc, FormElementType} from '../targid2/FormBuilder';
+import {FormBuilder, IFormElementDesc, FormElementType} from 'targid2/src/FormBuilder';
+import {select} from 'd3';
 
 class DummyScore implements IScore<number> {
-  constructor(private score: string, private tumor_sample: string, private aggregation) {
+  constructor(private score: string, private tumorSample: string, private aggregation) {
 
   }
 
   createDesc() {
     return {
       type: 'number',
-      label: `${this.aggregation} ${this.score} @ ${this.tumor_sample}`,
+      label: `${this.aggregation} ${this.score} @ ${this.tumorSample}`,
       domain: this.score === 'ab_int' ? [0, 100] : [-1, 1]
     };
   }
@@ -27,7 +27,7 @@ class DummyScore implements IScore<number> {
     return ajax.getAPIJSON('/targid/db/dummy/score', {
       _assignids : true, //assign globally ids on the server side
       score: this.score,
-      b_cat2 : this.tumor_sample,
+      b_cat2 : this.tumorSample,
       agg: this.aggregation
     });
   }
@@ -37,7 +37,7 @@ export function create() {
    return new Promise((resolve) => {
      const dialog = dialogs.generateDialog('Add Score Column', 'Add Score Column');
 
-    const form:FormBuilder = new FormBuilder(d3.select(dialog.body));
+    const form:FormBuilder = new FormBuilder(select(dialog.body));
     const formDesc:IFormElementDesc[] = [
       {
         type: FormElementType.SELECT,

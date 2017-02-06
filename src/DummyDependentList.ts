@@ -1,15 +1,15 @@
 /**
  * Created by Samuel Gratzl on 29.01.2016.
  */
-/// <reference path="../../tsd.d.ts" />
 
-import ajax = require('../caleydo_core/ajax');
-import idtypes = require('../caleydo_core/idtype');
-import {IViewContext, ISelection} from '../targid2/View';
-import {ALineUpView, stringCol, numberCol2, useDefaultLayout} from '../targid2/LineUpView';
+
+import * as ajax from 'phovea_core/src/ajax';
+import * as idtypes from 'phovea_core/src/idtype';
+import {IViewContext, ISelection} from 'targid2/src/View';
+import {ALineUpView, stringCol, numberCol2, useDefaultLayout} from 'targid2/src/LineUpView';
 import {types, samples, ParameterFormIds} from './Configs';
-import {FormBuilder, FormElementType, IFormSelectDesc} from '../targid2/FormBuilder';
-import {showErrorModalDialog} from '../targid2/Dialogs';
+import {FormBuilder, FormElementType, IFormSelectDesc} from 'targid2/src/FormBuilder';
+import {showErrorModalDialog} from 'targid2/src/Dialogs';
 
 class DummyDependentList extends ALineUpView {
 
@@ -85,10 +85,10 @@ class DummyDependentList extends ALineUpView {
         this.resolveId(idtype, id, 'IDTypeA')
       ])
       .then((args) => {
-        const gene_name = args[1];
+        const ensg = args[1];
         return ajax.getAPIJSON('/targid/db/dummy/dummy_dependent', {
           _assignids : true, //assign globally ids on the server side
-          a_id: gene_name,
+          a_id: ensg,
           ab_cat: this.getParameter(ParameterFormIds.TYPE),
           b_cat2: this.getParameter(ParameterFormIds.SAMPLE)
         });
@@ -119,7 +119,7 @@ class DummyDependentList extends ALineUpView {
       stringCol('a_name','Name'),
       numberCol2('score', 0, 100),
     ];
-    var lineup = this.buildLineUp([], columns, idtypes.resolve('IDTypeA'),(d) => d._id);
+    const lineup = this.buildLineUp([], columns, idtypes.resolve('IDTypeA'),(d) => d._id);
     useDefaultLayout(lineup);
     lineup.update();
     this.initializedLineUp();

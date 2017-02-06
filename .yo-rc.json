@@ -1,0 +1,113 @@
+{
+  "generator-phovea": {
+    "type": "lib-slib",
+    "name": "targid_dummy",
+    "author": "The Caleydo Team",
+    "githubAccount": "caleydo",
+    "modules": [
+      "targid2"
+    ],
+    "extensions": [
+      {
+        "type": "targidView",
+        "id": "dummy_start_a",
+        "module": "DummyList",
+        "extras": {
+          "name": "Dummy A",
+          "factory": "createStartA",
+          "idtype": "IDTypeA",
+          "selection": "none"
+        }
+      },
+      {
+        "type": "targidStartEntryPoint",
+        "id": "dummy_start_a",
+        "module": "DummyEntryPoint",
+        "extras": {
+          "name": "Dummy A",
+          "factory": "createStartFactory",
+          "viewId": "dummy_start_a",
+          "idtype": "IDTypeA"
+        }
+      },
+      {
+        "type": "targidView",
+        "id": "dummy_start_B",
+        "module": "DummyList",
+        "extras": {
+          "name": "Dummy B",
+          "factory": "createStartB",
+          "idtype": "IDTypeB",
+          "selection": "none"
+        }
+      },
+      {
+        "type": "targidView",
+        "id": "dummy_detail",
+        "module": "DummyDetailView",
+        "extras": {
+          "name": "Dummy Detail View",
+          "category": "static",
+          "idtype": "IDTypeA",
+          "selection": "2"
+        }
+      },
+      {
+        "type": "targidView",
+        "id": "dummy_dependent",
+        "module": "DummyDependentList",
+        "extras": {
+          "name": "Dummy Dependent List",
+          "category": "dynamic",
+          "factory": "create",
+          "idtype": "IDTypeA",
+          "selection": "single"
+        }
+      },
+      {
+        "type": "targidView",
+        "id": "dummy_external",
+        "module": "ProxyView",
+        "extras": {
+          "name": "DuckDuckGo",
+          "folder": "targid2",
+          "category": "static",
+          "site": "https://duckduckgo.com/?q={id}",
+          "argument": "id",
+          "idtype": "IDTypeA",
+          "selection": "multiple"
+        }
+      },
+      {
+        "type": "targidScore",
+        "id": "dummy_score",
+        "module": "DummyScore",
+        "extras": {
+          "name": "Dummy Score",
+          "idtype": "IDTypeA"
+        }
+      }
+    ],
+    "sextensions": [
+      {
+        "type": "targid-sql-database-definition",
+        "id": "dummy",
+        "module": "",
+        "extras": {
+          "configKey": "targid_dummy"
+        }
+      }
+    ],
+    "libraries": [],
+    "unknown": {
+      "requirements": [],
+      "debianPackages": [],
+      "redhatPackages": []
+    },
+    "libraryAliases": {},
+    "libraryExternals": [],
+    "entries": "./index.js",
+    "ignores": [],
+    "today": "Sun, 06 Nov 2016 22:40:46 GMT"
+  }
+}

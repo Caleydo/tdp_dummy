@@ -2,11 +2,11 @@
  * Created by Samuel Gratzl on 29.01.2016.
  */
 
-import ajax = require('../caleydo_core/ajax');
-import {IViewContext, ISelection} from '../targid2/View';
-import {ALineUpView2, stringCol, categoricalCol, numberCol2} from '../targid2/LineUpView';
-import {INamedSet} from '../targid2/storage';
-import {FormBuilder} from '../targid2/FormBuilder';
+import * as ajax from 'phovea_core/src/ajax';
+import {IViewContext, ISelection} from 'targid2/src/View';
+import {ALineUpView2, stringCol, categoricalCol, numberCol2} from 'targid2/src/LineUpView';
+import {INamedSet} from 'targid2/src/storage';
+import {FormBuilder} from 'targid2/src/FormBuilder';
 
 interface IDummyDataSource {
   name: string;
@@ -109,7 +109,7 @@ class DummyStartList extends ALineUpView2 {
     const param = {
       _assignids : true //assign globally ids on the server side
     };
-    var filteredUrl = '';
+    let filteredUrl = '';
 
     if (this.namedSet.subTypeKey && this.namedSet.subTypeKey !== '' && this.namedSet.subTypeValue !== 'all') {
       param[this.namedSet.subTypeKey] = this.namedSet.subTypeValue;
@@ -120,7 +120,7 @@ class DummyStartList extends ALineUpView2 {
     return ajax.getAPIJSON(baseURL, param);
   }
 
-  getItemName(count) {
+  getItemName(count: number) {
     return (count === 1) ? this.dataSource.name: this.dataSource.name + 's';
   }
 }

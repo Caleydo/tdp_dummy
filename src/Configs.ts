@@ -1,7 +1,7 @@
 /**
  * Created by Samuel Gratzl on 29.01.2016.
  */
-/// <reference path="../../tsd.d.ts" />
+
 
 
 export const categories = ['ACat 1', 'ACat 2', 'ACat 3'];

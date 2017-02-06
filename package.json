@@ -1,103 +1,106 @@
 {
   "name": "targid_dummy",
-  "version": "0.0.1",
-  "license" : "SEE LICENSE IN LICENSE",
-  "repository": "Caleydo/targid_dummy",
+  "description": "",
+  "homepage": "https://phovea.caleydo.org",
+  "version": "1.0.1-SNAPSHOT",
+  "author": {
+    "name": "The Caleydo Team",
+    "email": "contact@caleydo.org",
+    "url": "https://caleydo.org"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/caleydo/targid_dummy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/caleydo/targid_dummy.git"
+  },
+  "main": "build/targid_dummy.js",
+  "engines": {
+    "npm": ">= 3",
+    "node": ">= 6",
+    "iojs": ">= 3"
+  },
+  "files": [
+    "src",
+    "index.js",
+    "phovea.js",
+    "phovea_registry.js",
+    "build",
+    "targid_dummy",
+    "__init__.py",
+    "__main__.py",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "docker_packages.txt",
+    "redhat_packages.txt"
+  ],
+  "scripts": {
+    "check": "flake8",
+    "pretest": "echo hybrid",
+    "test": "npm run test:web && npm run test:python",
+    "predist": "echo hybrid",
+    "dist": "npm run dist:web && npm run dist:python",
+    "compile": "tsc",
+    "lint": "tslint -c tslint.json src/**.ts tests/**.ts",
+    "docs": "npm run docs:web && npm run docs:python",
+    "prebuild": "node -e \"process.exit(process.env.PHOVEA_SKIP_TESTS === undefined?1:0)\" || npm run test",
+    "posttest": "echo hybrid",
+    "test:watch": "karma start --autoWatch=true --singleRun=false",
+    "build:dev": "webpack",
+    "build": "npm run build:web && npm run build:python",
+    "start": "webpack-dev-server --inline",
+    "start:hot": "webpack-dev-server --inline --hot",
+    "watch": "webpack --watch",
+    "release:major": "npm version major && npm publish && git push --follow-tags",
+    "release:minor": "npm version minor && npm publish && git push --follow-tags",
+    "release:patch": "npm version patch && npm publish && git push --follow-tags",
+    "pretest:web": "npm run compile",
+    "pretest:python": "npm run check",
+    "posttest:web": "npm run lint",
+    "test:web": "karma start",
+    "test:python": "test ! -d tests || python setup.py test",
+    "predist:web": "npm run build",
+    "dist:web": "mkdirp dist && cd build && tar cvzf ../dist/targid_dummy.tar.gz *",
+    "dist:python": "python setup.py bdist_egg",
+    "docs:web": "typedoc --options typedoc.json src/**.ts",
+    "docs:python": "echo todo creating docs...",
+    "build:python": "python -c \"from distutils.dir_util import mkpath ; mkpath('./build/source')\" && (tar -c ./targid_dummy --exclude '*.pyc' | tar -xC build/source)",
+    "build:web": "webpack --env prod"
+  },
   "dependencies": {
+    "targid2": "github:Caleydo/targid2#migrate"
   },
-  "peerDependencies": {
-    "targid2": "*"
-  },
-  "caleydo": {
-    "plugins": {
-      "web": [
-        {
-          "id": "dummy_start_a",
-          "name": "Dummy A",
-          "type": "targidView",
-          "file": "DummyList",
-          "factory": "createStartA",
-          "idtype": "IDTypeA",
-          "selection": "none"
-        },{
-          "id": "dummy_start_a",
-          "name": "Dummy A",
-          "type": "targidStartEntryPoint",
-          "file": "DummyEntryPoint",
-          "factory": "createStartFactory",
-          "viewId": "dummy_start_a",
-          "idtype": "IDTypeA"
-        },
-        {
-          "id": "dummy_start_B",
-          "name": "Dummy B",
-          "type": "targidView",
-          "file": "DummyList",
-          "factory": "createStartB",
-          "idtype": "IDTypeB",
-          "selection": "none"
-        },
-        {
-          "id": "dummy_detail",
-          "name": "Dummy Detail View",
-          "type": "targidView",
-          "category": "static",
-          "file": "DummyDetailView",
-          "idtype": "IDTypeA",
-          "selection": "2"
-        },
-        {
-          "id": "dummy_dependent",
-          "name": "Dummy Dependent List",
-          "type": "targidView",
-          "category": "dynamic",
-          "file": "DummyDependentList",
-          "factory": "create",
-          "idtype": "IDTypeA",
-          "selection": "single"
-        },
-        {
-          "id": "dummy_external",
-          "name": "DuckDuckGo",
-          "type": "targidView",
-          "folder": "targid2",
-          "file": "ProxyView",
-          "category": "static",
-          "site": "https://duckduckgo.com/?q={id}",
-          "argument": "id",
-          "idtype": "IDTypeA",
-          "selection": "multiple"
-        },
-        {
-          "id": "dummy_score",
-          "name": "Dummy Score",
-          "type": "targidScore",
-          "file": "DummyScore",
-          "idtype": "IDTypeA"
-        }
-      ],
-      "python": [
-        {
-          "type": "targid-sql-database-definition",
-          "id": "dummy",
-          "configKey": "targid_dummy"
-        }
-      ]
-    },
-    "products": [
-      {
-        "name": "TargidDummy",
-        "type": "python",
-        "app": "targid2",
-        "plugins": [
-          "targid2",
-          "targid_dummy",
-          "caleydo_server"
-        ]
-      }
-    ]
-  },
-  "publishConfig": {
-    "registry": "http://registry.caleydo.org/"
+  "devDependencies": {
+    "@types/jasmine": "2.5.40",
+    "awesome-typescript-loader": "3.0.0-beta.18",
+    "css-loader": "0.26.1",
+    "extract-loader": "0.1.0",
+    "extract-text-webpack-plugin": "2.0.0-beta.5",
+    "file-loader": "0.9.0",
+    "html-loader": "0.4.4",
+    "imports-loader": "0.7.0",
+    "jasmine": "2.5.3",
+    "json-loader": "0.5.4",
+    "karma": "1.4.0",
+    "karma-chrome-launcher": "2.0.0",
+    "karma-firefox-launcher": "1.0.0",
+    "karma-jasmine": "1.1.0",
+    "karma-junit-reporter": "2.0.0",
+    "karma-sourcemap-loader": "0.3.7",
+    "karma-webpack": "2.0.1",
+    "mkdirp": "0.5.1",
+    "node-sass": "4.3.0",
+    "null-loader": "0.1.1",
+    "raw-loader": "0.5.1",
+    "sass-loader": "4.1.1",
+    "style-loader": "0.13.1",
+    "tslint": "4.3.1",
+    "typedoc": "0.5.5",
+    "typescript": "2.1.5",
+    "url-loader": "0.5.7",
+    "webpack": "2.1.0-beta.28",
+    "webpack-dev-server": "2.1.0-beta.12"
   }
 }
