@@ -46,9 +46,9 @@ module.exports = function(registry) {
   'selection': 'single'
  });
 
-  registry.push('targidView', 'dummy_external', function() { return System.import('targid2/src/ProxyView'); }, {
+  registry.push('targidView', 'dummy_external', function() { return System.import('ordino/src/ProxyView'); }, {
   'name': 'DuckDuckGo',
-  'folder': 'targid2',
+  'folder': 'ordino',
   'category': 'static',
   'site': 'https://duckduckgo.com/?q={id}',
   'argument': 'id',

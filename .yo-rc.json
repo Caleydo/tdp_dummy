@@ -70,7 +70,7 @@
         "module": "ProxyView",
         "extras": {
           "name": "DuckDuckGo",
-          "folder": "targid2",
+          "folder": "ordino",
           "category": "static",
           "site": "https://duckduckgo.com/?q={id}",
           "argument": "id",
