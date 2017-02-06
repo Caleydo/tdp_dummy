@@ -1,6 +1,6 @@
+# flake8: noqa
 from phovea_server.config import view
 from ordino.dbview import DBViewBuilder, DBConnector
-
 
 __author__ = 'Samuel Gratzl'
 cc = view('targid_dummy')
@@ -14,11 +14,10 @@ agg_score = DBViewBuilder().query('%(agg)s(%(score)s)').replace('agg').replace('
 _column_query_a = 'cast(id as text) as id, a_name, a_cat1, a_cat2, a_int, a_real'
 _column_query_b = 'cast(id as text) as id, b_name, b_cat1, b_cat2, b_int, b_real'
 
+
 views = dict(
-  a=DBViewBuilder()
-    .idtype(idtype_a)
-    .query("""
-SELECT {index}, {columns} FROM a t""".format(index=_index, columns=_column_query_a))
+  a=DBViewBuilder().idtype(idtype_a).query("""
+  SELECT {index}, {columns} FROM a t""".format(index=_index, columns=_column_query_a))
     .query_stats("""
 SELECT min(a_int) as a_int_min, max(a_int) as a_int_max, min(a_real) as a_real_min, max(a_real) as a_real_max FROM a""")
     .query_categories("""
