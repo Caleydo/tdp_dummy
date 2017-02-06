@@ -9,7 +9,7 @@ idtype_a = 'IDTypeA'
 idtype_b = 'IDTypeB'
 
 _index = '(t.rowid-1) as _index'
-agg_score = DBViewBuilder().query('%(agg)s(%(score)s)').replacement('agg').replacement('score').build()
+agg_score = DBViewBuilder().query('%(agg)s(%(score)s)').replace('agg').replace('score').build()
 
 _column_query_a = 'cast(id as text) as id, a_name, a_cat1, a_cat2, a_int, a_real'
 _column_query_b = 'cast(id as text) as id, b_name, b_cat1, b_cat2, b_int, b_real'
