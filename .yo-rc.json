@@ -1,11 +1,11 @@
 {
   "generator-phovea": {
     "type": "lib-slib",
-    "name": "targid_dummy",
+    "name": "ordino_dummy",
     "author": "The Caleydo Team",
     "githubAccount": "caleydo",
     "modules": [
-      "targid2"
+      "ordino"
     ],
     "extensions": [
       {
@@ -70,7 +70,7 @@
         "module": "ProxyView",
         "extras": {
           "name": "DuckDuckGo",
-          "folder": "targid2",
+          "folder": "ordino",
           "category": "static",
           "site": "https://duckduckgo.com/?q={id}",
           "argument": "id",
@@ -94,7 +94,7 @@
         "id": "dummy",
         "module": "",
         "extras": {
-          "configKey": "targid_dummy"
+          "configKey": "ordino_dummy"
         }
       }
     ],

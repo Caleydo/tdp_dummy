@@ -1,8 +1,8 @@
 {
-  "name": "targid_dummy",
+  "name": "ordino_dummy",
   "description": "",
   "homepage": "https://phovea.caleydo.org",
-  "version": "1.0.0",
+  "version": "1.0.1-SNAPSHOT",
   "author": {
     "name": "The Caleydo Team",
     "email": "contact@caleydo.org",
@@ -10,13 +10,13 @@
   },
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/caleydo/targid_dummy/issues"
+    "url": "https://github.com/caleydo/ordino_dummy/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/caleydo/targid_dummy.git"
+    "url": "https://github.com/caleydo/ordino_dummy.git"
   },
-  "main": "build/targid_dummy.js",
+  "main": "build/ordino_dummy.js",
   "engines": {
     "npm": ">= 3",
     "node": ">= 6",
@@ -28,7 +28,7 @@
     "phovea.js",
     "phovea_registry.js",
     "build",
-    "targid_dummy",
+    "ordino_dummy",
     "__init__.py",
     "__main__.py",
     "requirements.txt",
@@ -45,7 +45,7 @@
     "compile": "tsc",
     "lint": "tslint -c tslint.json src/**.ts tests/**.ts",
     "docs": "npm run docs:web && npm run docs:python",
-    "prebuild": "node -e \"process.exit(process.env.PHOVEA_SKIP_TESTS === undefined?1:0)\" || npm run test",
+    "prebuild": "echo hybrid",
     "posttest": "echo hybrid",
     "test:watch": "karma start --autoWatch=true --singleRun=false",
     "build:dev": "webpack",
@@ -59,18 +59,21 @@
     "pretest:web": "npm run compile",
     "pretest:python": "npm run check",
     "posttest:web": "npm run lint",
-    "test:web": "karma start",
+    "test:web": "test ! -d tests || karma start",
     "test:python": "test ! -d tests || python setup.py test",
-    "predist:web": "npm run build",
-    "dist:web": "mkdirp dist && cd build && tar cvzf ../dist/targid_dummy.tar.gz *",
+    "predist:web": "npm run build:web && npm run docs:web",
+    "dist:web": "mkdirp dist && cd build && tar cvzf ../dist/ordino_dummy.tar.gz *",
     "dist:python": "python setup.py bdist_egg",
     "docs:web": "typedoc --options typedoc.json src/**.ts",
     "docs:python": "echo todo creating docs...",
-    "build:python": "python -c \"from distutils.dir_util import mkpath ; mkpath('./build/source')\" && (tar -c ./targid_dummy --exclude '*.pyc' | tar -xC build/source)",
-    "build:web": "webpack --env prod"
+    "build:python": "python -c \"from distutils.dir_util import mkpath ; mkpath('./build/source')\" && (tar -c ./ordino_dummy --exclude '*.pyc' | tar -xC build/source) && cp ab.sqlite build/source/",
+    "build:web": "webpack --env prod",
+    "prebuild:python": "node -e \"process.exit(process.env.PHOVEA_SKIP_TESTS === undefined?1:0)\" || npm run test:python",
+    "prebuild:web": "node -e \"process.exit(process.env.PHOVEA_SKIP_TESTS === undefined?1:0)\" || npm run test:web",
+    "predist:python": "npm run build:python && npm run docs:python"
   },
   "dependencies": {
-    "targid2": "github:Caleydo/targid2#migrate"
+    "ordino": "github:Caleydo/ordino#master"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.40",
@@ -96,6 +99,7 @@
     "raw-loader": "0.5.1",
     "sass-loader": "4.1.1",
     "style-loader": "0.13.1",
+    "tslib": "1.5.0",
     "tslint": "4.3.1",
     "typedoc": "0.5.5",
     "typescript": "2.1.5",

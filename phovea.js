@@ -15,9 +15,11 @@ module.exports = function(registry) {
   'selection': 'none'
  });
 
-  registry.push('targidStartEntryPoint', 'dummy_start_a', function() { return System.import('./src/DummyEntryPoint'); }, {
-  'name': 'Dummy A',
+  registry.push('targidStartMenuSection', 'dummy_start_a', function() { return System.import('./src/DummyEntryPoint'); }, {
+  'name': 'Dummy Data',
+  'cssClass': 'targidDummyData',
   'factory': 'createStartFactory',
+  'priority': 20,
   'viewId': 'dummy_start_a',
   'idtype': 'IDTypeA'
  });
@@ -44,9 +46,9 @@ module.exports = function(registry) {
   'selection': 'single'
  });
 
-  registry.push('targidView', 'dummy_external', function() { return System.import('targid2/src/ProxyView'); }, {
+  registry.push('targidView', 'dummy_external', function() { return System.import('ordino/src/ProxyView'); }, {
   'name': 'DuckDuckGo',
-  'folder': 'targid2',
+  'folder': 'ordino',
   'category': 'static',
   'site': 'https://duckduckgo.com/?q={id}',
   'argument': 'id',

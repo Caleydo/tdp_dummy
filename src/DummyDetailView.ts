@@ -3,8 +3,8 @@
  */
 import './style.scss';
 import * as ajax from 'phovea_core/src/ajax';
-import {AView, IViewContext, ISelection} from 'targid2/src/View';
-import {showErrorModalDialog} from 'targid2/src/Dialogs';
+import {AView, IViewContext, ISelection} from 'ordino/src/View';
+import {showErrorModalDialog} from 'ordino/src/Dialogs';
 import * as d3 from 'd3';
 
 class DummyDetailView extends AView {
