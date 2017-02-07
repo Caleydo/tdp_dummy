@@ -73,7 +73,7 @@
     "predist:python": "npm run build:python && npm run docs:python"
   },
   "dependencies": {
-    "ordino": "github:Caleydo/ordino#develop"
+    "ordino": "github:Caleydo/ordino#master"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.41",
