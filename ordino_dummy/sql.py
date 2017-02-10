@@ -88,4 +88,7 @@ GROUP BY a.id""")
 
 
 def create():
-  return DBConnector(agg_score, views)
+  from os import path
+  connector = DBConnector(agg_score, views)
+  connector.dburl = 'sqlite:///' + path.abspath(path.dirname(__file__)+'/ab.sqlite')
+  return connector
