@@ -56,10 +56,13 @@ module.exports = function(registry) {
   'selection': 'multiple'
  });
 
-  registry.push('targidScore', 'dummy_score', function() { return System.import('./src/DummyScore'); }, {
-  'name': 'Dummy Score',
-  'idtype': 'IDTypeA'
- });
+  registry.push('ordinoScore', 'dummy_score', function() { return System.import('./src/DummyScore'); }, {
+    'name': 'Dummy Score',
+    'idtype': 'IDTypeA'
+   });
+  registry.push('ordinoScoreImpl', 'dummy_score', function() { return System.import('./src/DummyScore'); }, {
+    factory: 'createScore'
+   });
   // generator-phovea:end
 };
 
