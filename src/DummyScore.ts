@@ -4,6 +4,7 @@
 
 import * as ajax from 'phovea_core/src/ajax';
 import {IScore} from 'ordino/src/LineUpView';
+import {IScoreParam} from 'ordino/src/lineup/IScore';
 import * as idtypes from 'phovea_core/src/idtype';
 import * as ranges from 'phovea_core/src/range';
 import * as dialogs from 'phovea_ui/src/dialogs';
@@ -12,7 +13,7 @@ import {FormBuilder, IFormElementDesc, FormElementType} from 'ordino/src/FormBui
 import {select} from 'd3';
 
 class DummyScore implements IScore<number> {
-  constructor(private score: string, private tumorSample: string, private aggregation) {
+  constructor(private score: string, private tumorSample: string, private aggregation: string) {
 
   }
 
@@ -33,7 +34,11 @@ class DummyScore implements IScore<number> {
   }
 }
 
-export function create() {
+export function createScore(params: {score: string, tumorSample: string, aggregation: string}) {
+  return new DummyScore(params.score, params.tumorSample, params.aggregation);
+}
+
+export function create(): Promise<IScoreParam> {
    return new Promise((resolve) => {
      const dialog = dialogs.generateDialog('Add Score Column', 'Add Score Column');
 
@@ -80,10 +85,8 @@ export function create() {
     dialog.onSubmit(() => {
       const data = form.getElementData();
 
-      const score = new DummyScore(data[ParameterFormIds.SCORE_ATTRIBUTE], data[ParameterFormIds.SAMPLE], data[ParameterFormIds.SCORE_AGGREGATION]);
-
       dialog.hide();
-      resolve(score);
+      resolve({score: data[ParameterFormIds.SCORE_ATTRIBUTE], tumorSample: data[ParameterFormIds.SAMPLE], aggregation: data[ParameterFormIds.SCORE_AGGREGATION]});
       return false;
     });
 
