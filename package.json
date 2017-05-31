@@ -2,7 +2,7 @@
   "name": "ordino_dummy",
   "description": "",
   "homepage": "https://phovea.caleydo.org",
-  "version": "1.0.1-SNAPSHOT",
+  "version": "2.0.0",
   "author": {
     "name": "The Caleydo Team",
     "email": "contact@caleydo.org",
@@ -73,7 +73,7 @@
     "predist:python": "npm run build:python && npm run docs:python"
   },
   "dependencies": {
-    "ordino": "github:Caleydo/ordino#develop"
+    "ordino": "github:Caleydo/ordino#v2.0.0"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.41",
