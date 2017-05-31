@@ -5,7 +5,7 @@
 import * as ajax from 'phovea_core/src/ajax';
 import {IViewContext, ISelection} from 'ordino/src/View';
 import {ALineUpView2, stringCol, categoricalCol, numberCol2} from 'ordino/src/LineUpView';
-import {INamedSet} from 'ordino/src/storage';
+import {ENamedSetType, INamedSet} from 'ordino/src/storage';
 import {FormBuilder} from 'ordino/src/FormBuilder';
 
 interface IDummyDataSource {
@@ -105,7 +105,7 @@ class DummyStartList extends ALineUpView2 {
   }
 
   protected loadRows() {
-    const namedSetIdUrl = (this.namedSet.id) ? `/namedset/${this.namedSet.id}` : '';
+    const namedSetIdUrl = (this.namedSet.type === ENamedSetType.NAMEDSET) ? `/namedset/${this.namedSet.id}` : '';
     const param = {
       _assignids : true //assign globally ids on the server side
     };
