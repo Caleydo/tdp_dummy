@@ -44,7 +44,7 @@ export default class DummySearchProvider implements ISearchProvider {
 
 
   validate(query: string[]): Promise<IResult[]> {
-    return getAPIJSON(`/targid/db/dummy/${this.dataSource.table}_verify_items/filter`, {
+    return getAPIJSON(`/targid/db/dummy/${this.dataSource.table}_items_verify/filter`, {
       _assignids: true,
       [`filter_${this.dataSource.table}_name`]: query
     }).then((r) => r.map(DummySearchProvider.fixIds));

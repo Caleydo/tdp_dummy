@@ -24,7 +24,7 @@ def _create_base(result, prefix, idtype):
     .arg("query").build()
 
   result[prefix+'_items_verify'] = DBViewBuilder().idtype(idtype).query("""
-      SELECT cast(id as text) as id, name AS text
+      SELECT cast(id as text) as id, {table}_name AS text
       FROM {table} %(where)s""".format(table=prefix))\
     .replace("where").build()
 
