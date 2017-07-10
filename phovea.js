@@ -53,7 +53,7 @@ module.exports = function(registry) {
   'site': 'https://duckduckgo.com/?q={id}',
   'argument': 'id',
   'idtype': 'IDTypeA',
-  'selection': 'multiple'
+  'selection': 'chooser'
  });
 
   registry.push('ordinoScore', 'dummy_score', function() { return System.import('./src/scores/DummyScore'); }, {
