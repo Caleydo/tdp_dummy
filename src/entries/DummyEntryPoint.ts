@@ -4,7 +4,7 @@
 
 import {IPluginDesc} from 'phovea_core/src/plugin';
 import {IEntryPointList, AEntryPointList, IStartMenuSectionEntry, IStartMenuOptions} from 'ordino/src/StartMenu';
-import {categories} from './Configs';
+import {categories} from '../Configs';
 import {INamedSet} from 'ordino/src/storage';
 
 class DummySelector extends AEntryPointList implements IStartMenuSectionEntry {
