@@ -1,7 +1,7 @@
 /**
  * Created by Samuel Gratzl on 27.04.2016.
  */
-import './style.scss';
+import '../style.scss';
 import * as ajax from 'phovea_core/src/ajax';
 import {AView, IViewContext, ISelection} from 'ordino/src/View';
 import {showErrorModalDialog} from 'ordino/src/Dialogs';

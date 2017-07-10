@@ -4,12 +4,10 @@
 
 
 import * as ajax from 'phovea_core/src/ajax';
-import * as idtypes from 'phovea_core/src/idtype';
 import {IViewContext, ISelection} from 'ordino/src/View';
-import {ALineUpView2, stringCol, numberCol2, useDefaultLayout} from 'ordino/src/LineUpView';
-import {types, samples, ParameterFormIds} from '../Configs';
+import {ALineUpView2, numberCol2} from 'ordino/src/LineUpView';
+import {types, samples, ParameterFormIds, dataSourceB} from '../Configs';
 import {FormBuilder, FormElementType, IFormSelectDesc} from 'ordino/src/FormBuilder';
-import {showErrorModalDialog} from 'ordino/src/Dialogs';
 import {IScoreRow} from 'ordino/src/lineup/IScore';
 
 class DummyDependentList extends ALineUpView2 {
@@ -61,18 +59,13 @@ class DummyDependentList extends ALineUpView2 {
   }
 
   protected loadColumnDesc() {
-    return Promise.resolve({
-      idType: 'IDTypeB',
-      columns: []
-    });
+    return ajax.getAPIJSON(`/targid/db/dummy/b/desc`);
   }
 
   protected initColumns(desc) {
     super.initColumns(desc);
 
-    const columns = [
-      stringCol('a_name','Name'),
-    ];
+    const columns = dataSourceB.columns(desc);
 
     this.build([], columns);
     this.handleSelectionColumns(this.selection);
@@ -80,7 +73,7 @@ class DummyDependentList extends ALineUpView2 {
   }
 
   protected loadRows() {
-    const url = `/targid/db/bien/b/filter`;
+    const url = `/targid/db/dummy/b/filter`;
     const param = {
       _assignids: true
     };
@@ -91,7 +84,9 @@ class DummyDependentList extends ALineUpView2 {
   protected async getSelectionColumnDesc(id: number) {
     const label = await this.getSelectionColumnLabel(id);
 
-    return numberCol2(this.getSelectionColumnId(id), 0, 100, label, true, 50, id);
+    const s: any = numberCol2(this.getSelectionColumnId(id), -1, 1, label, true, 50, id);
+    s.constantDomain = true;
+    return s;
   }
 
   protected getSelectionColumnLabel(id: number) {
@@ -99,8 +94,9 @@ class DummyDependentList extends ALineUpView2 {
   }
 
   protected async loadSelectionColumnData(id: number): Promise<IScoreRow<any>[]> {
-    const url = `/targid/db/dummy/a_single_score/filter`;
+    const url = `/targid/db/dummy/b_single_score/score`;
     const param = {
+      attribute: 'ab_real',
       filter_ab_cat: this.getParameter(ParameterFormIds.TYPE),
       filter_b_cat2: this.getParameter(ParameterFormIds.SAMPLE),
       id

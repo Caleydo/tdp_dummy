@@ -1,5 +1,6 @@
 import {getAPIJSON} from 'phovea_core/src/ajax';
 import {IDummyDataSource, dataSourceA, dataSourceB} from '../Configs';
+import '../style.scss';
 
 export interface IResult {
   readonly id: string;
@@ -22,13 +23,13 @@ export default class DummySearchProvider implements ISearchProvider {
 
   search(query: string, page: number, pageSize: number): Promise<{ more: boolean, results: IResult[] }> {
     return getAPIJSON(`/targid/db/dummy/${this.dataSource.table}_items/lookup`, {
-      column: 'name',
+      column: `${this.dataSource.table}_name`,
       query,
       page: page + 1, //required to start with 1 instead of 0
       limit: pageSize
     }).then((data) => {
       return {
-        results: data.items.map((d) => Object.assign(d, {id: d.targidid, extra: d.id})),
+        results: data.items,
         more: data.more
       };
     });
@@ -36,8 +37,9 @@ export default class DummySearchProvider implements ISearchProvider {
 
 
   validate(query: string[]): Promise<IResult[]> {
-    //TODO
-    return Promise.resolve([]);
+    return getAPIJSON(`/targid/db/dummy/${this.dataSource.table}_verify_items/filter`, {
+      [`filter_${this.dataSource.table}_name`]: query
+    });
   }
 }
 

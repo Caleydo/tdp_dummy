@@ -1,0 +1,9 @@
+
+@import "~ordino/src/styles/utils";
+
+*[data-idtype="IDTypeA"] {
+  @include idtype_color(blue);
+}
+*[data-idtype="IDTypeB"] {
+  @include idtype_color(red);
+}
