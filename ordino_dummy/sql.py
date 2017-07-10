@@ -64,8 +64,8 @@ def _create(result, prefix, idtype, other_prefix):
     FROM ab e
     JOIN {table} p ON e.{table}_id = p.id
     JOIN {other_table} s ON s.id = e.{other_table}_id
-    WHERE e.{other_table}_id = :id %(and_where)s""".format(table=prefix, other_table=other_prefix))\
-    .arg('id').replace('attribute').replace('and_where') \
+    WHERE e.{other_table}_id = :name %(and_where)s""".format(table=prefix, other_table=other_prefix))\
+    .arg('name').replace('attribute').replace('and_where') \
     .query('filter_rid', 'p.' + prefix +'_name %(operator)s %(value)s') \
     .query('filter_id', 'p.id %(operator)s %(value)s') \
     .build()

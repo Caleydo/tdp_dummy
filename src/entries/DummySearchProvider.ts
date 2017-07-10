@@ -21,15 +21,22 @@ export default class DummySearchProvider implements ISearchProvider {
 
   }
 
+  private static fixIds(item: any) {
+    item.extra = item.id;
+    item.id = item._id;
+    return item;
+  }
+
   search(query: string, page: number, pageSize: number): Promise<{ more: boolean, results: IResult[] }> {
     return getAPIJSON(`/targid/db/dummy/${this.dataSource.table}_items/lookup`, {
+      _assignids: true,
       column: `${this.dataSource.table}_name`,
       query,
       page: page + 1, //required to start with 1 instead of 0
       limit: pageSize
     }).then((data) => {
       return {
-        results: data.items,
+        results: data.items.map(DummySearchProvider.fixIds),
         more: data.more
       };
     });
@@ -38,8 +45,9 @@ export default class DummySearchProvider implements ISearchProvider {
 
   validate(query: string[]): Promise<IResult[]> {
     return getAPIJSON(`/targid/db/dummy/${this.dataSource.table}_verify_items/filter`, {
+      _assignids: true,
       [`filter_${this.dataSource.table}_name`]: query
-    });
+    }).then((r) => r.map(DummySearchProvider.fixIds));
   }
 }
 

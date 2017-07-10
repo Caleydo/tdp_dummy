@@ -95,11 +95,12 @@ class DummyDependentList extends ALineUpView2 {
 
   protected async loadSelectionColumnData(id: number): Promise<IScoreRow<any>[]> {
     const url = `/targid/db/dummy/b_single_score/score`;
+    const name = await this.resolveId(this.selection.idtype, id);
     const param = {
       attribute: 'ab_real',
       filter_ab_cat: this.getParameter(ParameterFormIds.TYPE),
       filter_b_cat2: this.getParameter(ParameterFormIds.SAMPLE),
-      id
+      name
     };
     return ajax.getAPIJSON(url, param);
   }
