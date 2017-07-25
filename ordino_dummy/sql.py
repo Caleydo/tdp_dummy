@@ -14,6 +14,62 @@ agg_score = DBViewBuilder().query('%(agg)s(%(score)s)').replace('agg').replace('
 _column_query_a = 'cast(id as text) as id, a_name, a_cat1, a_cat2, a_int, a_real'
 _column_query_b = 'cast(id as text) as id, b_name, b_cat1, b_cat2, b_int, b_real'
 
+def _create(result, prefix, idtype, other_prefix):
+  columns = [prefix + '_name', prefix + '_cat1', prefix + '_cat2', prefix + '_int', prefix + '_real']
+  other_columns = [other_prefix + '_name', other_prefix + '_cat1', other_prefix + '_cat2', other_prefix + '_int', other_prefix + '_real']
+
+  result[prefix + '_items'] = DBViewBuilder().idtype(idtype).query("""
+      SELECT cast(id as text) as id, %(column)s AS text
+      FROM {table} WHERE LOWER(%(column)s) LIKE :query
+      ORDER BY %(column)s ASC LIMIT %(limit)s OFFSET %(offset)s""".format(table=prefix))\
+    .replace("column", columns).replace("limit", int).replace("offset", int)\
+    .arg("query").build()
+
+  result[prefix+'_items_verify'] = DBViewBuilder().idtype(idtype).query("""
+      SELECT cast(id as text) as id, {table}_name AS text
+      FROM {table} %(where)s""".format(table=prefix))\
+    .replace("where").build()
+
+  result[prefix + '_unique'] = DBViewBuilder().query("""
+        SELECT d as id, d as text
+        FROM (
+          SELECT distinct %(column)s AS d
+          FROM {table} WHERE LOWER(%(column)s) LIKE :query
+          ) as t
+        ORDER BY d ASC LIMIT %(limit)s OFFSET %(offset)s""".format(table=prefix)) \
+    .replace("column", columns).replace("limit", int).replace("offset", int) \
+    .arg("query").build()
+
+  result[prefix + '_unique_all'] = DBViewBuilder().query("""
+        SELECT distinct %(column)s AS text
+        FROM {table} ORDER BY %(column)s ASC """.format(table=prefix)) \
+    .replace("column", columns).build()
+
+  result[prefix + '_score'] = DBViewBuilder().idtype(idtype).query("""
+    SELECT cast(e.{table}_id as text) as id, %(agg_score)s AS score
+    FROM ab e
+    JOIN {table} p ON e.{table}_id = p.id
+    JOIN {other_table} s ON s.id = e.{other_table}_id
+    %(where)s
+    GROUP BY internal_id, p.name""".format(table=prefix, other_table=other_prefix))\
+    .replace('where').replace('agg_score').replace('data_subtype', ['ab_real', 'ab_int']) \
+    .filters(*other_columns) \
+    .filter('rid', 'p.' + prefix +'_name %(operator)s %(value)s') \
+    .filter('name', 's.' + other_prefix +'name %(operator)s %(value)s') \
+    .filter('id', 'p.id %(operator)s %(value)s') \
+    .build()
+
+  result[prefix + '_single_score'] = DBViewBuilder().idtype(idtype).query("""
+    SELECT cast(e.{table}_id as text) as id, %(attribute)s AS score
+    FROM ab e
+    JOIN {table} p ON e.{table}_id = p.id
+    JOIN {other_table} s ON s.id = e.{other_table}_id
+    WHERE e.{other_table}_id = :name %(and_where)s""".format(table=prefix, other_table=other_prefix))\
+    .arg('name').replace('attribute', ['ab_real', 'ab_int', 'ab_cat']).replace('and_where') \
+    .filters(*other_columns) \
+    .filter('rid', 'p.' + prefix +'_name %(operator)s %(value)s') \
+    .filter('id', 'p.id %(operator)s %(value)s') \
+    .build()
 
 views = dict(
   a=DBViewBuilder().idtype(idtype_a).query("""
@@ -29,24 +85,10 @@ SELECT distinct %(col)s as cat FROM a WHERE %(col)s is not null AND %(col)s <> '
     .column('a_real', type='number')
     .build(),
 
-  a_namedset=DBViewBuilder()
-    .idtype(idtype_a)
-    .query("""
-SELECT {index}, {columns}
-FROM a t WHERE id IN (:ids)""".format(index=_index, columns=_column_query_a))
-    .arg('ids').build(),
-
-  a_filtered=DBViewBuilder()
-    .idtype(idtype_a)
-    .query("""
-SELECT {index}, {columns}
-FROM a t WHERE a_cat1 = :cat""".format(index=_index, columns=_column_query_a))
-    .arg('cat').build(),
-
   b=DBViewBuilder()
     .idtype(idtype_b)
     .query("""
-SELECT {index}, {columns} FROM a t""".format(index=_index, columns=_column_query_b))
+SELECT {index}, {columns} FROM b t""".format(index=_index, columns=_column_query_b))
     .query_stats("""
 SELECT min(b_int) as b_int_min, max(b_int) as b_int_max, min(b_real) as b_real_min, max(b_real) as b_real_max FROM b""")
     .query_categories("""
@@ -58,33 +100,17 @@ SELECT distinct %(col)s as cat FROM b WHERE %(col)s is not null AND %(col)s <> '
     .column('b_real', type='number')
     .build(),
 
-  score=DBViewBuilder()
-    .idtype(idtype_a)
-    .query("""
-SELECT cast(a_id as text) as id, %(agg_score)s as score
-FROM ab INNER JOIN b ON b.id = ab.b_id
-WHERE b.b_cat2 = :b_cat2 GROUP BY ab.a_id""")
-    .replace('agg').replace('score').replace('agg_score')
-    .arg('b_cat2').build(),
-
   dummy_detail=DBViewBuilder()
     .idtype(idtype_b)
     .query("""
 SELECT cast(a1.b_id as text) as id, a1.ab_real as value1, a2.ab_real as value2
 FROM ab a1 INNER JOIN ab a2 ON a1.b_id = a2.b_id
 WHERE a1.a_id = :a_id1 and a2.a_id = :a_id2""")
-    .arg('a_id1').arg('a_id2').build(),
-
-  dummy_dependent=DBViewBuilder()
-    .idtype(idtype_a)
-    .query("""
-SELECT cast(a.id as text) as id, a_name, max(ab_int) as score
-FROM ab INNER JOIN a ON a.id = ab.a_id INNER JOIN  b ON b.id = ab.b_id
-WHERE ab.ab_cat = :ab_cat AND b.b_cat2 = :b_cat2 AND ab_int > (select max(ab_int) FROM ab INNER JOIN b ON b.id = ab.b_id
-WHERE ab.ab_cat = :ab_cat AND b.b_cat2 = :b_cat2 AND ab.a_id = :a_id)
-GROUP BY a.id""")
-    .arg('a_id').arg('ab_cat').arg('b_cat2').build()
+    .arg('a_id1').arg('a_id2').build()
 )
+_create(views, 'a', idtype_a, 'b')
+_create(views, 'b', idtype_b, 'a')
+
 
 
 def create():
