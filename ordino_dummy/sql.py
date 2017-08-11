@@ -59,4 +59,5 @@ def create():
   from os import path
   connector = DBConnector(views)
   connector.dburl = 'sqlite:///' + path.abspath(path.dirname(__file__)+'/ab.sqlite')
+  connector.description = 'dummy connector to small SQLite database'
   return connector
