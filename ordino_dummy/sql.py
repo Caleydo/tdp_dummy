@@ -8,8 +8,6 @@ cc = view('targid_dummy')
 idtype_a = 'IDTypeA'
 idtype_b = 'IDTypeB'
 
-agg_score = DBViewBuilder().query('{agg}({score})').replace('agg').replace('score').build()
-
 def _create(result, prefix, idtype, other_prefix):
   columns = [prefix + '_name', prefix + '_cat1', prefix + '_cat2', prefix + '_int', prefix + '_real']
   other_columns = [other_prefix + '_name', other_prefix + '_cat1', other_prefix + '_cat2', other_prefix + '_int', other_prefix + '_real']
@@ -59,6 +57,6 @@ _create(views, 'b', idtype_b, 'a')
 
 def create():
   from os import path
-  connector = DBConnector(agg_score, views)
+  connector = DBConnector(views)
   connector.dburl = 'sqlite:///' + path.abspath(path.dirname(__file__)+'/ab.sqlite')
   return connector
