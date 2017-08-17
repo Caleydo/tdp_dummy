@@ -52,6 +52,14 @@ module.exports = function(registry) {
     'selection': 'chooser'
    });
 
+  registry.push('targidView', 'dummy_external2', function() { return System.import('ordino/src/ProxyView'); }, {
+    'name': 'Google',
+    'site': 'https://www.google.at/search?q={id}',
+    'argument': 'id',
+    'idtype': 'IDTypeB',
+    'selection': 'chooser'
+   });
+
   registry.push('ordinoScore', 'dummy_score', function() { return System.import('./src/scores/DummyScore'); }, {
     'name': 'Dummy Score',
     'idtype': 'IDTypeA'
