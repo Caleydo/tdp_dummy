@@ -6,7 +6,7 @@ import {getAPIJSON} from 'phovea_core/src/ajax';
 import {IViewContext, ISelection} from 'ordino/src/View';
 import {ALineUpView2} from 'ordino/src/LineUpView';
 import {ENamedSetType, INamedSet} from 'ordino/src/storage';
-import {IDummyDataSource, dataSourceA, dataSourceB} from '../Configs';
+import {IDummyDataSource, dataSourceA, dataSourceB} from '../config';
 import {mixin} from 'phovea_core/src';
 
 
@@ -17,7 +17,7 @@ class DummyStartList extends ALineUpView2 {
    */
   private namedSet: INamedSet;
 
-  constructor(context: IViewContext, private dataSource: IDummyDataSource, selection: ISelection, parent: Element, options?) {
+  constructor(context: IViewContext, private readonly dataSource: IDummyDataSource, selection: ISelection, parent: Element, options?) {
     super(context, selection, parent, options);
     this.namedSet = options.namedSet;
   }
@@ -49,12 +49,13 @@ class DummyStartList extends ALineUpView2 {
     this.build([], columns);
     return columns;
   }
+
   protected loadRows() {
     const param: any = {
-      _assignids : true //assign globally ids on the server side
+      _assignids: true //assign globally ids on the server side
     };
-    if(this.namedSet) {
-      switch(this.namedSet.type) {
+    if (this.namedSet) {
+      switch (this.namedSet.type) {
         case ENamedSetType.NAMEDSET:
           param.filter_namedset4id = this.namedSet.id;
           break;
@@ -66,15 +67,15 @@ class DummyStartList extends ALineUpView2 {
   }
 
   getItemName(count: number) {
-    return (count === 1) ? this.dataSource.name: this.dataSource.name + 's';
+    return (count === 1) ? this.dataSource.name : this.dataSource.name + 's';
   }
 }
 
-export function createStartA(context: IViewContext, selection: ISelection, parent: Element, options?) {
+export function createA(context: IViewContext, selection: ISelection, parent: Element, options?) {
   return new DummyStartList(context, dataSourceA, selection, parent, options);
 }
 
-export function createStartB(context: IViewContext, selection: ISelection, parent: Element, options?) {
+export function createB(context: IViewContext, selection: ISelection, parent: Element, options?) {
   return new DummyStartList(context, dataSourceB, selection, parent, options);
 }
 

@@ -4,23 +4,23 @@
 
 import {IPluginDesc} from 'phovea_core/src/plugin';
 import {IEntryPointList, AEntryPointList, IStartMenuSectionEntry, IStartMenuOptions} from 'ordino/src/StartMenu';
-import {categories} from '../Configs';
+import {categories, dataSourceA} from '../config';
 import {INamedSet} from 'ordino/src/storage';
 
-class DummySelector extends AEntryPointList implements IStartMenuSectionEntry {
+export default class DummySelector extends AEntryPointList implements IStartMenuSectionEntry {
   /**
    * Set the idType and the default data and build the list
    * @param parent
    * @param desc
    * @param options
    */
-  constructor(parent: HTMLElement, desc: IPluginDesc, options:IStartMenuOptions) {
+  constructor(parent: HTMLElement, desc: IPluginDesc, options: IStartMenuOptions) {
     super(parent, desc, options);
 
-    this.idType = 'IDTypeA';
+    this.idType = dataSourceA.idType;
 
     // read species
-    const species:string[] = categories.slice(0);
+    const species: string[] = categories.slice(0);
     species.unshift('all');
 
     // convert species to namedset
@@ -42,16 +42,4 @@ class DummySelector extends AEntryPointList implements IStartMenuSectionEntry {
   getEntryPointLists() {
     return [this];
   }
-}
-
-
-/**
- * Create a list for main navigation from all species and LineUp named sets (aka stored LineUp sessions)
- * @param parent
- * @param desc
- * @param options
- * @returns {function(): any}
- */
-export function createStartFactory(parent: HTMLElement, desc: IPluginDesc, options:any):IEntryPointList {
-  return new DummySelector(parent, desc, options);
 }

@@ -3,17 +3,17 @@
  */
 
 
-import * as ajax from 'phovea_core/src/ajax';
+import {getAPIJSON} from 'phovea_core/src/ajax';
 import {IViewContext, ISelection} from 'ordino/src/View';
 import {ALineUpView2, numberCol2} from 'ordino/src/LineUpView';
-import {types, samples, ParameterFormIds, dataSourceB} from '../Configs';
+import {types, samples, ParameterFormIds, dataSourceB} from '../config';
 import {FormBuilder, FormElementType, IFormSelectDesc} from 'ordino/src/FormBuilder';
 import {IScoreRow} from 'ordino/src/lineup/IScore';
 
-class DummyDependentList extends ALineUpView2 {
+export default class DummyDependentList extends ALineUpView2 {
 
-  private paramForm:FormBuilder;
-  private paramDesc:IFormSelectDesc[] = [
+  private paramForm: FormBuilder;
+  private paramDesc: IFormSelectDesc[] = [
     {
       type: FormElementType.SELECT,
       label: 'Type',
@@ -34,7 +34,7 @@ class DummyDependentList extends ALineUpView2 {
     }
   ];
 
-  buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any)=>Promise<any>) {
+  buildParameterUI($parent: d3.Selection<any>, onChange: (name: string, value: any) => Promise<any>) {
     this.paramForm = new FormBuilder($parent);
 
     // map FormElement change function to provenance graph onChange function
@@ -59,7 +59,7 @@ class DummyDependentList extends ALineUpView2 {
   }
 
   protected loadColumnDesc() {
-    return ajax.getAPIJSON(`/targid/db/dummy/b/desc`);
+    return getAPIJSON(`/targid/db/dummy/${dataSourceB.table}/desc`);
   }
 
   protected initColumns(desc) {
@@ -73,11 +73,10 @@ class DummyDependentList extends ALineUpView2 {
   }
 
   protected loadRows() {
-    const url = `/targid/db/dummy/b/filter`;
     const param = {
       _assignids: true
     };
-    return ajax.getAPIJSON(url, param);
+    return getAPIJSON(`/targid/db/dummy/${dataSourceB.table}/filter`, param);
   }
 
 
@@ -102,12 +101,8 @@ class DummyDependentList extends ALineUpView2 {
       filter_b_cat2: this.getParameter(ParameterFormIds.SAMPLE),
       name
     };
-    return ajax.getAPIJSON(url, param);
+    return getAPIJSON(url, param);
   }
 
 }
-export function create(context:IViewContext, selection: ISelection, parent:Element, options?) {
-  return new DummyDependentList(context, selection, parent, options);
-}
-
 

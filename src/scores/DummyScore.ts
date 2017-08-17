@@ -2,21 +2,23 @@
  * Created by Samuel Gratzl on 27.04.2016.
  */
 
-import * as ajax from 'phovea_core/src/ajax';
+import {getAPIJSON} from 'phovea_core/src/ajax';
 import {IScore} from 'ordino/src/LineUpView';
 import {IScoreParam} from 'ordino/src/lineup/IScore';
-import {samples, ParameterFormIds} from '../Configs';
+import {samples, ParameterFormIds, dataSourceA, dataSourceB, IDummyDataSource} from '../config';
 import {IFormElementDesc, FormElementType} from 'ordino/src/FormBuilder';
 import {resolve} from 'phovea_core/src/idtype';
 import FormBuilderDialog from 'ordino/src/form/FormDialog';
 
 class DummyScore implements IScore<number> {
-  constructor(private table: 'a' | 'b', private score: string, private tumorSample: string, private aggregation: string) {
+  private readonly dataSource: IDummyDataSource;
 
+  constructor(table: 'a' | 'b', private readonly score: string, private readonly tumorSample: string, private readonly aggregation: string) {
+    this.dataSource = table === 'a' ? dataSourceA : dataSourceB;
   }
 
   get idType() {
-    return resolve(this.table === 'a' ? 'IDTypeA' : 'IDTypeB');
+    return resolve(this.dataSource.idType);
   }
 
   createDesc() {
@@ -28,7 +30,7 @@ class DummyScore implements IScore<number> {
   }
 
   compute(): Promise<any[]> {
-    return ajax.getAPIJSON(`/targid/db/dummy/${this.table}/${this.table}_score/score`, {
+    return getAPIJSON(`/targid/db/dummy/${this.dataSource.table}/${this.dataSource.table}_score/score`, {
       _assignids: true, //assign globally ids on the server side
       data_subtype: this.score,
       agg: this.aggregation,
@@ -42,7 +44,7 @@ export function createScore(params: { table: 'a' | 'b', score: string, tumorSamp
 }
 
 export function create(desc: any): Promise<IScoreParam> {
-  const table = desc.idType === 'IDTypeA' ? 'a' : 'b';
+  const table = desc.idType === dataSourceA.idType ? 'a' : 'b';
 
   const dialog = new FormBuilderDialog('Add Score Column', 'Add Score Column');
   const formDesc: IFormElementDesc[] = [

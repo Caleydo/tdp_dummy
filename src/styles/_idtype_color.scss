@@ -1,7 +1,6 @@
-
 @import "~ordino/src/styles/utils";
 
 * {
-  @include idtype_color('IDTypeA', blue);
-  @include idtype_color('IDTypeB', red);
+  @include idtype_color('IDTypeA', #73dbff);
+  @include idtype_color('IDTypeB', #ff82a0);
 }

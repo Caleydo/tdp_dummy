@@ -1,5 +1,5 @@
 import {getAPIJSON} from 'phovea_core/src/ajax';
-import {IDummyDataSource, dataSourceA, dataSourceB} from '../Configs';
+import {IDummyDataSource, dataSourceA, dataSourceB} from '../config';
 import '../style.scss';
 
 export interface IResult {
