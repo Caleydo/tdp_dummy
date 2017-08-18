@@ -1,6 +1,6 @@
 # flake8: noqa
 from phovea_server.config import view
-from ordino.dbview import DBViewBuilder, DBConnector
+from ordino.dbview import DBViewBuilder, DBConnector, add_common_queries, inject_where
 
 __author__ = 'Samuel Gratzl'
 cc = view('targid_dummy')
@@ -8,105 +8,50 @@ cc = view('targid_dummy')
 idtype_a = 'IDTypeA'
 idtype_b = 'IDTypeB'
 
-_index = '(t.rowid-1) as _index'
-agg_score = DBViewBuilder().query('%(agg)s(%(score)s)').replace('agg').replace('score').build()
-
-_column_query_a = 'cast(id as text) as id, a_name, a_cat1, a_cat2, a_int, a_real'
-_column_query_b = 'cast(id as text) as id, b_name, b_cat1, b_cat2, b_int, b_real'
-
 def _create(result, prefix, idtype, other_prefix):
   columns = [prefix + '_name', prefix + '_cat1', prefix + '_cat2', prefix + '_int', prefix + '_real']
   other_columns = [other_prefix + '_name', other_prefix + '_cat1', other_prefix + '_cat2', other_prefix + '_int', other_prefix + '_real']
 
-  result[prefix + '_items'] = DBViewBuilder().idtype(idtype).query("""
-      SELECT cast(id as text) as id, %(column)s AS text
-      FROM {table} WHERE LOWER(%(column)s) LIKE :query
-      ORDER BY %(column)s ASC LIMIT %(limit)s OFFSET %(offset)s""".format(table=prefix))\
-    .replace("column", columns).replace("limit", int).replace("offset", int)\
-    .arg("query").build()
+  result[prefix] = DBViewBuilder().idtype(idtype).table(prefix).query("""
+          SELECT cast(id as text) as id, * FROM {table}""".format(table=prefix)).derive_columns().call(inject_where).build()
 
-  result[prefix+'_items_verify'] = DBViewBuilder().idtype(idtype).query("""
-      SELECT cast(id as text) as id, {table}_name AS text
-      FROM {table} %(where)s""".format(table=prefix))\
-    .replace("where").build()
-
-  result[prefix + '_unique'] = DBViewBuilder().query("""
-        SELECT d as id, d as text
-        FROM (
-          SELECT distinct %(column)s AS d
-          FROM {table} WHERE LOWER(%(column)s) LIKE :query
-          ) as t
-        ORDER BY d ASC LIMIT %(limit)s OFFSET %(offset)s""".format(table=prefix)) \
-    .replace("column", columns).replace("limit", int).replace("offset", int) \
-    .arg("query").build()
-
-  result[prefix + '_unique_all'] = DBViewBuilder().query("""
-        SELECT distinct %(column)s AS text
-        FROM {table} ORDER BY %(column)s ASC """.format(table=prefix)) \
-    .replace("column", columns).build()
+  add_common_queries(result, prefix, idtype, 'cast(id as text) as id', columns, name_column=prefix + '_name')
 
   result[prefix + '_score'] = DBViewBuilder().idtype(idtype).query("""
-    SELECT cast(e.{table}_id as text) as id, %(agg_score)s AS score
+    SELECT cast(e.{table}_id as text) as id, {{agg_score}} AS score
     FROM ab e
-    JOIN {table} p ON e.{table}_id = p.id
+    JOIN {table} t ON e.{table}_id = t.id
     JOIN {other_table} s ON s.id = e.{other_table}_id
-    %(where)s
-    GROUP BY internal_id, p.name""".format(table=prefix, other_table=other_prefix))\
-    .replace('where').replace('agg_score').replace('data_subtype', ['ab_real', 'ab_int']) \
+    GROUP BY internal_id, t.name""".format(table=prefix, other_table=other_prefix))\
+    .replace('agg_score').replace('data_subtype', ['ab_real', 'ab_int']) \
+    .call(inject_where) \
     .filters(*other_columns) \
-    .filter('rid', 'p.' + prefix +'_name %(operator)s %(value)s') \
-    .filter('name', 's.' + other_prefix +'name %(operator)s %(value)s') \
-    .filter('id', 'p.id %(operator)s %(value)s') \
+    .filter('rid', alias='t.' + prefix +'_name') \
+    .filter('name', alias='s.' + other_prefix + '_name') \
+    .filter('id', table='t') \
     .build()
 
   result[prefix + '_single_score'] = DBViewBuilder().idtype(idtype).query("""
-    SELECT cast(e.{table}_id as text) as id, %(attribute)s AS score
+    SELECT cast(e.{table}_id as text) as id, {{attribute}} AS score
     FROM ab e
-    JOIN {table} p ON e.{table}_id = p.id
+    JOIN {table} t ON e.{table}_id = t.id
     JOIN {other_table} s ON s.id = e.{other_table}_id
-    WHERE e.{other_table}_id = :name %(and_where)s""".format(table=prefix, other_table=other_prefix))\
-    .arg('name').replace('attribute', ['ab_real', 'ab_int', 'ab_cat']).replace('and_where') \
+    WHERE e.{other_table}_id = :name""".format(table=prefix, other_table=other_prefix))\
+    .arg('name')\
+    .replace('attribute', ['ab_real', 'ab_int', 'ab_cat'])\
+    .call(inject_where) \
     .filters(*other_columns) \
-    .filter('rid', 'p.' + prefix +'_name %(operator)s %(value)s') \
-    .filter('id', 'p.id %(operator)s %(value)s') \
+    .filter('rid', alias = 't.' + prefix +'_name') \
+    .filter('id', table = 't') \
     .build()
 
 views = dict(
-  a=DBViewBuilder().idtype(idtype_a).query("""
-  SELECT {index}, {columns} FROM a t""".format(index=_index, columns=_column_query_a))
-    .query_stats("""
-SELECT min(a_int) as a_int_min, max(a_int) as a_int_max, min(a_real) as a_real_min, max(a_real) as a_real_max FROM a""")
-    .query_categories("""
-SELECT distinct %(col)s as cat FROM a WHERE %(col)s is not null AND %(col)s <> ''""")
-    .column('a_name', type='string')
-    .column('a_cat1', type='categorical')
-    .column('a_cat2', type='categorical')
-    .column('a_int', type='number')
-    .column('a_real', type='number')
-    .build(),
-
-  b=DBViewBuilder()
-    .idtype(idtype_b)
-    .query("""
-SELECT {index}, {columns} FROM b t""".format(index=_index, columns=_column_query_b))
-    .query_stats("""
-SELECT min(b_int) as b_int_min, max(b_int) as b_int_max, min(b_real) as b_real_min, max(b_real) as b_real_max FROM b""")
-    .query_categories("""
-SELECT distinct %(col)s as cat FROM b WHERE %(col)s is not null AND %(col)s <> ''""")
-    .column('b_name', type='string')
-    .column('b_cat1', type='categorical')
-    .column('b_cat2', type='categorical')
-    .column('b_int', type='number')
-    .column('b_real', type='number')
-    .build(),
-
-  dummy_detail=DBViewBuilder()
-    .idtype(idtype_b)
-    .query("""
+  dummy_detail=DBViewBuilder().idtype(idtype_b).query("""
 SELECT cast(a1.b_id as text) as id, a1.ab_real as value1, a2.ab_real as value2
 FROM ab a1 INNER JOIN ab a2 ON a1.b_id = a2.b_id
 WHERE a1.a_id = :a_id1 and a2.a_id = :a_id2""")
-    .arg('a_id1').arg('a_id2').build()
+    .arg('a_id1').arg('a_id2')
+    .build()
 )
 _create(views, 'a', idtype_a, 'b')
 _create(views, 'b', idtype_b, 'a')
@@ -115,6 +60,7 @@ _create(views, 'b', idtype_b, 'a')
 
 def create():
   from os import path
-  connector = DBConnector(agg_score, views)
+  connector = DBConnector(views)
   connector.dburl = 'sqlite:///' + path.abspath(path.dirname(__file__)+'/ab.sqlite')
+  connector.description = 'dummy connector to small SQLite database'
   return connector
