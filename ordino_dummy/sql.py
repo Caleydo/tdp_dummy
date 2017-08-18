@@ -1,6 +1,6 @@
 # flake8: noqa
 from phovea_server.config import view
-from ordino.dbview import DBViewBuilder, DBConnector, add_common_queries, append_where
+from ordino.dbview import DBViewBuilder, DBConnector, add_common_queries, inject_where
 
 __author__ = 'Samuel Gratzl'
 cc = view('targid_dummy')
@@ -12,16 +12,19 @@ def _create(result, prefix, idtype, other_prefix):
   columns = [prefix + '_name', prefix + '_cat1', prefix + '_cat2', prefix + '_int', prefix + '_real']
   other_columns = [other_prefix + '_name', other_prefix + '_cat1', other_prefix + '_cat2', other_prefix + '_int', other_prefix + '_real']
 
-  add_common_queries(result, prefix, idtype, 'cast(id as text) as id', columns)
+  result[prefix] = DBViewBuilder().idtype(idtype).table(prefix).query("""
+          SELECT cast(id as text) as id, * FROM {table}""".format(table=prefix)).derive_columns().call(inject_where).build()
+
+  add_common_queries(result, prefix, idtype, 'cast(id as text) as id', columns, name_column=prefix + '_name')
 
   result[prefix + '_score'] = DBViewBuilder().idtype(idtype).query("""
     SELECT cast(e.{table}_id as text) as id, {{agg_score}} AS score
     FROM ab e
     JOIN {table} t ON e.{table}_id = t.id
     JOIN {other_table} s ON s.id = e.{other_table}_id
-    {{where}}
     GROUP BY internal_id, t.name""".format(table=prefix, other_table=other_prefix))\
-    .replace('where').replace('agg_score').replace('data_subtype', ['ab_real', 'ab_int']) \
+    .replace('agg_score').replace('data_subtype', ['ab_real', 'ab_int']) \
+    .call(inject_where) \
     .filters(*other_columns) \
     .filter('rid', alias='t.' + prefix +'_name') \
     .filter('name', alias='s.' + other_prefix + '_name') \
@@ -36,7 +39,7 @@ def _create(result, prefix, idtype, other_prefix):
     WHERE e.{other_table}_id = :name""".format(table=prefix, other_table=other_prefix))\
     .arg('name')\
     .replace('attribute', ['ab_real', 'ab_int', 'ab_cat'])\
-    .call(append_where) \
+    .call(inject_where) \
     .filters(*other_columns) \
     .filter('rid', alias = 't.' + prefix +'_name') \
     .filter('id', table = 't') \
