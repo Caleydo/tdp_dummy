@@ -1,7 +1,7 @@
 {
   "generator-phovea": {
     "type": "lib-slib",
-    "name": "ordino_dummy",
+    "name": "tdp_dummy",
     "author": "The Caleydo Team",
     "githubAccount": "caleydo",
     "modules": [
@@ -94,7 +94,7 @@
         "id": "dummy",
         "module": "",
         "extras": {
-          "configKey": "ordino_dummy"
+          "configKey": "tdp_dummy"
         }
       }
     ],
