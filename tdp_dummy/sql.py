@@ -1,9 +1,9 @@
 # flake8: noqa
 from phovea_server.config import view
-from ordino.dbview import DBViewBuilder, DBConnector, add_common_queries, inject_where
+from tdp_core.dbview import DBViewBuilder, DBConnector, add_common_queries, inject_where
 
 __author__ = 'Samuel Gratzl'
-cc = view('targid_dummy')
+cc = view('tdp_dummy')
 
 idtype_a = 'IDTypeA'
 idtype_b = 'IDTypeB'

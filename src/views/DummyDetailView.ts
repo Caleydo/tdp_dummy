@@ -2,23 +2,21 @@
  * Created by Samuel Gratzl on 27.04.2016.
  */
 import '../style.scss';
-import * as ajax from 'phovea_core/src/ajax';
-import {AView, IViewContext, ISelection} from 'ordino/src/View';
-import {showErrorModalDialog} from 'ordino/src/Dialogs';
+import {AD3View} from 'tdp_core/src/views';
+import {showErrorModalDialog} from 'tdp_core/src/dialogs';
 import * as d3 from 'd3';
+import {getTDPData} from 'tdp_core/src/rest';
 
-class DummyDetailView extends AView {
+export default class DummyDetailView extends AD3View {
 
-  private x = d3.scale.linear();
-  private y = d3.scale.linear();
-  private xAxis = d3.svg.axis().orient('bottom').scale(this.x);
-  private yAxis = d3.svg.axis().orient('left').scale(this.y);
+  private readonly x = d3.scale.linear();
+  private readonly y = d3.scale.linear();
+  private readonly xAxis = d3.svg.axis().orient('bottom').scale(this.x);
+  private readonly yAxis = d3.svg.axis().orient('left').scale(this.y);
 
-
-  constructor(context:IViewContext, private selection:ISelection, parent:Element, options?) {
-    super(context, parent, options);
+  initImpl() {
+    super.initImpl();
     this.$node.classed('dummy-detail', true);
-
     this.build();
     this.update();
   }
@@ -46,7 +44,7 @@ class DummyDetailView extends AView {
   }
 
 
-  private updateChart(gene1: string, gene2: string, rows: {value1: number, value2: number}[]) {
+  private updateChart(xlabel: string, ylabel: string, rows: { value1: number, value2: number }[]) {
     this.x.domain(d3.extent(rows, (d) => d.value1));
     this.y.domain(d3.extent(rows, (d) => d.value2));
 
@@ -59,27 +57,25 @@ class DummyDetailView extends AView {
     marks.enter().append('circle').classed('mark', true).attr('r', 5);
 
     marks.transition().attr({
-      cx : (d) => this.x(d.value1),
-      cy : (d) => this.y(d.value2),
+      cx: (d) => this.x(d.value1),
+      cy: (d) => this.y(d.value2),
     });
 
     marks.exit().remove();
 
   }
 
-  changeSelection(selection:ISelection) {
-    this.selection = selection;
-    return this.update();
+  selectionChanged() {
+    this.update();
   }
 
   private update() {
-    const idtype = this.selection.idtype;
     this.setBusy(true);
     let names: string[] = null;
-    const promise = this.resolveIds(idtype, this.selection.range, 'IDTypeA')
+    const promise = this.resolveSelection()
       .then((_names) => {
         names = _names;
-        return <Promise<{value1: number, value2: number}[]>>ajax.getAPIJSON('/targid/db/dummy/dummy_detail', {
+        return getTDPData<{ value1: number, value2: number }>('dummy', 'dummy_detail', {
           a_id1: _names[0],
           a_id2: _names[1]
         });
@@ -101,10 +97,4 @@ class DummyDetailView extends AView {
     return promise;
   }
 }
-
-
-export function create(context:IViewContext, selection:ISelection, parent:Element, options?) {
-  return new DummyDetailView(context, selection, parent, options);
-}
-
 

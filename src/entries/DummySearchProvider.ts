@@ -1,5 +1,5 @@
-import {getAPIJSON} from 'phovea_core/src/ajax';
-import {IDummyDataSource, dataSourceA, dataSourceB} from '../Configs';
+import {IDummyDataSource, dataSourceA, dataSourceB} from '../config';
+import {getTDPLookup, getTDPFilteredRows} from 'tdp_core/src/rest';
 import '../style.scss';
 
 export interface IResult {
@@ -28,13 +28,12 @@ export default class DummySearchProvider implements ISearchProvider {
   }
 
   search(query: string, page: number, pageSize: number): Promise<{ more: boolean, results: IResult[] }> {
-    return getAPIJSON(`/targid/db/dummy/${this.dataSource.table}_items/lookup`, {
-      _assignids: true,
+    return getTDPLookup('dummy', `${this.dataSource.table}_items`, {
       column: `${this.dataSource.table}_name`,
       query,
       page: page + 1, //required to start with 1 instead of 0
       limit: pageSize
-    }).then((data) => {
+    }, true).then((data) => {
       return {
         results: data.items.map(DummySearchProvider.fixIds),
         more: data.more
@@ -42,12 +41,10 @@ export default class DummySearchProvider implements ISearchProvider {
     });
   }
 
-
   validate(query: string[]): Promise<IResult[]> {
-    return getAPIJSON(`/targid/db/dummy/${this.dataSource.table}_items_verify/filter`, {
-      _assignids: true,
-      [`filter_${this.dataSource.table}_name`]: query
-    }).then((r) => r.map(DummySearchProvider.fixIds));
+    return getTDPFilteredRows('dummy', `${this.dataSource.table}_items_verify`, {}, {
+      [`${this.dataSource.table}_name`]: query
+    }, true).then((r) => r.map(DummySearchProvider.fixIds));
   }
 }
 
