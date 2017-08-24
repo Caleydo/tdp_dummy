@@ -5,11 +5,15 @@
  **************************************************************************** */
 
 import {register} from 'phovea_core/src/plugin';
-
 /**
  * build a registry by registering all phovea modules
  */
 //other modules
+/// #if include('ordino')
 import 'ordino/phovea_registry.js';
+/// #endif
+/// #if include('bob')
+import 'bob/phovea_registry.js';
+/// #endif
 //self
-register('ordino_dummy',require('./phovea.js'));
+register('tdp_dummy',require('./phovea.js'));

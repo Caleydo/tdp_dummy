@@ -75,6 +75,10 @@
   "dependencies": {
     "tdp_core": "github:datavisyn/tdp_core#develop"
   },
+  "optionalDependencies": {
+     "bob": "github:datavisyn/bob",
+	 "ordino": "github:Caleydo/ordino#develop"
+  },
   "devDependencies": {
     "@types/jasmine": "2.5.41",
     "awesome-typescript-loader": "3.0.3",

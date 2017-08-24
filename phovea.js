@@ -5,7 +5,7 @@
  **************************************************************************** */
 
 //register all extensions in the registry following the given pattern
-module.exports = function (registry) {
+module.exports = function (registry, feature) {
   //registry.push('extension-type', 'extension-id', function() { return import('./src/extension_impl'); }, {});
   // generator-phovea:begin
   registry.push('tdpView', 'dummy_start_a', function () {
@@ -17,8 +17,9 @@ module.exports = function (registry) {
     'selection': 'none'
   });
 
+  /// #if include('ordino')
   registry.push('ordinoStartMenuSection', 'dummy_start_a', function () {
-    return System.import('./src/entries/DummyEntryPoint');
+    return import('./src/entries/DummyEntryPoint');
   }, {
     'name': 'Dummy Data',
     'cssClass': 'targidDummyData',
@@ -27,6 +28,7 @@ module.exports = function (registry) {
     'viewId': 'dummy_start_a',
     'idtype': 'IDTypeA'
   });
+  /// #endif
 
   registry.push('tdpView', 'dummy_start_B', function () {
     return import('./src/entries/DummyList');
@@ -78,6 +80,7 @@ module.exports = function (registry) {
   });
 
 
+  /// #if include('bob')
   registry.push('bobSearchProvider', 'dummy', function () {
     return import('./src/entries/DummySearchProvider')
   }, {
@@ -92,6 +95,7 @@ module.exports = function (registry) {
     idType: 'IDTypeB',
     factory: 'createB'
   });
+  /// #endif
   // generator-phovea:end
 };
 
