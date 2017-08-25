@@ -40,6 +40,8 @@ export default class DummyMenuSection implements IStartMenuSection {
         creator: ''
       };
     }));
+
+    parent.appendChild(this.list.node);
   }
 
   push(namedSet: INamedSet) {
