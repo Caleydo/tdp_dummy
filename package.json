@@ -72,13 +72,6 @@
     "prebuild:web": "node -e \"process.exit(process.env.PHOVEA_SKIP_TESTS === undefined?1:0)\" || npm run test:web",
     "predist:python": "npm run build:python && npm run docs:python"
   },
-  "dependencies": {
-    "tdp_core": "github:datavisyn/tdp_core#develop"
-  },
-  "optionalDependencies": {
-     "bob": "github:datavisyn/bob",
-	 "ordino": "github:Caleydo/ordino#develop"
-  },
   "devDependencies": {
     "@types/jasmine": "2.5.41",
     "awesome-typescript-loader": "3.0.3",
@@ -110,5 +103,12 @@
     "url-loader": "0.5.7",
     "webpack": "2.2.1",
     "webpack-dev-server": "2.3.0"
+  },
+  "dependencies": {
+    "tdp_core": "github:datavisyn/tdp_core#develop"
+  },
+  "optionalDependencies": {
+    "bob": "github:datavisyn/bob",
+    "ordino": "github:Caleydo/ordino#develop"
   }
 }

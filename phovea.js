@@ -8,8 +8,23 @@
 module.exports = function (registry, feature) {
   //registry.push('extension-type', 'extension-id', function() { return import('./src/extension_impl'); }, {});
   // generator-phovea:begin
+
+
+  /// #if include('ordino')
+  registry.push('ordinoStartMenuSection', 'dummy_start_a', function () {
+    return import('./src/DummyMenuSection');
+  }, {
+    'name': 'Dummy Data',
+    'cssClass': 'targidDummyData',
+    'factory': 'new',
+    'priority': 20,
+    'viewId': 'dummy_start_a',
+    'idtype': 'IDTypeA'
+  });
+  /// #endif
+
   registry.push('tdpView', 'dummy_start_a', function () {
-    return import('./src/entries/DummyList');
+    return import('./src/views/DummyList');
   }, {
     'name': 'Dummy A',
     'factory': 'createStartA',
@@ -17,21 +32,8 @@ module.exports = function (registry, feature) {
     'selection': 'none'
   });
 
-  /// #if include('ordino')
-  registry.push('ordinoStartMenuSection', 'dummy_start_a', function () {
-    return import('./src/entries/DummyEntryPoint');
-  }, {
-    'name': 'Dummy Data',
-    'cssClass': 'targidDummyData',
-    'factory': 'createStartFactory',
-    'priority': 20,
-    'viewId': 'dummy_start_a',
-    'idtype': 'IDTypeA'
-  });
-  /// #endif
-
   registry.push('tdpView', 'dummy_start_B', function () {
-    return import('./src/entries/DummyList');
+    return import('./src/views/DummyList');
   }, {
     'name': 'Dummy B',
     'factory': 'createStartB',
@@ -81,16 +83,16 @@ module.exports = function (registry, feature) {
 
 
   /// #if include('bob')
-  registry.push('bobSearchProvider', 'dummy', function () {
-    return import('./src/entries/DummySearchProvider')
+  registry.push('bobSearchProvider', 'dummyA', function () {
+    return import('./src/DummySearchProvider')
   }, {
     idType: 'IDTypeA',
     factory: 'createA'
   });
 
 
-  registry.push('bobSearchProvider', 'dummy', function () {
-    return import('./src/entries/DummySearchProvider')
+  registry.push('bobSearchProvider', 'dummyB', function () {
+    return import('./src/DummySearchProvider')
   }, {
     idType: 'IDTypeB',
     factory: 'createB'

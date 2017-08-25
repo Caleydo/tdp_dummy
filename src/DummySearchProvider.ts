@@ -1,19 +1,7 @@
-import {IDummyDataSource, dataSourceA, dataSourceB} from '../config';
+import {IDummyDataSource, dataSourceA, dataSourceB} from './config';
 import {getTDPLookup, getTDPFilteredRows} from 'tdp_core/src/rest';
-import '../style.scss';
-
-export interface IResult {
-  readonly id: string;
-  readonly text: string;
-}
-
-export interface ISearchProvider {
-  search(query: string, page: number, pageSize: number): Promise<{ more: boolean, results: IResult[] }>;
-
-  validate(query: string[]): Promise<IResult[]>;
-
-  format?(item: IResult): string;
-}
+import './style.scss';
+import {IResult, ISearchProvider} from 'bob/src/extensions';
 
 export default class DummySearchProvider implements ISearchProvider {
 
