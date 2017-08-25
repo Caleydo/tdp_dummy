@@ -66,6 +66,7 @@ export default class DummyDetailView extends AD3View {
   }
 
   selectionChanged() {
+    super.selectionChanged();
     this.update();
   }
 
