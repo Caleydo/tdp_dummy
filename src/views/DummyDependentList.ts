@@ -47,7 +47,7 @@ export default class DummyDependentList extends ARankingView {
   }
 
   private static getSelectionColumnDesc(_id: number, label: string) {
-    const s: any = numberCol(`col_${_id}`, -1, 1, label, true, 50, _id);
+    const s: any = numberCol(`col_${_id}`, { label, visible: true, id: _id});
     s.constantDomain = true;
     return s;
   }
@@ -64,5 +64,3 @@ export default class DummyDependentList extends ARankingView {
     return getTDPScore<number>('dummy', 'b_single_score', param, filters);
   }
 }
-
-
