@@ -1,4 +1,4 @@
-tdp_dummy [![Phovea][phovea-image]][phovea-url] [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+tdp_dummy [![Phovea][phovea-image]][phovea-url] [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![CircleCI](https://circleci.com/gh/Caleydo/tdp_dummy.svg?style=shield)](https://circleci.com/gh/Caleydo/tdp_dummy)
 =====================
 
 This repository provides a SQLite database with dummy data and additional views for this specific dataset for TargID.
