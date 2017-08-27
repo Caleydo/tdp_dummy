@@ -47,7 +47,7 @@ export default class DummyDependentList extends ARankingView {
   }
 
   private static getSelectionColumnDesc(_id: number, label: string) {
-    const s: any = numberCol(`col_${_id}`, 0, 1, { label, visible: true, id: _id});
+    const s: any = numberCol(`col_${_id}`, 0, 1, {label});
     s.constantDomain = true;
     return s;
   }
