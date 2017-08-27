@@ -18,7 +18,7 @@ export default class DummyDetailView extends AD3View {
     super.initImpl();
     this.$node.classed('dummy-detail', true);
     this.build();
-    this.update();
+    return this.update();
   }
 
   private build() {
