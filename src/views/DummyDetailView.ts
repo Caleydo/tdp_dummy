@@ -14,7 +14,7 @@ export default class DummyDetailView extends AD3View {
   private readonly xAxis = d3.svg.axis().orient('bottom').scale(this.x);
   private readonly yAxis = d3.svg.axis().orient('left').scale(this.y);
 
-  initImpl() {
+  protected initImpl() {
     super.initImpl();
     this.$node.classed('dummy-detail', true);
     this.build();

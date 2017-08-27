@@ -9,7 +9,8 @@ import {getTDPDesc, getTDPFilteredRows} from 'tdp_core/src/rest';
 class DummyStartList extends AStartList {
   constructor(context: IViewContext, private readonly dataSource: IDummyDataSource, selection: ISelection, parent: HTMLElement, options = {}) {
     super(context, selection, parent, Object.assign({
-      itemName: dataSource.name
+      itemName: dataSource.name,
+      itemIDType: dataSource.idType
     }, options));
   }
 

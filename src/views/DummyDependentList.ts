@@ -1,15 +1,16 @@
 /**
  * Created by Samuel Gratzl on 29.01.2016.
  */
-import {types, samples, ParameterFormIds} from '../config';
+import {types, samples, ParameterFormIds, dataSourceB} from '../config';
 import {FormElementType} from 'tdp_core/src/form';
 import {single, ARankingView, numberCol} from 'tdp_core/src/lineup';
 import {getTDPDesc, getTDPRows, getTDPScore} from 'tdp_core/src/rest';
+import {resolve} from 'phovea_core/src/idtype';
 
 export default class DummyDependentList extends ARankingView {
 
-  getParameterFormDescs() {
-    return [
+  protected getParameterFormDescs() {
+    return super.getParameterFormDescs().concat([
       {
         type: FormElementType.SELECT,
         label: 'Type',
@@ -28,7 +29,11 @@ export default class DummyDependentList extends ARankingView {
         },
         useSession: true
       }
-    ];
+    ]);
+  }
+
+  get itemIDType() {
+    return resolve(dataSourceB.idType);
   }
 
   protected loadColumnDesc() {

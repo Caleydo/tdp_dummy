@@ -23,14 +23,17 @@ export class ParameterFormIds {
 export interface IDummyDataSource {
   name: string;
   table: string;
+  idType: string;
 }
 
 export const dataSourceA : IDummyDataSource = {
   name: 'a',
-  table: 'a'
+  table: 'a',
+  idType: 'IDTypeA'
 };
 
 export const dataSourceB : IDummyDataSource = {
   name: 'b',
-  table: 'b'
+  table: 'b',
+  idType: 'IDTypeA'
 };
