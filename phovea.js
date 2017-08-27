@@ -19,7 +19,7 @@ module.exports = function (registry, feature) {
     'factory': 'new',
     'priority': 20,
     'viewId': 'dummy_start_a',
-    'idtype': 'IDTypeA'
+    'idType': 'IDTypeA'
   });
   /// #endif
 
