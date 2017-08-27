@@ -5,6 +5,7 @@
  **************************************************************************** */
 
 import {register} from 'phovea_core/src/plugin';
+
 /**
  * build a registry by registering all phovea modules
  */
