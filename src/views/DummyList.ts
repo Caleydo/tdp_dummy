@@ -20,7 +20,7 @@ class DummyStartList extends AStartList {
 
   protected loadRows() {
     const filters = this.buildNamedSetFilters('namedset4id');
-    return getTDPFilteredRows('dummy', this.dataSource.table, {}, filters, true);
+    return getTDPFilteredRows('dummy', this.dataSource.table, {}, filters);
   }
 }
 

@@ -41,7 +41,7 @@ export default class DummyDependentList extends ARankingView {
   }
 
   protected loadRows() {
-    return getTDPRows('dummy', 'b', {}, true);
+    return getTDPRows('dummy', 'b');
   }
 
   protected createSelectionAdapter() {

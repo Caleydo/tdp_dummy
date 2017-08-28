@@ -13,7 +13,7 @@ def _create(result, prefix, idtype, other_prefix):
   other_columns = [other_prefix + '_name', other_prefix + '_cat1', other_prefix + '_cat2', other_prefix + '_int', other_prefix + '_real']
 
   result[prefix] = DBViewBuilder().idtype(idtype).table(prefix).query("""
-          SELECT cast(id as text) as id, * FROM {table}""".format(table=prefix)).derive_columns().call(inject_where).build()
+          SELECT cast(id as text) as id, * FROM {table}""".format(table=prefix)).derive_columns().assign_ids().call(inject_where).build()
 
   add_common_queries(result, prefix, idtype, 'cast(id as text) as id', columns, name_column=prefix + '_name')
 
@@ -51,6 +51,7 @@ SELECT cast(a1.b_id as text) as id, a1.ab_real as value1, a2.ab_real as value2
 FROM ab a1 INNER JOIN ab a2 ON a1.b_id = a2.b_id
 WHERE a1.a_id = :a_id1 and a2.a_id = :a_id2""")
     .arg('a_id1').arg('a_id2')
+    .assign_ids()
     .build()
 )
 _create(views, 'a', idtype_a, 'b')
