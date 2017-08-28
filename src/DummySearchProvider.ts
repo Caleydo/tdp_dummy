@@ -9,12 +9,6 @@ export default class DummySearchProvider implements ISearchProvider {
 
   }
 
-  private static fixIds(item: any) {
-    item.extra = item.id;
-    item.id = item._id;
-    return item;
-  }
-
   search(query: string, page: number, pageSize: number): Promise<{ more: boolean, results: IResult[] }> {
     return getTDPLookup('dummy', `${this.dataSource.table}_items`, {
       column: `${this.dataSource.table}_name`,
@@ -23,7 +17,7 @@ export default class DummySearchProvider implements ISearchProvider {
       limit: pageSize
     }, true).then((data) => {
       return {
-        results: data.items.map(DummySearchProvider.fixIds),
+        results: data.items,
         more: data.more
       };
     });
@@ -32,7 +26,7 @@ export default class DummySearchProvider implements ISearchProvider {
   validate(query: string[]): Promise<IResult[]> {
     return getTDPFilteredRows('dummy', `${this.dataSource.table}_items_verify`, {}, {
       [`${this.dataSource.table}_name`]: query
-    }, true).then((r) => r.map(DummySearchProvider.fixIds));
+    }, true);
   }
 }
 
