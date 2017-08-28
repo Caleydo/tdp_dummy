@@ -13,7 +13,7 @@ def _create(result, prefix, idtype, other_prefix):
   other_columns = [other_prefix + '_name', other_prefix + '_cat1', other_prefix + '_cat2', other_prefix + '_int', other_prefix + '_real']
 
   result[prefix] = DBViewBuilder().idtype(idtype).table(prefix).query("""
-          SELECT cast(id as text) as id, * FROM {table}""".format(table=prefix)).derive_columns().assign_ids().call(inject_where).build()
+          SELECT cast(id as text) as id, {columns} FROM {table}""".format(table=prefix, columns=','.join(columns))).derive_columns().assign_ids().call(inject_where).build()
 
   add_common_queries(result, prefix, idtype, 'cast(id as text) as id', columns, name_column=prefix + '_name')
 
