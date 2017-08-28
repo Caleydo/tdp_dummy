@@ -9,18 +9,13 @@ export default class DummySearchProvider implements ISearchProvider {
 
   }
 
-  search(query: string, page: number, pageSize: number): Promise<{ more: boolean, results: IResult[] }> {
+  search(query: string, page: number, pageSize: number) {
     return getTDPLookup('dummy', `${this.dataSource.table}_items`, {
       column: `${this.dataSource.table}_name`,
       query,
       page: page + 1, //required to start with 1 instead of 0
       limit: pageSize
-    }, true).then((data) => {
-      return {
-        results: data.items,
-        more: data.more
-      };
-    });
+    }, true);
   }
 
   validate(query: string[]): Promise<IResult[]> {
