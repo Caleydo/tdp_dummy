@@ -14,66 +14,63 @@ module.exports = function (registry, feature) {
   registry.push('ordinoStartMenuSection', 'dummy_start_a', function () {
     return import('./src/DummyMenuSection');
   }, {
-    'name': 'Dummy Data',
-    'cssClass': 'targidDummyData',
-    'factory': 'new',
-    'priority': 20,
-    'viewId': 'dummy_start_a',
-    'idType': 'IDTypeA'
+     name: 'Dummy Data',
+     cssClass: 'targidDummyData',
+     priority: 20,
+     viewId: 'dummy_start_a',
+     idType: 'IDTypeA'
   });
   /// #endif
 
   registry.push('tdpView', 'dummy_start_a', function () {
     return import('./src/views/DummyList');
   }, {
-    'name': 'Dummy A',
-    'factory': 'createStartA',
-    'idtype': 'IDTypeA',
-    'selection': 'none'
+     name: 'Dummy A',
+     factory: 'createStartA',
+     idtype: 'IDTypeA',
+     selection: 'none'
   });
 
   registry.push('tdpView', 'dummy_start_B', function () {
     return import('./src/views/DummyList');
   }, {
-    'name': 'Dummy B',
-    'factory': 'createStartB',
-    'idtype': 'IDTypeB',
-    'selection': 'none'
+     name: 'Dummy B',
+     factory: 'createStartB',
+     idtype: 'IDTypeB',
+     selection: 'none'
   });
 
   registry.push('tdpView', 'dummy_detail', function () {
     return import('./src/views/DummyDetailView');
   }, {
-    'name': 'Dummy Detail View',
-    'factory': 'new',
-    'idtype': 'IDTypeA',
-    'selection': '2'
+     name: 'Dummy Detail View',
+     idtype: 'IDTypeA',
+     selection: '2'
   });
 
   registry.push('tdpView', 'dummy_dependent', function () {
     return import('./src/views/DummyDependentList');
   }, {
-    'name': 'Dummy Dependent List',
-    'factory': 'new',
-    'idtype': 'IDTypeA',
-    'selection': 'single'
+     name: 'Dummy Dependent List',
+     idtype: 'IDTypeA',
+     selection: 'single'
   });
 
   registry.push('tdpView', 'dummy_external', function () {
     return import('tdp_core/src/views/ProxyView');
   }, {
-    'name': 'DuckDuckGo',
-    'site': 'https://duckduckgo.com/?q={id}',
-    'argument': 'id',
-    'idtype': 'IDTypeA',
-    'selection': 'chooser'
+     name: 'DuckDuckGo',
+     site: 'https://duckduckgo.com/?q={id}',
+     argument: 'id',
+     idtype: 'IDTypeA',
+     selection: 'chooser'
   });
 
   registry.push('tdpScore', 'dummy_score', function () {
     return import('./src/scores/DummyScore');
   }, {
-    'name': 'Dummy Score',
-    'idtype': 'IDTypeA'
+     name: 'Dummy Score',
+     idtype: 'IDTypeA'
   });
   registry.push('tdpScoreImpl', 'dummy_score', function () {
     return import('./src/scores/DummyScore');
