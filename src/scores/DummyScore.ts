@@ -9,12 +9,14 @@ import {FormDialog, IFormElementDesc, FormElementType} from 'tdp_core/src/form';
 import {getTDPScore} from 'tdp_core/src/rest';
 
 class DummyScore implements IScore<number> {
-  constructor(private table: 'a' | 'b', private score: string, private tumorSample: string, private aggregation: string) {
+  private readonly dataSource: IDummyDataSource;
 
+  constructor(table: 'a' | 'b', private readonly score: string, private readonly tumorSample: string, private readonly aggregation: string) {
+    this.dataSource = table === 'a' ? dataSourceA : dataSourceB;
   }
 
   get idType() {
-    return resolve(this.table === 'a' ? 'IDTypeA' : 'IDTypeB');
+    return resolve(this.dataSource.idType);
   }
 
   createDesc() {
@@ -39,7 +41,7 @@ export function createScore(params: { table: 'a' | 'b', score: string, tumorSamp
 }
 
 export function create(desc: any): Promise<IScoreParam> {
-  const table = desc.idType === 'IDTypeA' ? 'a' : 'b';
+  const table = desc.idType === dataSourceA.idType ? 'a' : 'b';
 
   const dialog = new FormDialog('Add Score Column', 'Add Score Column');
   const formDesc: IFormElementDesc[] = [

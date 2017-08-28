@@ -11,29 +11,34 @@ export const samples = ['BCatB 1', 'BCatB 2', 'BCatB 3', 'BCatB 4', 'BCatB 5'];
  * List of ids for parameter form elements
  * Reuse this ids and activate the `useSession` option for form elements to have the same selectedIndex between different views
  */
+//TODO simplify by using unique prefix to avoid collisions
 export class ParameterFormIds {
   static SAMPLE = 'dummySample';
   static TYPE = 'dummyType';
 
   static SCORE_ATTRIBUTE = 'dummyAttr';
-  static SCORE_AGGREGATION='dummyAggregation';
+  static SCORE_AGGREGATION = 'dummyAggregation';
 }
 
 
 export interface IDummyDataSource {
   name: string;
-  table: string;
   idType: string;
+  table: string;
+
+  columns(desc: any): any[];
 }
 
-export const dataSourceA : IDummyDataSource = {
+export const dataSourceA: IDummyDataSource = {
   name: 'a',
+  idType: 'IDTYpeA',
   table: 'a',
   idType: 'IDTypeA'
 };
 
-export const dataSourceB : IDummyDataSource = {
+export const dataSourceB: IDummyDataSource = {
   name: 'b',
+  idType: 'IDTYpeB',
   table: 'b',
   idType: 'IDTypeA'
 };
