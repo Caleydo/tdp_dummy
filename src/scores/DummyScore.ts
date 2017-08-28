@@ -3,7 +3,7 @@
  */
 
 import {IScore, IScoreParam} from 'tdp_core/src/lineup';
-import {samples, ParameterFormIds} from '../config';
+import {samples, ParameterFormIds, IDummyDataSource, dataSourceA, dataSourceB} from '../config';
 import {resolve} from 'phovea_core/src/idtype';
 import {FormDialog, IFormElementDesc, FormElementType} from 'tdp_core/src/form';
 import {getTDPScore} from 'tdp_core/src/rest';
@@ -28,7 +28,7 @@ class DummyScore implements IScore<number> {
   }
 
   compute(): Promise<any[]> {
-    return getTDPScore(this.table, `${this.table}_score`, {
+    return getTDPScore('dummy', `${this.dataSource.table}_score`, {
       data_subtype: this.score,
       agg: this.aggregation,
       filter_b_cat2: this.tumorSample

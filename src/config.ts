@@ -25,20 +25,16 @@ export interface IDummyDataSource {
   name: string;
   idType: string;
   table: string;
-
-  columns(desc: any): any[];
 }
 
 export const dataSourceA: IDummyDataSource = {
   name: 'a',
   idType: 'IDTYpeA',
-  table: 'a',
-  idType: 'IDTypeA'
+  table: 'a'
 };
 
 export const dataSourceB: IDummyDataSource = {
   name: 'b',
   idType: 'IDTYpeB',
-  table: 'b',
-  idType: 'IDTypeA'
+  table: 'b'
 };
