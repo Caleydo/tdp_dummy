@@ -53,7 +53,15 @@ module.exports = function (registry, feature) {
   }, {
      name: 'Dummy Dependent List',
      idtype: 'IDTypeA',
-     selection: 'single'
+     selection: 'some'
+  });
+
+  registry.push('tdpView', 'dummyb_dependent', function () {
+    return import('./src/views/DummyDependentBList');
+  }, {
+     name: 'Dummy Dependent List',
+     idtype: 'IDTypeB',
+     selection: 'some'
   });
 
   registry.push('tdpView', 'dummy_external', function () {

@@ -29,12 +29,12 @@ export interface IDummyDataSource {
 
 export const dataSourceA: IDummyDataSource = {
   name: 'a',
-  idType: 'IDTYpeA',
+  idType: 'IDTypeA',
   table: 'a'
 };
 
 export const dataSourceB: IDummyDataSource = {
   name: 'b',
-  idType: 'IDTYpeB',
+  idType: 'IDTypeB',
   table: 'b'
 };
