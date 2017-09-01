@@ -76,8 +76,8 @@
     "tdp_core": "github:datavisyn/tdp_core#develop"
   },
   "optionalDependencies": {
-    "bob": "github:datavisyn/bob#tdp",
-    "ordino": "github:Caleydo/ordino#tdp"
+    "bob": "github:datavisyn/bob#develop",
+    "ordino": "github:Caleydo/ordino#develop"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.41",
