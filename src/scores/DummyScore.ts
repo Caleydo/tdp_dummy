@@ -2,13 +2,11 @@
  * Created by Samuel Gratzl on 27.04.2016.
  */
 
-import {getAPIJSON} from 'phovea_core/src/ajax';
-import {IScore} from 'ordino/src/LineUpView';
-import {IScoreParam} from 'ordino/src/lineup/IScore';
-import {samples, ParameterFormIds, dataSourceA, dataSourceB, IDummyDataSource} from '../config';
-import {IFormElementDesc, FormElementType} from 'ordino/src/FormBuilder';
+import {IScore, IScoreParam} from 'tdp_core/src/lineup';
+import {samples, ParameterFormIds, IDummyDataSource, dataSourceA, dataSourceB} from '../config';
 import {resolve} from 'phovea_core/src/idtype';
-import FormBuilderDialog from 'ordino/src/form/FormDialog';
+import {FormDialog, IFormElementDesc, FormElementType} from 'tdp_core/src/form';
+import {getTDPScore} from 'tdp_core/src/rest';
 
 class DummyScore implements IScore<number> {
   private readonly dataSource: IDummyDataSource;
@@ -30,8 +28,7 @@ class DummyScore implements IScore<number> {
   }
 
   compute(): Promise<any[]> {
-    return getAPIJSON(`/targid/db/dummy/${this.dataSource.table}/${this.dataSource.table}_score/score`, {
-      _assignids: true, //assign globally ids on the server side
+    return getTDPScore('dummy', `${this.dataSource.table}_score`, {
       data_subtype: this.score,
       agg: this.aggregation,
       filter_b_cat2: this.tumorSample
@@ -46,7 +43,7 @@ export function createScore(params: { table: 'a' | 'b', score: string, tumorSamp
 export function create(desc: any): Promise<IScoreParam> {
   const table = desc.idType === dataSourceA.idType ? 'a' : 'b';
 
-  const dialog = new FormBuilderDialog('Add Score Column', 'Add Score Column');
+  const dialog = new FormDialog('Add Score Column', 'Add Score Column');
   const formDesc: IFormElementDesc[] = [
     {
       type: FormElementType.SELECT,

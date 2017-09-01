@@ -1,9 +1,9 @@
-.. ordino_dummy documentation master file, created by
+.. tdp_dummy documentation master file, created by
    sphinx-quickstart on Tue Feb  7 19:42:32 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to ordino_dummy's documentation!
+Welcome to tdp_dummy's documentation!
 =========================================
 
 .. toctree::

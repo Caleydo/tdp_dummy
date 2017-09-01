@@ -1,13 +1,13 @@
 /**
  * Created by Samuel Gratzl on 29.01.2016.
  */
-import {types, samples, ParameterFormIds, dataSourceB} from '../config';
+import {types, dataSourceA, ParameterFormIds} from '../config';
 import {FormElementType} from 'tdp_core/src/form';
 import {single, ARankingView, numberCol} from 'tdp_core/src/lineup';
 import {getTDPDesc, getTDPRows, getTDPScore} from 'tdp_core/src/rest';
 import {resolve} from 'phovea_core/src/idtype';
 
-export default class DummyDependentList extends ARankingView {
+export default class DummyDependentBList extends ARankingView {
 
   protected getParameterFormDescs() {
     return super.getParameterFormDescs().concat([
@@ -19,35 +19,26 @@ export default class DummyDependentList extends ARankingView {
           optionsData: types
         },
         useSession: true
-      },
-      {
-        type: FormElementType.SELECT,
-        label: 'Sample Type',
-        id: ParameterFormIds.SAMPLE,
-        options: {
-          optionsData: samples
-        },
-        useSession: true
       }
     ]);
   }
 
   get itemIDType() {
-    return resolve(dataSourceB.idType);
+    return resolve(dataSourceA.idType);
   }
 
   protected loadColumnDesc() {
-    return getTDPDesc('dummy', 'b');
+    return getTDPDesc('dummy', 'a');
   }
 
   protected loadRows() {
-    return getTDPRows('dummy', 'b');
+    return getTDPRows('dummy', 'a');
   }
 
   protected createSelectionAdapter() {
     return single({
       loadData: (_id: number, id: string) => this.loadSelectionColumnData(id),
-      createDesc: (_id: number, id: string) => DummyDependentList.getSelectionColumnDesc(_id, id)
+      createDesc: (_id: number, id: string) => DummyDependentBList.getSelectionColumnDesc(_id, id)
     });
   }
 
@@ -63,9 +54,8 @@ export default class DummyDependentList extends ARankingView {
       name
     };
     const filters = {
-      ab_cat: this.getParameter(ParameterFormIds.TYPE),
-      b_cat2: this.getParameter(ParameterFormIds.SAMPLE),
+      ab_cat: this.getParameter(ParameterFormIds.TYPE)
     };
-    return getTDPScore<number>('dummy', 'b_single_score', param, filters);
+    return getTDPScore<number>('dummy', 'a_single_score', param, filters);
   }
 }
