@@ -25,7 +25,7 @@ def _create(result, prefix, idtype, other_prefix):
     GROUP BY internal_id, t.name""".format(table=prefix, other_table=other_prefix))\
     .replace('agg_score').replace('data_subtype', ['ab_real', 'ab_int']) \
     .call(inject_where) \
-    .filters(*other_columns) \
+    .filters(other_columns) \
     .filter('rid', alias='t.' + prefix +'_name') \
     .filter('name', alias='s.' + other_prefix + '_name') \
     .filter('id', table='t') \
@@ -40,7 +40,7 @@ def _create(result, prefix, idtype, other_prefix):
     .arg('name')\
     .replace('attribute', ['ab_real', 'ab_int', 'ab_cat'])\
     .call(inject_where) \
-    .filters(*other_columns) \
+    .filters(other_columns) \
     .filter('rid', alias = 't.' + prefix +'_name') \
     .filter('id', table = 't') \
     .build()
