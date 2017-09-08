@@ -22,7 +22,7 @@ def _create(result, prefix, idtype, other_prefix):
     FROM ab e
     JOIN {table} t ON e.{table}_id = t.id
     JOIN {other_table} s ON s.id = e.{other_table}_id
-    GROUP BY {table}_id""".format(table=prefix, other_table=other_prefix))\
+    GROUP BY e.{table}_id""".format(table=prefix, other_table=other_prefix))\
     .replace('agg_score').replace('data_subtype', ['ab_real', 'ab_int']) \
     .call(inject_where) \
     .filters(other_columns) \
