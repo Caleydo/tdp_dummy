@@ -19,7 +19,7 @@ export default class DummyMenuSection implements IStartMenuSection {
       if (options.session) {
         options.session((<any>this.desc).viewId, {namedSet}, {});
       } else {
-        console.error('no targid object given to push new view');
+        console.error('no session factory object given to push new view');
       }
     };
     this.list = new NamedSetList(this.idType, createSession, parent.ownerDocument);
