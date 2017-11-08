@@ -87,8 +87,8 @@ module.exports = function (registry, feature) {
   });
 
 
-  /// #if include('bob')
-  registry.push('bobSearchProvider', 'dummyA', function () {
+  /// #if include('dTiles')
+  registry.push('dTilesSearchProvider', 'dummyA', function () {
     return import('./src/DummySearchProvider')
   }, {
     idType: 'IDTypeA',
@@ -96,7 +96,7 @@ module.exports = function (registry, feature) {
   });
 
 
-  registry.push('bobSearchProvider', 'dummyB', function () {
+  registry.push('dTilesSearchProvider', 'dummyB', function () {
     return import('./src/DummySearchProvider')
   }, {
     idType: 'IDTypeB',

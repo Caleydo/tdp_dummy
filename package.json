@@ -76,7 +76,7 @@
     "tdp_core": "github:datavisyn/tdp_core#develop"
   },
   "optionalDependencies": {
-    "bob": "github:datavisyn/bob#develop",
+    "dTiles": "github:datavisyn/dTiles#develop",
     "ordino": "github:Caleydo/ordino#develop"
   },
   "devDependencies": {
