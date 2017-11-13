@@ -13,7 +13,7 @@ export default class DummySearchProvider implements ISearchProvider {
     return getTDPLookup('dummy', `${this.dataSource.table}_items`, {
       column: `${this.dataSource.table}_name`,
       query,
-      page: page + 1, //required to start with 1 instead of 0
+      page,
       limit: pageSize
     }, true);
   }
