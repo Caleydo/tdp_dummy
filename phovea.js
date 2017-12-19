@@ -67,8 +67,8 @@ module.exports = function (registry, feature) {
   registry.push('tdpView', 'dummy_external', function () {
     return import('tdp_core/src/views/ProxyView');
   }, {
-     name: 'DuckDuckGo',
-     site: 'https://duckduckgo.com/?q={id}',
+     name: 'Wikipedia',
+     site: 'https://wikipedia.org/w/index.php?search={id}',
      argument: 'id',
      idtype: 'IDTypeA',
      selection: 'chooser'
