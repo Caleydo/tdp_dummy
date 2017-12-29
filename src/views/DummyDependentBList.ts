@@ -54,7 +54,7 @@ export default class DummyDependentBList extends ARankingView {
       name
     };
     const filters = {
-      ab_cat: this.getParameter(ParameterFormIds.TYPE)
+      ab_cat: this.getParameterData(ParameterFormIds.TYPE)
     };
     return getTDPScore<number>('dummy', 'a_single_score', param, filters);
   }

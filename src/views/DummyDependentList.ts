@@ -63,8 +63,8 @@ export default class DummyDependentList extends ARankingView {
       name
     };
     const filters = {
-      ab_cat: this.getParameter(ParameterFormIds.TYPE),
-      b_cat2: this.getParameter(ParameterFormIds.SAMPLE),
+      ab_cat: this.getParameterData(ParameterFormIds.TYPE),
+      b_cat2: this.getParameterData(ParameterFormIds.SAMPLE),
     };
     return getTDPScore<number>('dummy', 'b_single_score', param, filters);
   }
