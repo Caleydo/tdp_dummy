@@ -64,6 +64,37 @@ module.exports = function (registry, feature) {
      selection: 'some'
   });
 
+  registry.push('tdpView', 'hello', function () {
+    return import('./src/views/Hello');
+  }, {
+     name: 'Hello',
+     idtype: 'IDTypeA',
+     selection: 'some'
+  });
+
+  /*registry.push('tdpView', 'c', function () {
+    return import('tdp_core/src/views/CompositeView');
+  }, {
+     name: 'DummyComposite',
+     idtype: 'IDTypeA',
+     selection: 'some',
+     elements: [
+       {
+         key: 'a',
+         loader: function () {
+           return import('./src/views/DummyComposite')
+         }, factory: 'new DummyA'
+       },
+       {
+         key: 'b',
+         loader: function () {
+           return import('./src/views/DummyComposite')
+         }, factory: 'new DummyB'
+       }
+     ]
+  });
+  */
+
   registry.push('tdpView', 'dummy_external', function () {
     return import('tdp_core/src/views/ProxyView');
   }, {
