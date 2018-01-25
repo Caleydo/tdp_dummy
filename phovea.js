@@ -72,7 +72,7 @@ module.exports = function (registry, feature) {
      selection: 'some'
   });
 
-  /*registry.push('tdpView', 'c', function () {
+  registry.push('tdpView', 'dummy_composite', function () {
     return import('tdp_core/src/views/CompositeView');
   }, {
      name: 'DummyComposite',
@@ -83,17 +83,18 @@ module.exports = function (registry, feature) {
          key: 'a',
          loader: function () {
            return import('./src/views/DummyComposite')
-         }, factory: 'new DummyA'
+         }, 
+         factory: 'new DummyA'
        },
        {
          key: 'b',
          loader: function () {
            return import('./src/views/DummyComposite')
-         }, factory: 'new DummyB'
+         }, 
+         factory: 'new DummyB'
        }
      ]
   });
-  */
 
   registry.push('tdpView', 'dummy_external', function () {
     return import('tdp_core/src/views/ProxyView');
