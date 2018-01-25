@@ -64,14 +64,6 @@ module.exports = function (registry, feature) {
      selection: 'some'
   });
 
-  registry.push('tdpView', 'hello', function () {
-    return import('./src/views/Hello');
-  }, {
-     name: 'Hello',
-     idtype: 'IDTypeA',
-     selection: 'some'
-  });
-
   registry.push('tdpView', 'dummy_composite', function () {
     return import('tdp_core/src/views/CompositeView');
   }, {
