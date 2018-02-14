@@ -1,4 +1,4 @@
-ordino_dummy [![Phovea][phovea-image]][phovea-url] [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+tdp_dummy [![Phovea][phovea-image]][phovea-url] [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![CircleCI](https://circleci.com/gh/Caleydo/tdp_dummy.svg?style=shield)](https://circleci.com/gh/Caleydo/tdp_dummy)
 =====================
 
 This repository provides a SQLite database with dummy data and additional views for this specific dataset for TargID.
@@ -7,8 +7,8 @@ Installation
 ------------
 
 ```
-git clone https://github.com/caleydo/ordino_dummy.git
-cd ordino_dummy
+git clone https://github.com/caleydo/tdp_dummy.git
+cd tdp_dummy
 npm install
 ```
 
@@ -36,9 +36,9 @@ This repository is part of **[Phovea](http://phovea.caleydo.org/)**, a platform 
 
 [phovea-image]: https://img.shields.io/badge/Phovea-Client%20Plugin-F47D20.svg
 [phovea-url]: https://phovea.caleydo.org
-[npm-image]: https://badge.fury.io/js/ordino_dummy.svg
-[npm-url]: https://npmjs.org/package/ordino_dummy
-[travis-image]: https://travis-ci.org/caleydo/ordino_dummy.svg?branch=master
-[travis-url]: https://travis-ci.org/caleydo/ordino_dummy
-[daviddm-image]: https://david-dm.org/caleydo/ordino_dummy/status.svg
-[daviddm-url]: https://david-dm.org/caleydo/ordino_dummy
+[npm-image]: https://badge.fury.io/js/tdp_dummy.svg
+[npm-url]: https://npmjs.org/package/tdp_dummy
+[travis-image]: https://travis-ci.org/caleydo/tdp_dummy.svg?branch=master
+[travis-url]: https://travis-ci.org/caleydo/tdp_dummy
+[daviddm-image]: https://david-dm.org/caleydo/tdp_dummy/status.svg
+[daviddm-url]: https://david-dm.org/caleydo/tdp_dummy

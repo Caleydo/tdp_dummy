@@ -1,1 +1,1 @@
--e git+https://github.com/Caleydo/ordino.git@v2.0.0#egg=ordino
+-e git+https://github.com/datavisyn/tdp_core.git@v4.0.0#egg=tdp_core
