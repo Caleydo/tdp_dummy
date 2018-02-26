@@ -75,14 +75,14 @@ module.exports = function (registry, feature) {
          key: 'a',
          loader: function () {
            return import('./src/views/DummyComposite')
-         }, 
+         },
          factory: 'new DummyA'
        },
        {
          key: 'b',
          loader: function () {
            return import('./src/views/DummyComposite')
-         }, 
+         },
          factory: 'new DummyB'
        }
      ]
@@ -96,6 +96,13 @@ module.exports = function (registry, feature) {
      argument: 'id',
      idtype: 'IDTypeA',
      selection: 'chooser'
+  });
+
+  registry.push('tdpInstantView', 'dummy', function () {
+    return import('./src/views/DummyInstantView');
+  }, {
+     name: 'Info',
+     idtype: 'IDTypeA'
   });
 
   registry.push('tdpScore', 'dummy_score', function () {
