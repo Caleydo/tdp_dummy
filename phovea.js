@@ -84,8 +84,19 @@ module.exports = function (registry, feature) {
            return import('./src/views/DummyComposite')
          },
          factory: 'new DummyB'
+       },
+       {
+         key: 'c',
+         loader: function () {
+           return import('./src/views/DummyComposite')
+         },
+         factory: 'new DummyC'
        }
-     ]
+     ],
+    layout: {
+      type: 'vsplit',
+      keys: ['a', { type: 'hsplit', keys: ['b', 'c']}]
+    }
   });
 
   registry.push('tdpView', 'dummy_external', function () {

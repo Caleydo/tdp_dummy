@@ -33,3 +33,18 @@ export class DummyB extends ATableView<any> {
     }
   }
 }
+
+export class DummyC extends AView {
+  initImpl() {
+    super.initImpl();
+    this.node.innerHTML = 'CCC';
+    let i = 0;
+    this.node.onclick = () => {
+      this.updateShared('SHARED2', (i++));
+      if (i === 2) {
+        this.fire(VIEW_COMPOSITE_EVENT_CHANGE_RATIOS, 0.2, 0.8);
+      }
+    };
+  }
+}
+
