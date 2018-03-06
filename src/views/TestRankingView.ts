@@ -11,7 +11,15 @@ export default class TestRankingView extends ARankingView {
       enableAddingColumns: false, // disable adding columns
       enableOverviewMode: false, //'active', // active overview mode by default, disable with "false" for custom heights
       enableStripedBackground: true, // alternating background pattern
-      itemRowHeight: (row, index) => this.heightOf(index)
+      itemRowHeight: (row, index) => this.heightOf(index),
+
+      enableHeaderRotation: true, // rotate labels if to narrow
+      customOptions: {
+        header: {
+          rotationHeight: 200,
+          rotationDegree: -45
+        }
+      }
     }, options));
   }
 
@@ -31,7 +39,7 @@ export default class TestRankingView extends ARankingView {
     base.push(linkCol('b_name', 'https://duckduckgo.com/?q=$2', {label: 'B Link'}));
     // push a link column rendered as an image
     base.push(linkCol('b_name', 'https://picsum.photos/80/80/?random', {
-      label: 'B Image',
+      label: 'B Very Long Image Link Such That It Cannot Fit',
       extras: {rendererType: 'image'}
     }));
 
@@ -54,7 +62,7 @@ export default class TestRankingView extends ARankingView {
       rank: false, // disable rank column
       aggregate: false, // disable group collapse column
       selection: false, // disable selection column,
-      order: ['B Name', 'B Cat1', 'B Cat2', 'B Int', 'B Real', 'B Link', 'B Image', 'B HTML'] // fix column order
+      order: ['B Name', 'B Cat1', 'B Cat2', 'B Int', 'B Real', 'B Link', 'B Very Long Image Link Such That It Cannot Fit', 'B HTML'] // fix column order
     });
   }
 
