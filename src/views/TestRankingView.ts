@@ -50,6 +50,16 @@ export default class TestRankingView extends ARankingView {
       escape: false
     }));
 
+    // push a column with a custom accessor to render HTML
+    base.push(Object.assign(stringCol('b_name'), {
+      label: 'B Table',
+      accessor: (row: IRow) => `<table style="width: 100%">
+        <tr><th style="width: 5em">Key</th><td>${row.b_name}</td></tr>
+        <tr><th>Bla</th><td>${row.b_name}22</td></tr>
+        </table>`,
+      escape: false
+    }));
+
     return base;
   }
 
@@ -62,7 +72,7 @@ export default class TestRankingView extends ARankingView {
       rank: false, // disable rank column
       aggregate: false, // disable group collapse column
       selection: false, // disable selection column,
-      order: ['B Name', 'B Cat1', 'B Cat2', 'B Int', 'B Real', 'B Link', 'B Very Long Image Link Such That It Cannot Fit', 'B HTML'] // fix column order
+      order: ['B Name', 'B Cat1', 'B Cat2', 'B Int', 'B Real', 'B Link', 'B Very Long Image Link Such That It Cannot Fit', 'B HTML', 'B Table'] // fix column order
     });
   }
 
