@@ -35,6 +35,10 @@ export default class TestRankingView extends ARankingView {
   protected getColumnDescs(loaded: IServerColumn[]) {
     const base = super.getColumnDescs(loaded);
 
+    // specific number format see
+    base.push(Object.assign({}, base.find((d) => (<any>d).column === 'b_int'), { label: 'B Intd', numberFormat: 'd'}));
+
+
     // push a link column
     base.push(linkCol('b_name', 'https://duckduckgo.com/?q=$2', {label: 'B Link'}));
     // push a link column rendered as an image
@@ -72,7 +76,7 @@ export default class TestRankingView extends ARankingView {
       rank: false, // disable rank column
       aggregate: false, // disable group collapse column
       selection: false, // disable selection column,
-      order: ['B Name', 'B Cat1', 'B Cat2', 'B Int', 'B Real', 'B Link', 'B Very Long Image Link Such That It Cannot Fit', 'B HTML', 'B Table'] // fix column order
+      order: ['B Name', 'B Cat1', 'B Cat2', 'B Int', 'B Intd', 'B Real', 'B Link', 'B Very Long Image Link Such That It Cannot Fit', 'B HTML', 'B Table'] // fix column order
     });
   }
 
