@@ -46,6 +46,19 @@ export default class TestRankingView extends ARankingView {
       label: 'B Very Long Image Link Such That It Cannot Fit',
       extras: {rendererType: 'image'}
     }));
+    // push a link column with a link per item
+    base.push(Object.assign(linkCol('b_name', null), {
+      label: 'B CustomLink',
+      accessor: (row: IRow) => {
+        if (row._id < 10) {
+          return 'No Link';
+        }
+        return {
+          alt: row.b_name + '/' + row.b_cat1,
+          href: `https://duckduckgo.com/?q=${encodeURIComponent(row.b_cat1)}-${encodeURIComponent(row.b_name)}`
+        };
+      }
+    }));
 
     // push a column with a custom accessor to render HTML
     base.push(Object.assign(stringCol('b_name'), {
@@ -76,7 +89,7 @@ export default class TestRankingView extends ARankingView {
       rank: false, // disable rank column
       aggregate: false, // disable group collapse column
       selection: false, // disable selection column,
-      order: ['B Name', 'B Cat1', 'B Cat2', 'B Int', 'B Intd', 'B Real', 'B Link', 'B Very Long Image Link Such That It Cannot Fit', 'B HTML', 'B Table'] // fix column order
+      order: ['B Name', 'B Cat1', 'B Cat2', 'B Int', 'B Intd', 'B Real', 'B Link', 'B CustomLink', 'B Very Long Image Link Such That It Cannot Fit', 'B HTML', 'B Table'] // fix column order
     });
   }
 
