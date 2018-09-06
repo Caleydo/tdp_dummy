@@ -19,7 +19,7 @@ export default class DummySearchProvider implements ISearchProvider {
   }
 
   validate(query: string[]): Promise<IResult[]> {
-    return getTDPFilteredRows('dummy', `${this.dataSource.table}_items_verify`, {}, {
+    return <Promise<IResult[]>>getTDPFilteredRows('dummy', `${this.dataSource.table}_items_verify`, {}, {
       [`${this.dataSource.table}_name`]: query
     });
   }
