@@ -26,6 +26,6 @@ export default class DummyInstantView extends AInstantView {
             ${items.map((d) => `<td>${d.text}</td>`).join('')}
           </tr>
         </tbody>
-    </table>`
+    </table>`;
   }
 }
