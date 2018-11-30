@@ -75,17 +75,28 @@ module.exports = function (registry, feature) {
          key: 'a',
          loader: function () {
            return import('./src/views/DummyComposite')
-         }, 
+         },
          factory: 'new DummyA'
        },
        {
          key: 'b',
          loader: function () {
            return import('./src/views/DummyComposite')
-         }, 
+         },
          factory: 'new DummyB'
+       },
+       {
+         key: 'c',
+         loader: function () {
+           return import('./src/views/DummyComposite')
+         },
+         factory: 'new DummyC'
        }
-     ]
+     ],
+    layout: {
+      type: 'vsplit',
+      keys: ['a', { type: 'hsplit', keys: ['b', 'c']}]
+    }
   });
 
   registry.push('tdpView', 'dummy_external', function () {
@@ -96,6 +107,13 @@ module.exports = function (registry, feature) {
      argument: 'id',
      idtype: 'IDTypeA',
      selection: 'chooser'
+  });
+
+  registry.push('tdpInstantView', 'dummy', function () {
+    return import('./src/views/DummyInstantView');
+  }, {
+     name: 'Info',
+     idtype: 'IDTypeA'
   });
 
   registry.push('tdpScore', 'dummy_score', function () {

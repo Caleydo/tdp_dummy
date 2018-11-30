@@ -24,7 +24,7 @@ def _create(result, prefix, idtype, other_prefix):
 
   add_common_queries(result, prefix, idtype, 'cast(id as text) as id', columns, name_column=prefix + '_name')
 
-  result[prefix + '_score'] = DBViewBuilder().idtype(idtype).query("""
+  result[prefix + '_score'] = DBViewBuilder('score').idtype(idtype).query("""
     SELECT cast(e.{table}_id as text) as id, {{agg_score}} AS score
     FROM ab e
     JOIN {table} t ON e.{table}_id = t.id
@@ -38,7 +38,7 @@ def _create(result, prefix, idtype, other_prefix):
     .filter('id', table='t') \
     .build()
 
-  result[prefix + '_single_score'] = DBViewBuilder().idtype(idtype).query("""
+  result[prefix + '_single_score'] = DBViewBuilder('score').idtype(idtype).query("""
     SELECT cast(e.{table}_id as text) as id, {{attribute}} AS score
     FROM ab e
     JOIN {table} t ON e.{table}_id = t.id
@@ -59,6 +59,14 @@ FROM ab a1 INNER JOIN ab a2 ON a1.b_id = a2.b_id
 WHERE a1.a_id = :a_id1 and a2.a_id = :a_id2""")
     .arg('a_id1').arg('a_id2')
     .assign_ids()
+    .build(),
+  int_test=DBViewBuilder().query("""
+  SELECT * FROM a WHERE a.id = :id""")
+    .arg('id', int)
+    .build(),
+  multi_test=DBViewBuilder().query("""
+  SELECT * FROM a WHERE a.id IN :id""")
+    .arg('id', int, as_list=True)
     .build()
 )
 _create(views, 'a', idtype_a, 'b')
