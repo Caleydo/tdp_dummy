@@ -76,7 +76,7 @@
     "tdp_core": "github:datavisyn/tdp_core#semver:^5.0.2"
   },
   "optionalDependencies": {
-    "dTiles": "github:datavisyn/dTiles#semver:^5.0.0",
+    "dTiles": "github:datavisyn/dTiles#semver:^3.0.0",
     "ordino": "github:Caleydo/ordino#semver:^5.0.0"
   },
   "devDependencies": {
