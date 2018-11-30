@@ -73,11 +73,11 @@
     "predist:python": "npm run build:python && npm run docs:python"
   },
   "dependencies": {
-    "tdp_core": "github:datavisyn/tdp_core#semver:^5.0.2"
+    "tdp_core": "github:datavisyn/tdp_core#develop"
   },
   "optionalDependencies": {
-    "dTiles": "github:datavisyn/dTiles#semver:^3.0.0",
-    "ordino": "github:Caleydo/ordino#semver:^5.0.0"
+    "dTiles": "github:datavisyn/dTiles#develop",
+    "ordino": "github:Caleydo/ordino#develop"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.47",
