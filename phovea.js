@@ -128,8 +128,6 @@ module.exports = function (registry, feature) {
     factory: 'createScore'
   });
 
-
-  /// #if include('dTiles')
   registry.push('dTilesSearchProvider', 'dummyA', function () {
     return import('./src/DummySearchProvider')
   }, {
@@ -137,14 +135,12 @@ module.exports = function (registry, feature) {
     factory: 'createA'
   });
 
-
   registry.push('dTilesSearchProvider', 'dummyB', function () {
     return import('./src/DummySearchProvider')
   }, {
     idType: 'IDTypeB',
     factory: 'createB'
   });
-  /// #endif
   // generator-phovea:end
 };
 
