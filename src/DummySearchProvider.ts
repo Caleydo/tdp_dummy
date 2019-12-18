@@ -1,7 +1,7 @@
 import {IDummyDataSource, dataSourceA, dataSourceB} from './config';
 import {getTDPLookup, getTDPFilteredRows} from 'tdp_core/src/rest';
 import './style.scss';
-import {IResult, ISearchProvider} from 'dTiles/src/extensions';
+import {IResult, ISearchProvider} from 'tdp_core/src/public/search';
 
 export default class DummySearchProvider implements ISearchProvider {
 
