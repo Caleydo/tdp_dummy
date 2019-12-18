@@ -17,6 +17,12 @@
     "libraryExternals": [],
     "entries": "./index.js",
     "ignores": [],
-    "today": "Sun, 06 Nov 2016 22:40:46 GMT"
+    "today": "Sun, 06 Nov 2016 22:40:46 GMT",
+    "promptValues": {
+      "authorName": "The Caleydo Team",
+      "authorEmail": "contact@caleydo.org",
+      "authorUrl": "https://caleydo.org",
+      "githubAccount": "caleydo"
+    }
   }
 }
