@@ -76,7 +76,7 @@
     "tdp_core": "github:datavisyn/tdp_core#semver:^8.0.0"
   },
   "optionalDependencies": {
-    "ordino": "^6.0.0"
+    "ordino": "github:Caleydo/ordino#semver:^6.0.0"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.47",
