@@ -2,7 +2,7 @@
   "name": "tdp_dummy",
   "description": "",
   "homepage": "https://phovea.caleydo.org",
-  "version": "7.0.0",
+  "version": "7.0.1-SNAPSHOT",
   "author": {
     "name": "The Caleydo Team",
     "email": "contact@caleydo.org",
@@ -73,10 +73,10 @@
     "predist:python": "npm run build:python && npm run docs:python"
   },
   "dependencies": {
-    "tdp_core": "github:datavisyn/tdp_core#semver:^9.0.0"
+    "tdp_core": "github:datavisyn/tdp_core#develop"
   },
   "optionalDependencies": {
-    "ordino": "github:Caleydo/ordino#semver:^7.0.0"
+    "ordino": "github:Caleydo/ordino#develop"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.47",
