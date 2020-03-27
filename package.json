@@ -75,10 +75,10 @@
     "predist:python": "npm run build:python && npm run docs:python"
   },
   "dependencies": {
-    "tdp_core": "github:datavisyn/tdp_core#stoiber/testing_with_jest"
+    "tdp_core": "github:datavisyn/tdp_core#develop"
   },
   "optionalDependencies": {
-    "ordino": "github:Caleydo/ordino#stoiber/testing_with_jest"
+    "ordino": "github:Caleydo/ordino#develop"
   },
   "devDependencies": {
     "@types/jest": "25.1.4",
