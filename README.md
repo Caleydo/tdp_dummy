@@ -38,7 +38,7 @@ This repository is part of **[Phovea](http://phovea.caleydo.org/)**, a platform 
 [phovea-url]: https://phovea.caleydo.org
 [npm-image]: https://badge.fury.io/js/tdp_dummy.svg
 [npm-url]: https://npmjs.org/package/tdp_dummy
-[travis-image]: https://travis-ci.org/caleydo/tdp_dummy.svg?branch=master
-[travis-url]: https://travis-ci.org/caleydo/tdp_dummy
+[circleci-image]: https://circleci.com/gh/Caleydo/tdp_dummy.svg?style=shield
+[circleci-url]: https://circleci.com/gh/Caleydo/tdp_dummy
 [daviddm-image]: https://david-dm.org/caleydo/tdp_dummy/status.svg
 [daviddm-url]: https://david-dm.org/caleydo/tdp_dummy
