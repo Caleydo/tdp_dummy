@@ -3,7 +3,7 @@ import {getTDPLookup, getTDPFilteredRows} from 'tdp_core/src/rest';
 import './style.scss';
 import {IResult, ISearchProvider} from 'tdp_core/src/public/search';
 
-export default class DummySearchProvider implements ISearchProvider {
+export class DummySearchProvider implements ISearchProvider {
 
   constructor(private readonly dataSource: IDummyDataSource) {
 

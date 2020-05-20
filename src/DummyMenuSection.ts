@@ -9,7 +9,7 @@ import {IStartMenuSection, IStartMenuSectionOptions} from 'ordino/src/extensions
 import {resolve} from 'phovea_core/src/idtype';
 import NamedSetList from 'tdp_core/src/storage/NamedSetList';
 
-export default class DummyMenuSection implements IStartMenuSection {
+export class DummyMenuSection implements IStartMenuSection {
   private readonly idType = resolve('IDTypeA');
   private readonly list: NamedSetList;
 

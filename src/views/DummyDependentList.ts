@@ -7,7 +7,7 @@ import {single, ARankingView, numberCol} from 'tdp_core/src/lineup';
 import {getTDPDesc, getTDPRows, getTDPScore} from 'tdp_core/src/rest';
 import {resolve} from 'phovea_core/src/idtype';
 
-export default class DummyDependentList extends ARankingView {
+export class DummyDependentList extends ARankingView {
 
   protected getParameterFormDescs() {
     return super.getParameterFormDescs().concat([

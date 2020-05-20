@@ -1,7 +1,7 @@
 import AInstantView from 'tdp_core/src/views/AInstantView';
 
 
-export default class DummyInstantView extends AInstantView {
+export class DummyInstantView extends AInstantView {
 
   protected initImpl() {
     super.initImpl();

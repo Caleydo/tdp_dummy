@@ -1,10 +1,6 @@
 export * from './DummyComposite';
 export * from './DummyDependentBList';
-export {default as DummyDependentBList} from './DummyDependentBList';
 export * from './DummyDependentList';
-export {default as DummyDependentList} from './DummyDependentList';
 export * from './DummyDetailView';
-export {default as DummyDetailView} from './DummyDetailView';
 export * from './DummyInstantView';
-export {default as DummyInstantView} from './DummyInstantView';
 export * from './DummyList';

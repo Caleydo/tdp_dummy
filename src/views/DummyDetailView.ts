@@ -7,7 +7,7 @@ import {showErrorModalDialog} from 'tdp_core/src/dialogs';
 import * as d3 from 'd3';
 import {getTDPData} from 'tdp_core/src/rest';
 
-export default class DummyDetailView extends AD3View {
+export class DummyDetailView extends AD3View {
 
   private readonly x = d3.scale.linear();
   private readonly y = d3.scale.linear();
