@@ -2,7 +2,7 @@
  * Created by Samuel Gratzl on 27.04.2016.
  */
 
-import {IScore, IScoreParam} from 'tdp_core/src/lineup';
+import {IScore, IScoreParam} from 'tdp_core/src/extensions';
 import {samples, ParameterFormIds, IDummyDataSource, dataSourceA, dataSourceB} from '../config';
 import {resolve} from 'phovea_core/src/idtype';
 import {FormDialog, IFormElementDesc, FormElementType} from 'tdp_core/src/form';

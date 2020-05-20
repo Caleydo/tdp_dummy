@@ -3,7 +3,7 @@
  */
 import '../style.scss';
 import {AD3View} from 'tdp_core/src/views/AD3View';
-import {showErrorModalDialog} from 'tdp_core/src/dialogs';
+import {errorAlert} from 'tdp_core/src/notifications';
 import * as d3 from 'd3';
 import {getTDPData} from 'tdp_core/src/rest';
 
@@ -89,7 +89,7 @@ export class DummyDetailView extends AD3View {
     });
 
     // on error
-    promise.catch(showErrorModalDialog)
+    promise.catch(errorAlert)
       .catch((error) => {
         console.error(error);
         this.setBusy(false);

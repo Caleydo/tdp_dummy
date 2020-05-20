@@ -1,5 +1,5 @@
-import ATableView from 'tdp_core/src/views/ATableView';
-import AView from 'tdp_core/src/views/AView';
+import {ATableView} from 'tdp_core/src/views/ATableView';
+import {AView} from 'tdp_core/src/views/AView';
 import {VIEW_COMPOSITE_EVENT_CHANGE_RATIOS} from 'tdp_core/src/views/CompositeView';
 
 
