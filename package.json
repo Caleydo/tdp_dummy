@@ -75,10 +75,10 @@
     "predist:python": "npm run build:python && npm run docs:python"
   },
   "dependencies": {
-    "tdp_core": "github:datavisyn/tdp_core#develop"
+    "tdp_core": "github:datavisyn/tdp_core#vstoiber/refactoring"
   },
   "optionalDependencies": {
-    "ordino": "github:Caleydo/ordino#develop"
+    "ordino": "github:Caleydo/ordino#vstoiber/use_refactoring_branches"
   },
   "devDependencies": {
     "@types/jest": "25.1.4",
