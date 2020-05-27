@@ -1,7 +1,7 @@
 /**
  * Created by Samuel Gratzl on 29.01.2016.
  */
-import {types, samples, ParameterFormIds, dataSourceB} from '../config';
+import {types, samples, ParameterFormIds, dataSourceB} from '../base/config';
 import {FormElementType} from 'tdp_core/src/form';
 import {single, ARankingView, numberCol} from 'tdp_core/src/lineup';
 import {getTDPDesc, getTDPRows, getTDPScore} from 'tdp_core/src/rest';

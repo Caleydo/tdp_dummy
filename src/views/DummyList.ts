@@ -2,7 +2,7 @@
  * Created by Samuel Gratzl on 29.01.2016.
  */
 import {IViewContext, ISelection} from 'tdp_core/src/views';
-import {IDummyDataSource, dataSourceA, dataSourceB} from '../config';
+import {IDummyDataSource, dataSourceA, dataSourceB} from '../base/config';
 import {getTDPDesc, getTDPFilteredRows} from 'tdp_core/src/rest';
 import {AStartList} from 'tdp_core/src/views/AStartList';
 

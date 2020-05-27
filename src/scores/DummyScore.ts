@@ -3,7 +3,7 @@
  */
 
 import {IScore, IScoreParam} from 'tdp_core/src/extensions';
-import {samples, ParameterFormIds, IDummyDataSource, dataSourceA, dataSourceB} from '../config';
+import {samples, ParameterFormIds, IDummyDataSource, dataSourceA, dataSourceB} from '../base/config';
 import {resolve} from 'phovea_core/src/idtype';
 import {FormDialog, IFormElementDesc, FormElementType} from 'tdp_core/src/form';
 import {getTDPScore} from 'tdp_core/src/rest';

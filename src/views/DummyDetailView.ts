@@ -1,7 +1,7 @@
 /**
  * Created by Samuel Gratzl on 27.04.2016.
  */
-import '../style.scss';
+import '../scss/style.scss';
 import {AD3View} from 'tdp_core/src/views/AD3View';
 import {errorAlert} from 'tdp_core/src/notifications';
 import * as d3 from 'd3';

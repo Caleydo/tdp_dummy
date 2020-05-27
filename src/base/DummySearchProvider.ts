@@ -1,6 +1,6 @@
-import {IDummyDataSource, dataSourceA, dataSourceB} from './config';
+import {IDummyDataSource, dataSourceA, dataSourceB} from '../config';
 import {getTDPLookup, getTDPFilteredRows} from 'tdp_core/src/rest';
-import './style.scss';
+import '../scss/style.scss';
 import {IResult, ISearchProvider} from 'tdp_core/src/public/search';
 
 export class DummySearchProvider implements ISearchProvider {
