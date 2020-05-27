@@ -23,13 +23,12 @@ class DummyStartList extends AStartList {
     const filters = this.buildNamedSetFilters('namedset4id');
     return getTDPFilteredRows('dummy', this.dataSource.table, {}, filters);
   }
-}
 
-export function createStartA(context: IViewContext, selection: ISelection, parent: HTMLElement, options?) {
-  return new DummyStartList(context, dataSourceA, selection, parent, options);
-}
+  static createStartA(context: IViewContext, selection: ISelection, parent: HTMLElement, options?) {
+    return new DummyStartList(context, dataSourceA, selection, parent, options);
+  }
 
-export function createStartB(context: IViewContext, selection: ISelection, parent: HTMLElement, options?) {
-  return new DummyStartList(context, dataSourceB, selection, parent, options);
+  static createStartB(context: IViewContext, selection: ISelection, parent: HTMLElement, options?) {
+    return new DummyStartList(context, dataSourceB, selection, parent, options);
+  }
 }
-
