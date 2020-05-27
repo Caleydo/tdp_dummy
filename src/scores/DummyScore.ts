@@ -2,11 +2,11 @@
  * Created by Samuel Gratzl on 27.04.2016.
  */
 
-import {IScore, IScoreParam} from 'tdp_core/src/extensions';
+import {IScore, IScoreParam} from 'tdp_core';
 import {samples, ParameterFormIds, IDummyDataSource, dataSourceA, dataSourceB} from '../base/config';
-import {resolve} from 'phovea_core/src/idtype';
-import {FormDialog, IFormElementDesc, FormElementType} from 'tdp_core/src/form';
-import {getTDPScore} from 'tdp_core/src/rest';
+import {resolve} from 'phovea_core';
+import {FormDialog, IFormElementDesc, FormElementType} from 'tdp_core';
+import {getTDPScore} from 'tdp_core';
 
 class DummyScore implements IScore<number> {
   private readonly dataSource: IDummyDataSource;
