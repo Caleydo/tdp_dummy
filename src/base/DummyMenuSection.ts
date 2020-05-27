@@ -3,7 +3,7 @@
  */
 
 import {IPluginDesc} from 'phovea_core';
-import {categories} from '../config';
+import {categories} from './config';
 import {INamedSet} from 'tdp_core';
 import {IStartMenuSection, IStartMenuSectionOptions} from 'ordino/src/extensions';
 import {IDTypeManager} from 'phovea_core';
