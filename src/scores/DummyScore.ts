@@ -4,9 +4,9 @@
 
 import {IScore, IScoreParam} from 'tdp_core';
 import {samples, ParameterFormIds, IDummyDataSource, dataSourceA, dataSourceB} from '../base/config';
-import {resolve} from 'phovea_core';
+import {IDTypeManager} from 'phovea_core';
 import {FormDialog, IFormElementDesc, FormElementType} from 'tdp_core';
-import {getTDPScore} from 'tdp_core';
+import {RestBaseUtils} from 'tdp_core';
 
 class DummyScore implements IScore<number> {
   private readonly dataSource: IDummyDataSource;
@@ -16,7 +16,7 @@ class DummyScore implements IScore<number> {
   }
 
   get idType() {
-    return resolve(this.dataSource.idType);
+    return IDTypeManager.getInstance().resolveIdType(this.dataSource.idType);
   }
 
   createDesc() {
@@ -28,7 +28,7 @@ class DummyScore implements IScore<number> {
   }
 
   compute(): Promise<any[]> {
-    return getTDPScore('dummy', `${this.dataSource.table}_score`, {
+    return RestBaseUtils.getTDPScore('dummy', `${this.dataSource.table}_score`, {
       data_subtype: this.score,
       agg: this.aggregation,
       filter_b_cat2: this.tumorSample

@@ -3,9 +3,9 @@
  */
 import {types, dataSourceA, ParameterFormIds} from '../base/config';
 import {FormElementType} from 'tdp_core';
-import {single, ARankingView, numberCol} from 'tdp_core';
-import {getTDPDesc, getTDPRows, getTDPScore} from 'tdp_core';
-import {resolve} from 'phovea_core';
+import {AdapterUtils, ARankingView, ColumnDescUtils} from 'tdp_core';
+import {RestBaseUtils} from 'tdp_core';
+import {IDTypeManager} from 'phovea_core';
 
 export class DummyDependentBList extends ARankingView {
 
@@ -24,26 +24,26 @@ export class DummyDependentBList extends ARankingView {
   }
 
   get itemIDType() {
-    return resolve(dataSourceA.idType);
+    return IDTypeManager.getInstance().resolveIdType(dataSourceA.idType);
   }
 
   protected loadColumnDesc() {
-    return getTDPDesc('dummy', 'a');
+    return RestBaseUtils.getTDPDesc('dummy', 'a');
   }
 
   protected loadRows() {
-    return getTDPRows('dummy', 'a');
+    return RestBaseUtils.getTDPRows('dummy', 'a');
   }
 
   protected createSelectionAdapter() {
-    return single({
+    return AdapterUtils.single({
       loadData: (_id: number, id: string) => this.loadSelectionColumnData(id),
       createDesc: (_id: number, id: string) => DummyDependentBList.getSelectionColumnDesc(_id, id)
     });
   }
 
   private static getSelectionColumnDesc(_id: number, label: string) {
-    const s: any = numberCol(`col_${_id}`, 0, 1, {label});
+    const s: any = ColumnDescUtils.numberCol(`col_${_id}`, 0, 1, {label});
     s.constantDomain = true;
     return s;
   }
@@ -56,6 +56,6 @@ export class DummyDependentBList extends ARankingView {
     const filters = {
       ab_cat: this.getParameterData(ParameterFormIds.TYPE)
     };
-    return getTDPScore<number>('dummy', 'a_single_score', param, filters);
+    return RestBaseUtils.getTDPScore<number>('dummy', 'a_single_score', param, filters);
   }
 }

@@ -1,12 +1,12 @@
-import { dataSourceA, dataSourceB } from '../config';
-import { getTDPLookup, getTDPFilteredRows } from 'tdp_core/src/rest';
+import { dataSourceA, dataSourceB } from './config';
+import { RestBaseUtils } from 'tdp_core';
 import '../scss/style.scss';
 export class DummySearchProvider {
     constructor(dataSource) {
         this.dataSource = dataSource;
     }
     search(query, page, pageSize) {
-        return getTDPLookup('dummy', `${this.dataSource.table}_items`, {
+        return RestBaseUtils.getTDPLookup('dummy', `${this.dataSource.table}_items`, {
             column: `${this.dataSource.table}_name`,
             query,
             page,
@@ -14,7 +14,7 @@ export class DummySearchProvider {
         });
     }
     validate(query) {
-        return getTDPFilteredRows('dummy', `${this.dataSource.table}_items_verify`, {}, {
+        return RestBaseUtils.getTDPFilteredRows('dummy', `${this.dataSource.table}_items_verify`, {}, {
             [`${this.dataSource.table}_name`]: query
         });
     }

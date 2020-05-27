@@ -1,7 +1,7 @@
-import {IDummyDataSource, dataSourceA, dataSourceB} from '../config';
-import {getTDPLookup, getTDPFilteredRows} from 'tdp_core/src/rest';
+import {IDummyDataSource, dataSourceA, dataSourceB} from './config';
+import {RestBaseUtils} from 'tdp_core';
 import '../scss/style.scss';
-import {IResult, ISearchProvider} from 'tdp_core/src/public/search';
+import {IResult, ISearchProvider} from 'tdp_core';
 
 export class DummySearchProvider implements ISearchProvider {
 
@@ -10,7 +10,7 @@ export class DummySearchProvider implements ISearchProvider {
   }
 
   search(query: string, page: number, pageSize: number) {
-    return getTDPLookup('dummy', `${this.dataSource.table}_items`, {
+    return RestBaseUtils.getTDPLookup('dummy', `${this.dataSource.table}_items`, {
       column: `${this.dataSource.table}_name`,
       query,
       page,
@@ -19,7 +19,7 @@ export class DummySearchProvider implements ISearchProvider {
   }
 
   validate(query: string[]): Promise<IResult[]> {
-    return <Promise<IResult[]>>getTDPFilteredRows('dummy', `${this.dataSource.table}_items_verify`, {}, {
+    return <Promise<IResult[]>>RestBaseUtils.getTDPFilteredRows('dummy', `${this.dataSource.table}_items_verify`, {}, {
       [`${this.dataSource.table}_name`]: query
     });
   }

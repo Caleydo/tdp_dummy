@@ -6,11 +6,11 @@ import {IPluginDesc} from 'phovea_core';
 import {categories} from '../config';
 import {INamedSet} from 'tdp_core';
 import {IStartMenuSection, IStartMenuSectionOptions} from 'ordino/src/extensions';
-import {resolve} from 'phovea_core';
+import {IDTypeManager} from 'phovea_core';
 import {NamedSetList} from 'tdp_core';
 
 export class DummyMenuSection implements IStartMenuSection {
-  private readonly idType = resolve('IDTypeA');
+  private readonly idType = IDTypeManager.getInstance().resolveIdType('IDTypeA');
   private readonly list: NamedSetList;
 
   constructor(parent: HTMLElement, public readonly desc: IPluginDesc, options: IStartMenuSectionOptions) {

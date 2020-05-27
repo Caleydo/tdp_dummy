@@ -3,9 +3,9 @@
  */
 import { types, samples, ParameterFormIds, dataSourceB } from '../base/config';
 import { FormElementType } from 'tdp_core';
-import { single, ARankingView, numberCol } from 'tdp_core';
-import { getTDPDesc, getTDPRows, getTDPScore } from 'tdp_core';
-import { resolve } from 'phovea_core';
+import { ARankingView, AdapterUtils, ColumnDescUtils } from 'tdp_core';
+import { RestBaseUtils } from 'tdp_core';
+import { IDTypeManager } from 'phovea_core';
 export class DummyDependentList extends ARankingView {
     getParameterFormDescs() {
         return super.getParameterFormDescs().concat([
@@ -30,22 +30,22 @@ export class DummyDependentList extends ARankingView {
         ]);
     }
     get itemIDType() {
-        return resolve(dataSourceB.idType);
+        return IDTypeManager.getInstance().resolveIdType(dataSourceB.idType);
     }
     loadColumnDesc() {
-        return getTDPDesc('dummy', 'b');
+        return RestBaseUtils.getTDPDesc('dummy', 'b');
     }
     loadRows() {
-        return getTDPRows('dummy', 'b');
+        return RestBaseUtils.getTDPRows('dummy', 'b');
     }
     createSelectionAdapter() {
-        return single({
+        return AdapterUtils.single({
             loadData: (_id, id) => this.loadSelectionColumnData(id),
             createDesc: (_id, id) => DummyDependentList.getSelectionColumnDesc(_id, id)
         });
     }
     static getSelectionColumnDesc(_id, label) {
-        const s = numberCol(`col_${_id}`, 0, 1, { label });
+        const s = ColumnDescUtils.numberCol(`col_${_id}`, 0, 1, { label });
         s.constantDomain = true;
         return s;
     }
@@ -58,7 +58,7 @@ export class DummyDependentList extends ARankingView {
             ab_cat: this.getParameterData(ParameterFormIds.TYPE),
             b_cat2: this.getParameterData(ParameterFormIds.SAMPLE),
         };
-        return getTDPScore('dummy', 'b_single_score', param, filters);
+        return RestBaseUtils.getTDPScore('dummy', 'b_single_score', param, filters);
     }
 }
 //# sourceMappingURL=DummyDependentList.js.map

@@ -2,7 +2,7 @@
  * Created by Samuel Gratzl on 27.04.2016.
  */
 import '../scss/style.scss';
-import { AD3View } from 'tdp_core/src/views/AD3View';
+import { AD3View } from 'tdp_core';
 export declare class DummyDetailView extends AD3View {
     private readonly x;
     private readonly y;

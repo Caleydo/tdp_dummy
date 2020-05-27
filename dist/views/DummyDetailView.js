@@ -2,10 +2,10 @@
  * Created by Samuel Gratzl on 27.04.2016.
  */
 import '../scss/style.scss';
-import { AD3View } from 'tdp_core/src/views/AD3View';
-import { errorAlert } from 'tdp_core/src/notifications';
+import { AD3View } from 'tdp_core';
+import { ErrorAlertHandler } from 'tdp_core';
 import * as d3 from 'd3';
-import { getTDPData } from 'tdp_core/src/rest';
+import { RestBaseUtils } from 'tdp_core';
 export class DummyDetailView extends AD3View {
     constructor() {
         super(...arguments);
@@ -59,7 +59,7 @@ export class DummyDetailView extends AD3View {
         const promise = this.resolveSelection()
             .then((_names) => {
             names = _names;
-            return getTDPData('dummy', 'dummy_detail', {
+            return RestBaseUtils.getTDPData('dummy', 'dummy_detail', {
                 a_id1: _names[0],
                 a_id2: _names[1]
             });
@@ -70,7 +70,7 @@ export class DummyDetailView extends AD3View {
             this.setBusy(false);
         });
         // on error
-        promise.catch(errorAlert)
+        promise.catch(ErrorAlertHandler.getInstance().errorAlert)
             .catch((error) => {
             console.error(error);
             this.setBusy(false);

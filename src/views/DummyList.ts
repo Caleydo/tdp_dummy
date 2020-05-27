@@ -1,10 +1,10 @@
 /**
  * Created by Samuel Gratzl on 29.01.2016.
  */
-import {IViewContext, ISelection} from 'tdp_core/src/views';
+import {IViewContext, ISelection} from 'tdp_core';
 import {IDummyDataSource, dataSourceA, dataSourceB} from '../base/config';
-import {getTDPDesc, getTDPFilteredRows} from 'tdp_core/src/rest';
-import {AStartList} from 'tdp_core/src/views/AStartList';
+import {RestBaseUtils} from 'tdp_core';
+import {AStartList} from 'tdp_core';
 
 
 class DummyStartList extends AStartList {
@@ -16,12 +16,12 @@ class DummyStartList extends AStartList {
   }
 
   protected loadColumnDesc() {
-    return getTDPDesc('dummy', this.dataSource.table);
+    return RestBaseUtils.getTDPDesc('dummy', this.dataSource.table);
   }
 
   protected loadRows() {
     const filters = this.buildNamedSetFilters('namedset4id');
-    return getTDPFilteredRows('dummy', this.dataSource.table, {}, filters);
+    return RestBaseUtils.getTDPFilteredRows('dummy', this.dataSource.table, {}, filters);
   }
 
   static createStartA(context: IViewContext, selection: ISelection, parent: HTMLElement, options?) {

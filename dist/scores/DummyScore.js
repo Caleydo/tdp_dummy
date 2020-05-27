@@ -2,9 +2,9 @@
  * Created by Samuel Gratzl on 27.04.2016.
  */
 import { samples, ParameterFormIds, dataSourceA, dataSourceB } from '../base/config';
-import { resolve } from 'phovea_core';
+import { IDTypeManager } from 'phovea_core';
 import { FormDialog, FormElementType } from 'tdp_core';
-import { getTDPScore } from 'tdp_core';
+import { RestBaseUtils } from 'tdp_core';
 class DummyScore {
     constructor(table, score, tumorSample, aggregation) {
         this.score = score;
@@ -13,7 +13,7 @@ class DummyScore {
         this.dataSource = table === 'a' ? dataSourceA : dataSourceB;
     }
     get idType() {
-        return resolve(this.dataSource.idType);
+        return IDTypeManager.getInstance().resolveIdType(this.dataSource.idType);
     }
     createDesc() {
         return {
@@ -23,7 +23,7 @@ class DummyScore {
         };
     }
     compute() {
-        return getTDPScore('dummy', `${this.dataSource.table}_score`, {
+        return RestBaseUtils.getTDPScore('dummy', `${this.dataSource.table}_score`, {
             data_subtype: this.score,
             agg: this.aggregation,
             filter_b_cat2: this.tumorSample

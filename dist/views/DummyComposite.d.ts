@@ -1,5 +1,5 @@
-import { ATableView } from 'tdp_core/src/views/ATableView';
-import { AView } from 'tdp_core/src/views/AView';
+import { ATableView } from 'tdp_core';
+import { AView } from 'tdp_core';
 export declare class DummyA extends AView {
     initImpl(): void;
 }
