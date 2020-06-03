@@ -1,7 +1,7 @@
 /**
  * Created by Holger Stitz on 10.08.2016.
  */
-import { categories } from '../config';
+import { categories } from './config';
 import { IDTypeManager } from 'phovea_core';
 import { NamedSetList } from 'tdp_core';
 export class DummyMenuSection {
