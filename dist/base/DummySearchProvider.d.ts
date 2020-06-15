@@ -1,5 +1,5 @@
 import { IDummyDataSource } from './config';
-import '../scss/style.scss';
+import '../scss/main.scss';
 import { IResult, ISearchProvider } from 'tdp_core';
 export declare class DummySearchProvider implements ISearchProvider {
     private readonly dataSource;

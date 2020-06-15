@@ -1,6 +1,6 @@
 import {IDummyDataSource, dataSourceA, dataSourceB} from './config';
 import {RestBaseUtils} from 'tdp_core';
-import '../scss/style.scss';
+import '../scss/main.scss';
 import {IResult, ISearchProvider} from 'tdp_core';
 
 export class DummySearchProvider implements ISearchProvider {

@@ -3,7 +3,7 @@
  */
 import { IPluginDesc } from 'phovea_core';
 import { INamedSet } from 'tdp_core';
-import { IStartMenuSection, IStartMenuSectionOptions } from 'ordino/src/extensions';
+import { IStartMenuSection, IStartMenuSectionOptions } from 'ordino';
 export declare class DummyMenuSection implements IStartMenuSection {
     readonly desc: IPluginDesc;
     private readonly idType;
