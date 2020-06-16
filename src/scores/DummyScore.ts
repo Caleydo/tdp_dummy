@@ -8,7 +8,7 @@ import {IDTypeManager} from 'phovea_core';
 import {FormDialog, IFormElementDesc, FormElementType} from 'tdp_core';
 import {RestBaseUtils} from 'tdp_core';
 
-class DummyScore implements IScore<number> {
+export class DummyScore implements IScore<number> {
   private readonly dataSource: IDummyDataSource;
 
   constructor(table: 'a' | 'b', private readonly score: string, private readonly tumorSample: string, private readonly aggregation: string) {

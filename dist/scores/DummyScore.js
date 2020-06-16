@@ -5,7 +5,7 @@ import { samples, ParameterFormIds, dataSourceA, dataSourceB } from '../base/con
 import { IDTypeManager } from 'phovea_core';
 import { FormDialog, FormElementType } from 'tdp_core';
 import { RestBaseUtils } from 'tdp_core';
-class DummyScore {
+export class DummyScore {
     constructor(table, score, tumorSample, aggregation) {
         this.score = score;
         this.tumorSample = tumorSample;

@@ -1,7 +1,7 @@
 import { dataSourceA, dataSourceB } from '../base/config';
 import { RestBaseUtils } from 'tdp_core';
 import { AStartList } from 'tdp_core';
-class DummyStartList extends AStartList {
+export class DummyStartList extends AStartList {
     constructor(context, dataSource, selection, parent, options = {}) {
         super(context, selection, parent, Object.assign({
             itemName: dataSource.name,

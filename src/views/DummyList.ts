@@ -7,7 +7,7 @@ import {RestBaseUtils} from 'tdp_core';
 import {AStartList} from 'tdp_core';
 
 
-class DummyStartList extends AStartList {
+export class DummyStartList extends AStartList {
   constructor(context: IViewContext, private readonly dataSource: IDummyDataSource, selection: ISelection, parent: HTMLElement, options = {}) {
     super(context, selection, parent, Object.assign({
       itemName: dataSource.name,
