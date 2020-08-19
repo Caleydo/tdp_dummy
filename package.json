@@ -77,7 +77,7 @@
     "tdp_core": "github:datavisyn/tdp_core#develop"
   },
   "optionalDependencies": {
-    "tdp_core": "github:Caleydo/ordino#develop"
+    "ordino": "github:Caleydo/ordino#develop"
   },
   "devDependencies": {
     "@types/jest": "~26.0.5",
