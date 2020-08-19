@@ -1,6 +1,0 @@
-@import "~tdp_core/src/styles/idtype_color";
-
-* {
-  @include idtype_color('IDTypeA', #73dbff);
-  @include idtype_color('IDTypeB', #ff82a0);
-}

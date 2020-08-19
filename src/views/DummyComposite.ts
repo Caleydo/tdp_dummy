@@ -1,6 +1,6 @@
-import ATableView from 'tdp_core/src/views/ATableView';
-import AView from 'tdp_core/src/views/AView';
-import {VIEW_COMPOSITE_EVENT_CHANGE_RATIOS} from 'tdp_core/src/views/CompositeView';
+import {ATableView} from 'tdp_core';
+import {AView} from 'tdp_core';
+import {CompositeView} from 'tdp_core';
 
 
 export class DummyA extends AView {
@@ -11,7 +11,7 @@ export class DummyA extends AView {
     this.node.onclick = () => {
       this.updateShared('SHARED', (i++));
       if (i === 2) {
-        this.fire(VIEW_COMPOSITE_EVENT_CHANGE_RATIOS, 0.2, 0.8);
+        this.fire(CompositeView.VIEW_COMPOSITE_EVENT_CHANGE_RATIOS, 0.2, 0.8);
       }
     };
   }
@@ -42,7 +42,7 @@ export class DummyC extends AView {
     this.node.onclick = () => {
       this.updateShared('SHARED2', (i++));
       if (i === 2) {
-        this.fire(VIEW_COMPOSITE_EVENT_CHANGE_RATIOS, 0.2, 0.8);
+        this.fire(CompositeView.VIEW_COMPOSITE_EVENT_CHANGE_RATIOS, 0.2, 0.8);
       }
     };
   }

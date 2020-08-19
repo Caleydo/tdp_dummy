@@ -12,9 +12,10 @@ module.exports = function (registry, feature) {
 
   /// #if include('ordino')
   registry.push('ordinoStartMenuSection', 'dummy_start_a', function () {
-    return import('./src/DummyMenuSection');
+    return import('./base/DummyMenuSection');
   }, {
      name: 'Dummy Data',
+     factory: 'new DummyMenuSection',
      cssClass: 'targidDummyData',
      priority: 20,
      viewId: 'dummy_start_a',
@@ -23,7 +24,7 @@ module.exports = function (registry, feature) {
   /// #endif
 
   registry.push('tdpView', 'dummy_start_a', function () {
-    return import('./src/views/DummyList');
+    return import('./views/DummyList').then((d) => d.DummyStartList);
   }, {
      name: 'Dummy A',
      factory: 'createStartA',
@@ -32,7 +33,7 @@ module.exports = function (registry, feature) {
   });
 
   registry.push('tdpView', 'dummy_start_B', function () {
-    return import('./src/views/DummyList');
+    return import('./views/DummyList').then((d) => d.DummyStartList);
   }, {
      name: 'Dummy B',
      factory: 'createStartB',
@@ -41,54 +42,58 @@ module.exports = function (registry, feature) {
   });
 
   registry.push('tdpView', 'dummy_detail', function () {
-    return import('./src/views/DummyDetailView');
+    return import('./views/DummyDetailView');
   }, {
      name: 'Dummy Detail View',
+     factory: 'new DummyDetailView',
      idtype: 'IDTypeA',
      selection: '2'
   });
 
   registry.push('tdpView', 'dummy_dependent', function () {
-    return import('./src/views/DummyDependentList');
+    return import('./views/DummyDependentList');
   }, {
      name: 'Dummy Dependent List',
+     factory: 'new DummyDependentList',
      idtype: 'IDTypeA',
      selection: 'some'
   });
 
   registry.push('tdpView', 'dummyb_dependent', function () {
-    return import('./src/views/DummyDependentBList');
+    return import('./views/DummyDependentBList');
   }, {
      name: 'Dummy Dependent List',
+     factory: 'new DummyDependentBList',
      idtype: 'IDTypeB',
      selection: 'some'
   });
 
   registry.push('tdpView', 'dummy_composite', function () {
-    return import('tdp_core/src/views/CompositeView');
+    return import('tdp_core/dist/views/CompositeView');
   }, {
      name: 'DummyComposite',
+     factory: 'new CompositeView',
      idtype: 'IDTypeA',
      selection: 'some',
      elements: [
        {
          key: 'a',
-         loader: function () {
-           return import('./src/views/DummyComposite')
+         loader() {
+           return import('./views/DummyComposite');
          },
          factory: 'new DummyA'
        },
        {
          key: 'b',
-         loader: function () {
-           return import('./src/views/DummyComposite')
+         loader() {
+           return import('./views/DummyComposite');
          },
          factory: 'new DummyB'
        },
        {
          key: 'c',
-         loader: function () {
-           return import('./src/views/DummyComposite')
+         loader() {
+           return import('./views/DummyComposite');
          },
          factory: 'new DummyC'
        }
@@ -100,9 +105,10 @@ module.exports = function (registry, feature) {
   });
 
   registry.push('tdpView', 'dummy_external', function () {
-    return import('tdp_core/src/views/ProxyView');
+    return import('tdp_core/dist/views/ProxyView');
   }, {
      name: 'Wikipedia',
+     factory: 'new ProxyView',
      site: 'https://wikipedia.org/w/index.php?search={id}',
      argument: 'id',
      idtype: 'IDTypeA',
@@ -110,33 +116,34 @@ module.exports = function (registry, feature) {
   });
 
   registry.push('tdpInstantView', 'dummy', function () {
-    return import('./src/views/DummyInstantView');
+    return import('./views/DummyInstantView');
   }, {
      name: 'Info',
+     factory: 'new DummyInstantView',
      idtype: 'IDTypeA'
   });
 
   registry.push('tdpScore', 'dummy_score', function () {
-    return import('./src/scores/DummyScore');
+    return import('./scores/DummyScore').then((d) => d.DummyScore);
   }, {
      name: 'Dummy Score',
      idtype: 'IDTypeA'
   });
   registry.push('tdpScoreImpl', 'dummy_score', function () {
-    return import('./src/scores/DummyScore');
+    return import('./scores/DummyScore').then((d) => d.DummyScore);
   }, {
     factory: 'createScore'
   });
 
   registry.push('dTilesSearchProvider', 'dummyA', function () {
-    return import('./src/DummySearchProvider')
+    return import('./base/DummySearchProvider').then((d) => d.DummySearchProvider);
   }, {
     idType: 'IDTypeA',
     factory: 'createA'
   });
 
   registry.push('dTilesSearchProvider', 'dummyB', function () {
-    return import('./src/DummySearchProvider')
+    return import('./base/DummySearchProvider').then((d) => d.DummySearchProvider);
   }, {
     idType: 'IDTypeB',
     factory: 'createB'

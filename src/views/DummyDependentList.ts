@@ -1,13 +1,13 @@
 /**
  * Created by Samuel Gratzl on 29.01.2016.
  */
-import {types, samples, ParameterFormIds, dataSourceB} from '../config';
-import {FormElementType} from 'tdp_core/src/form';
-import {single, ARankingView, numberCol} from 'tdp_core/src/lineup';
-import {getTDPDesc, getTDPRows, getTDPScore} from 'tdp_core/src/rest';
-import {resolve} from 'phovea_core/src/idtype';
+import {types, samples, ParameterFormIds, dataSourceB} from '../base/config';
+import {FormElementType} from 'tdp_core';
+import {ARankingView, AdapterUtils, ColumnDescUtils} from 'tdp_core';
+import {RestBaseUtils} from 'tdp_core';
+import {IDTypeManager} from 'phovea_core';
 
-export default class DummyDependentList extends ARankingView {
+export class DummyDependentList extends ARankingView {
 
   protected getParameterFormDescs() {
     return super.getParameterFormDescs().concat([
@@ -33,26 +33,26 @@ export default class DummyDependentList extends ARankingView {
   }
 
   get itemIDType() {
-    return resolve(dataSourceB.idType);
+    return IDTypeManager.getInstance().resolveIdType(dataSourceB.idType);
   }
 
   protected loadColumnDesc() {
-    return getTDPDesc('dummy', 'b');
+    return RestBaseUtils.getTDPDesc('dummy', 'b');
   }
 
   protected loadRows() {
-    return getTDPRows('dummy', 'b');
+    return RestBaseUtils.getTDPRows('dummy', 'b');
   }
 
   protected createSelectionAdapter() {
-    return single({
+    return AdapterUtils.single({
       loadData: (_id: number, id: string) => this.loadSelectionColumnData(id),
       createDesc: (_id: number, id: string) => DummyDependentList.getSelectionColumnDesc(_id, id)
     });
   }
 
   private static getSelectionColumnDesc(_id: number, label: string) {
-    const s: any = numberCol(`col_${_id}`, 0, 1, {label});
+    const s: any = ColumnDescUtils.numberCol(`col_${_id}`, 0, 1, {label});
     s.constantDomain = true;
     return s;
   }
@@ -66,6 +66,6 @@ export default class DummyDependentList extends ARankingView {
       ab_cat: this.getParameterData(ParameterFormIds.TYPE),
       b_cat2: this.getParameterData(ParameterFormIds.SAMPLE),
     };
-    return getTDPScore<number>('dummy', 'b_single_score', param, filters);
+    return RestBaseUtils.getTDPScore<number>('dummy', 'b_single_score', param, filters);
   }
 }
