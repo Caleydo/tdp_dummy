@@ -1,4 +1,4 @@
-@import "~tdp_core/src/styles/idtype_color";
+@import "~tdp_core/dist/scss/idtype_color";
 
 * {
   @include idtype_color('IDTypeA', #73dbff);
