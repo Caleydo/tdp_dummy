@@ -9,9 +9,10 @@ module.exports = function (registry, feature) {
     // generator-phovea:begin
     /// #if include('ordino')
     registry.push('ordinoStartMenuSection', 'dummy_start_a', function () {
-        return import('./base/DummyMenuSection').then((d) => d.DummyMenuSection);
+        return import('./base/DummyMenuSection');
     }, {
         name: 'Dummy Data',
+        factory: 'new DummyMenuSection',
         cssClass: 'targidDummyData',
         priority: 20,
         viewId: 'dummy_start_a',
@@ -35,51 +36,55 @@ module.exports = function (registry, feature) {
         selection: 'none'
     });
     registry.push('tdpView', 'dummy_detail', function () {
-        return import('./views/DummyDetailView').then((d) => d.DummyDetailView);
+        return import('./views/DummyDetailView');
     }, {
         name: 'Dummy Detail View',
+        factory: 'new DummyDetailView',
         idtype: 'IDTypeA',
         selection: '2'
     });
     registry.push('tdpView', 'dummy_dependent', function () {
-        return import('./views/DummyDependentList').then((d) => d.DummyDependentList);
+        return import('./views/DummyDependentList');
     }, {
         name: 'Dummy Dependent List',
+        factory: 'new DummyDependentList',
         idtype: 'IDTypeA',
         selection: 'some'
     });
     registry.push('tdpView', 'dummyb_dependent', function () {
-        return import('./views/DummyDependentBList').then((d) => d.DummyDependentBList);
+        return import('./views/DummyDependentBList');
     }, {
         name: 'Dummy Dependent List',
+        factory: 'new DummyDependentBList',
         idtype: 'IDTypeB',
         selection: 'some'
     });
     registry.push('tdpView', 'dummy_composite', function () {
-        return import('tdp_core/src/views/CompositeView').then((c) => c.CompositeView);
+        return import('tdp_core/dist/views/CompositeView');
     }, {
         name: 'DummyComposite',
+        factory: 'new CompositeView',
         idtype: 'IDTypeA',
         selection: 'some',
         elements: [
             {
                 key: 'a',
                 loader() {
-                    return import('./views/DummyComposite').then((d) => d.DummyA);
+                    return import('./views/DummyComposite');
                 },
                 factory: 'new DummyA'
             },
             {
                 key: 'b',
                 loader() {
-                    return import('./views/DummyComposite').then((d) => d.DummyB);
+                    return import('./views/DummyComposite');
                 },
                 factory: 'new DummyB'
             },
             {
                 key: 'c',
                 loader() {
-                    return import('./views/DummyComposite').then((d) => d.DummyC);
+                    return import('./views/DummyComposite');
                 },
                 factory: 'new DummyC'
             }
@@ -90,18 +95,20 @@ module.exports = function (registry, feature) {
         }
     });
     registry.push('tdpView', 'dummy_external', function () {
-        return import('tdp_core/src/views/ProxyView').then((p) => p.ProxyView);
+        return import('tdp_core/dist/views/ProxyView');
     }, {
         name: 'Wikipedia',
+        factory: 'new ProxyView',
         site: 'https://wikipedia.org/w/index.php?search={id}',
         argument: 'id',
         idtype: 'IDTypeA',
         selection: 'chooser'
     });
     registry.push('tdpInstantView', 'dummy', function () {
-        return import('./views/DummyInstantView').then((d) => d.DummyInstantView);
+        return import('./views/DummyInstantView');
     }, {
         name: 'Info',
+        factory: 'new DummyInstantView',
         idtype: 'IDTypeA'
     });
     registry.push('tdpScore', 'dummy_score', function () {
