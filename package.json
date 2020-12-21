@@ -74,10 +74,10 @@
     "predist:python": "npm run build:python && npm run docs:python"
   },
   "dependencies": {
-    "tdp_core": "github:datavisyn/tdp_core#fontawesome-v5"
+    "tdp_core": "github:datavisyn/tdp_core#dmoitzi/refactor_stylesheets_organiation_and_imports"
   },
   "optionalDependencies": {
-    "ordino": "github:Caleydo/ordino#fontawesome-v5"
+    "ordino": "github:Caleydo/ordino#dmoitzi/refactor_stylesheets_organiation_and_imports"
   },
   "devDependencies": {
     "@types/jest": "~26.0.5",
