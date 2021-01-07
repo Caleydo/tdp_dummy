@@ -76,9 +76,6 @@
   "dependencies": {
     "tdp_core": "github:datavisyn/tdp_core#develop"
   },
-  "optionalDependencies": {
-    "ordino": "github:Caleydo/ordino#develop"
-  },
   "devDependencies": {
     "@types/jest": "~26.0.5",
     "identity-obj-proxy": "~3.0.0",
@@ -91,5 +88,8 @@
     "tslint": "~5.20.1",
     "typedoc": "~0.17.8",
     "typescript": "~3.9.7"
+  },
+  "optionalDependencies": {
+    "ordino": "github:Caleydo/ordino#develop"
   }
 }
