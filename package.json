@@ -74,7 +74,7 @@
     "predist:python": "npm run build:python && npm run docs:python"
   },
   "dependencies": {
-    "tdp_core": "github:datavisyn/tdp_core#vstoiber/update_requirements"
+    "tdp_core": "github:datavisyn/tdp_core#develop"
   },
   "devDependencies": {
     "@types/jest": "~26.0.20",
@@ -90,6 +90,6 @@
     "typescript": "~3.9.7"
   },
   "optionalDependencies": {
-    "ordino": "github:Caleydo/ordino#vstoiber/update_requirements"
+    "ordino": "github:Caleydo/ordino#develop"
   }
 }
