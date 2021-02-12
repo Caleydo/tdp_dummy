@@ -90,6 +90,6 @@
     "typescript": "~3.9.7"
   },
   "optionalDependencies": {
-    "ordino": "github:Caleydo/ordino#release-9.0.0"
+    "ordino": "github:Caleydo/ordino#9.0.0"
   }
 }
