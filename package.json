@@ -74,7 +74,7 @@
     "predist:python": "npm run build:python && npm run docs:python"
   },
   "dependencies": {
-    "tdp_core": "github:datavisyn/tdp_core#release-11.0.0"
+    "tdp_core": "^11.0.0"
   },
   "devDependencies": {
     "@types/jest": "~26.0.20",
