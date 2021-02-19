@@ -1,6 +1,5 @@
 import { dataSourceA, dataSourceB } from './config';
 import { RestBaseUtils } from 'tdp_core';
-import '../scss/main.scss';
 export class DummySearchProvider {
     constructor(dataSource) {
         this.dataSource = dataSource;
