@@ -1,7 +1,6 @@
 /**
  * Created by Samuel Gratzl on 27.04.2016.
  */
-import '../scss/main.scss';
 import { AD3View } from 'tdp_core';
 import { ErrorAlertHandler } from 'tdp_core';
 import * as d3 from 'd3';
